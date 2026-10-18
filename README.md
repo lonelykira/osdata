@@ -27,7 +27,7 @@ osdata
 - **WDI 业务模块**（位于 `jeecg-module-system/jeecg-system-start` 下）：
   - `org.jeecg.modules.wdi` —— WDI 数据管理接口（指标系列、国家、国家系列映射、脚注、面板数据的增删改查与 Excel 导入导出），供管理后台使用
   - `org.jeecg.modules.api.controller.WdiApiController` —— 对外开放查询接口，统一前缀 `/webapi/wdi/`，已在 Shiro 中放行、无需登录，供 `osdata-web` 门户调用（指标/国家查询、数据查询、统计汇总、导出等）
-- **启动方式**：运行 `jeecg-module-system/jeecg-system-start` 中的 `JeecgSystemApplication`（需先准备好 MySQL `osdata` 库与 Redis，配置见 `application-dev.yml`）
+- **启动方式**：运行 `jeecg-module-system/jeecg-system-start` 中的 `JeecgSystemApplication`（需先准备好 MySQL `osdata` 库与 Redis，配置见 `application-dev.yml`） 解压项目/db下的wdi_data202607.rar导入 详情查看/db目录下的README.MD
 
 ## 2. osdata-backend —— 管理后台前端
 
@@ -75,3 +75,7 @@ npm run dev
 2. 启动后端：`osdata-server` → 运行 `JeecgSystemApplication`（端口 10060）
 3. 启动管理后台：`osdata-backend` → `pnpm dev`（端口 3100，登录后维护 WDI 数据）
 4. 启动查询门户：`osdata-web` → `npm run dev`（端口 5173，访客直接查询）
+
+
+VX：molingcool
+有疑问可解答
