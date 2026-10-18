@@ -1,0 +1,119 @@
+server:
+  tomcat:
+    max-swallow-size: -1
+  error:
+    include-exception: true
+    include-stacktrace: ALWAYS
+    include-message: ALWAYS
+  compression:
+    enabled: true
+    min-response-size: 1024
+    mime-types: application/javascript,application/json,application/xml,text/html,text/xml,text/plain,text/css,image/*
+management:
+  health:
+    mail:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: metrics,httpexchanges,jeecghttptrace
+    health:
+      sensitive: true
+  endpoint:
+    health:
+      show-details: ALWAYS
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  mail:
+    host: smtp.163.com
+    username: jeecgos@163.com
+    password: ??
+    properties:
+      mail.smtp.timeout: 10000
+      mail.smtp.connectiontimeout: 10000
+      mail.smtp.writetimeout: 10000
+      mail.smtp.auth: true
+      smtp.ssl.enable: true
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: embedded
+    auto-startup: false
+    startup-delay: 1s
+    overwrite-existing-jobs: true
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: MyScheduler
+            instanceId: AUTO
+          jobStore:
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            tablePrefix: QRTZ_
+            isClustered: true
+            misfireThreshold: 12000
+            clusterCheckinInterval: 15000
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 10
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  aop:
+    proxy-target-class: true
+  jpa:
+    open-in-view: false
+  freemarker:
+    suffix: .ftl
+    content-type: text/html
+    charset: UTF-8
+    cache: false
+    prefer-file-system-access: false
+    template-loader-path:
+      - classpath:/templates
+  mvc:
+    static-path-pattern: /**
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  resource:
+    static-locations: classpath:/static/,classpath:/public/
+  autoconfigure:
+    exclude:
+      - com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure
+      - org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration
+mybatis-plus:
+  mapper-locations: classpath*:org/jeecg/**/xml/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      id-type: ASSIGN_ID
+      table-underline: true
+  configuration:
+    call-setters-on-nulls: true
+logging:
+  level:
+    org.springframework.context.support.PostProcessorRegistrationDelegate: error
+    org.flywaydb: debug
+    org.jeecg.modules.system.mapper: info
+    org.jeecg.modules.demo.test.mapper: info
+liteflow:
+  print-banner: false
+  parse-mode: PARSE_ONE_ON_FIRST_EXEC
+  rule-source-ext-data-map:
+    applicationName: jeecg
+    #是否开启SQL日志
+    sqlLogEnabled: true
+    chainTableName: airag_flow
+    #编排规则表中应用名称存储字段名
+    chainApplicationNameField: application_name
+    #规则名称存储的字段名
+    chainNameField: id
+    #EL表达式的字段(只存EL)
+    elDataField: chain
+    chainCustomSql: select id, application_name, chain from airag_flow where status = 'enable' and chain is not null

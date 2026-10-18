@@ -1,0 +1,13 @@
+{
+  "id": "E0CC280",
+  "appTitle": null,
+  "appLogo": null,
+  "carouselImgJson": null,
+  "routeImgJson": null,
+  "appVersion": "1.0.0",
+  "versionNum": 100,
+  "downloadUrl": "https://upload.jeecg.com/jeecg/qiaoqiaoyunsite/app/JeecgUniapp3_0617.apk",
+  "wgtUrl": "",
+  "webDownloadUrl": "https://upload.jeecg.com/jeecg/qiaoqiaoyunsite/app/jeecgboot-setup-3.8.3.exe",
+  "updateNote": "1. 优化用户体验\n2. 修复已知bug\n"
+}

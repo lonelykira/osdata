@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.system.mapper.SysUserDepPostMapper">
+
+    <!--批量查询多个用户的兼职部门ID（VO版，跨数据库兼容，消除N+1），since 2026-07-01-->
+    <select id="getDepPostByUserIds" resultType="org.jeecg.modules.system.vo.SysUserDepPostVo">
+        SELECT user_id, dep_id FROM sys_user_dep_post
+        WHERE user_id IN
+        <foreach collection="userIds" index="index" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </select>
+
+</mapper>

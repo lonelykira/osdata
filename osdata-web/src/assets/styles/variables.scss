@@ -1,0 +1,28 @@
+// WDI 全局 SCSS 变量（通过 vite additionalData 全局注入，无需手动 @use）
+
+// ===== 主色调 =====
+$primary-color: #1890ff;            // 主色
+$primary-hover: #40a9ff;            // 主色-悬浮
+$primary-active: #096dd9;           // 主色-点击
+$primary-bg: #e6f7ff;               // 主色-浅背景
+
+// ===== 功能色 =====
+$success-color: #52c41a;
+$warning-color: #faad14;
+$error-color: #ff4d4f;
+$info-color: #1890ff;
+
+// ===== 文字色 =====
+$text-color: rgba(0, 0, 0, 0.88);        // 主文字
+$text-color-secondary: rgba(0, 0, 0, 0.65); // 次要文字
+$text-color-tertiary: rgba(0, 0, 0, 0.45);  // 辅助文字
+
+// ===== 背景与边框 =====
+$bg-color-page: #f5f7fa;            // 页面背景
+$bg-color-card: #ffffff;            // 卡片背景
+$border-color: #f0f0f0;             // 分割线
+
+// ===== 布局尺寸 =====
+$header-height: 60px;               // 顶部导航高度
+$footer-height: 80px;               // 底部高度
+$content-width: 1200px;             // 内容区最大宽度

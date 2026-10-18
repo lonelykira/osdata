@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>jeecg-cloud-test</artifactId>
+        <groupId>org.jeecgframework.boot3</groupId>
+        <version>3.9.5</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <description>公共测试模块</description>
+    <artifactId>jeecg-cloud-test-more</artifactId>
+
+    <dependencies>
+        <!-- 引入jeecg-boot-starter-cloud依赖 -->
+        <dependency>
+            <groupId>org.jeecgframework.boot3</groupId>
+            <artifactId>jeecg-boot-starter-cloud</artifactId>
+            <!--system模块需要排除jeecg-system-cloud-api-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jeecgframework.boot3</groupId>
+                    <artifactId>jeecg-system-cloud-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--定时任务-->
+        <dependency>
+            <groupId>org.jeecgframework.boot3</groupId>
+            <artifactId>jeecg-boot-starter-job</artifactId>
+        </dependency>
+        <!--rabbitmq消息队列-->
+        <dependency>
+            <groupId>org.jeecgframework.boot3</groupId>
+            <artifactId>jeecg-boot-starter-rabbitmq</artifactId>
+        </dependency>
+        <!--rabbitmq消息队列-->
+        <dependency>
+            <groupId>org.jeecgframework.boot3</groupId>
+            <artifactId>jeecg-boot-starter-sentinel</artifactId>
+        </dependency>
+        <!-- 分布式锁依赖 -->
+        <dependency>
+            <groupId>org.jeecgframework.boot3</groupId>
+            <artifactId>jeecg-boot-starter-lock</artifactId>
+        </dependency>
+        <!-- spring-cloud-function 5.0 需要 joda-time 但声明为 optional，显式引入 -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.12.7</version>
+        </dependency>
+    </dependencies>
+
+</project>

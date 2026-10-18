@@ -1,0 +1,347 @@
+CREATE database if NOT EXISTS `nacos` default character set utf8mb4 collate utf8mb4_general_ci;
+use `nacos`;
+
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : mysql5.7
+ Source Server Type    : MySQL
+ Source Server Version : 50738 (5.7.38)
+ Source Host           : 127.0.0.1:3306
+ Source Schema         : nacos
+
+ Target Server Type    : MySQL
+ Target Server Version : 50738 (5.7.38)
+ File Encoding         : 65001
+
+ Date: 10/08/2026 11:59:56
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for ai_resource
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_resource`;
+CREATE TABLE `ai_resource`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '资源名称',
+  `type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '资源类型',
+  `c_desc` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '资源描述',
+  `status` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '资源状态',
+  `namespace_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '命名空间ID',
+  `biz_tags` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '业务标签',
+  `ext` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '扩展信息(JSON)',
+  `c_from` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'local' COMMENT '来源标识(导入/同步来源)',
+  `version_info` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '版本信息(JSON)',
+  `meta_version` bigint(20) NOT NULL DEFAULT 1 COMMENT '元数据版本(乐观锁)',
+  `scope` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'PRIVATE' COMMENT '可见性: PUBLIC/PRIVATE',
+  `owner` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '创建者用户名',
+  `download_count` bigint(20) NOT NULL DEFAULT 0 COMMENT '下载次数',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_ai_resource_ns_name_type`(`namespace_id`, `name`, `type`, `c_from`) USING BTREE,
+  INDEX `idx_ai_resource_name`(`name`) USING BTREE,
+  INDEX `idx_ai_resource_type`(`type`) USING BTREE,
+  INDEX `idx_ai_resource_gmt_modified`(`gmt_modified`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'AI资源元数据表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of ai_resource
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for ai_resource_version
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_resource_version`;
+CREATE TABLE `ai_resource_version`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '资源类型',
+  `author` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '作者',
+  `name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '资源名称',
+  `c_desc` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '版本描述',
+  `status` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '版本状态',
+  `version` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '版本号',
+  `namespace_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '命名空间ID',
+  `storage` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '存储信息(JSON)',
+  `publish_pipeline_info` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '发布流水线信息(JSON)',
+  `download_count` bigint(20) NOT NULL DEFAULT 0 COMMENT '下载次数',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_ai_resource_ver_ns_name_type_ver`(`namespace_id`, `name`, `type`, `version`) USING BTREE,
+  INDEX `idx_ai_resource_ver_name`(`name`) USING BTREE,
+  INDEX `idx_ai_resource_ver_status`(`status`) USING BTREE,
+  INDEX `idx_ai_resource_ver_gmt_modified`(`gmt_modified`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'AI资源版本表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of ai_resource_version
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for config_info
+-- ----------------------------
+DROP TABLE IF EXISTS `config_info`;
+CREATE TABLE `config_info`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `data_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'data_id',
+  `group_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'group_id',
+  `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'content',
+  `md5` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'md5',
+  `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `src_user` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'source user',
+  `src_ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'source ip',
+  `app_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'app_name',
+  `tenant_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '租户字段',
+  `c_desc` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'configuration description',
+  `c_use` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'configuration usage',
+  `effect` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '配置生效的描述',
+  `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '配置的类型',
+  `c_schema` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '配置的模式',
+  `encrypted_data_key` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '密钥',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_configinfo_datagrouptenant`(`data_id`, `group_id`, `tenant_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'config_info' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of config_info
+-- ----------------------------
+INSERT INTO `config_info` VALUES (1, 'jeecg.yaml', 'DEFAULT_GROUP', 'server:\n  tomcat:\n    max-swallow-size: -1\n  error:\n    include-exception: true\n    include-stacktrace: ALWAYS\n    include-message: ALWAYS\n  compression:\n    enabled: true\n    min-response-size: 1024\n    mime-types: application/javascript,application/json,application/xml,text/html,text/xml,text/plain,text/css,image/*\nmanagement:\n  health:\n    mail:\n      enabled: false\n  endpoints:\n    web:\n      exposure:\n        include: metrics,httpexchanges,jeecghttptrace\n    health:\n      sensitive: true\n  endpoint:\n    health:\n      show-details: ALWAYS\nspring:\n  servlet:\n    multipart:\n      max-file-size: 10MB\n      max-request-size: 10MB\n  mail:\n    host: smtp.163.com\n    username: jeecgos@163.com\n    password: ??\n    properties:\n      mail.smtp.timeout: 10000\n      mail.smtp.connectiontimeout: 10000\n      mail.smtp.writetimeout: 10000\n      mail.smtp.auth: true\n      smtp.ssl.enable: true\n  quartz:\n    job-store-type: jdbc\n    jdbc:\n      initialize-schema: embedded\n    auto-startup: false\n    startup-delay: 1s\n    overwrite-existing-jobs: true\n    properties:\n      org:\n        quartz:\n          scheduler:\n            instanceName: MyScheduler\n            instanceId: AUTO\n          jobStore:\n            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore\n            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate\n            tablePrefix: QRTZ_\n            isClustered: true\n            misfireThreshold: 12000\n            clusterCheckinInterval: 15000\n          threadPool:\n            class: org.quartz.simpl.SimpleThreadPool\n            threadCount: 10\n            threadPriority: 5\n            threadsInheritContextClassLoaderOfInitializingThread: true\n  jackson:\n    date-format: yyyy-MM-dd HH:mm:ss\n    time-zone: GMT+8\n  aop:\n    proxy-target-class: true\n  jpa:\n    open-in-view: false\n  freemarker:\n    suffix: .ftl\n    content-type: text/html\n    charset: UTF-8\n    cache: false\n    prefer-file-system-access: false\n    template-loader-path:\n      - classpath:/templates\n  mvc:\n    static-path-pattern: /**\n    pathmatch:\n      matching-strategy: ant_path_matcher\n  resource:\n    static-locations: classpath:/static/,classpath:/public/\n  autoconfigure:\n    exclude:\n      - com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure\n      - org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration\nmybatis-plus:\n  mapper-locations: classpath*:org/jeecg/**/xml/*Mapper.xml\n  global-config:\n    banner: false\n    db-config:\n      id-type: ASSIGN_ID\n      table-underline: true\n  configuration:\n    call-setters-on-nulls: true\nlogging:\n  level:\n    org.springframework.context.support.PostProcessorRegistrationDelegate: error\n    org.flywaydb: debug\n    org.jeecg.modules.system.mapper: info\n    org.jeecg.modules.demo.test.mapper: info\nliteflow:\n  print-banner: false\n  parse-mode: PARSE_ONE_ON_FIRST_EXEC\n  rule-source-ext-data-map:\n    applicationName: jeecg\n    #是否开启SQL日志\n    sqlLogEnabled: true\n    chainTableName: airag_flow\n    #编排规则表中应用名称存储字段名\n    chainApplicationNameField: application_name\n    #规则名称存储的字段名\n    chainNameField: id\n    #EL表达式的字段(只存EL)\n    elDataField: chain\n    chainCustomSql: select id, application_name, chain from airag_flow where status = \'enable\' and chain is not null', '2738a4ffea6f55f4afc7c784adcfbc7b', '2026-07-06 22:47:59', '2026-07-06 22:55:59', 'nacos_namespace_migrate', '0:0:0:0:0:0:0:1', '', '', '', NULL, NULL, 'yaml', NULL, '');
+INSERT INTO `config_info` VALUES (2, 'jeecg.yaml', 'DEFAULT_GROUP', 'server:\n  tomcat:\n    max-swallow-size: -1\n  error:\n    include-exception: true\n    include-stacktrace: ALWAYS\n    include-message: ALWAYS\n  compression:\n    enabled: true\n    min-response-size: 1024\n    mime-types: application/javascript,application/json,application/xml,text/html,text/xml,text/plain,text/css,image/*\nmanagement:\n  health:\n    mail:\n      enabled: false\n  endpoints:\n    web:\n      exposure:\n        include: metrics,httpexchanges,jeecghttptrace\n    health:\n      sensitive: true\n  endpoint:\n    health:\n      show-details: ALWAYS\nspring:\n  servlet:\n    multipart:\n      max-file-size: 10MB\n      max-request-size: 10MB\n  mail:\n    host: smtp.163.com\n    username: jeecgos@163.com\n    password: ??\n    properties:\n      mail.smtp.timeout: 10000\n      mail.smtp.connectiontimeout: 10000\n      mail.smtp.writetimeout: 10000\n      mail.smtp.auth: true\n      smtp.ssl.enable: true\n  quartz:\n    job-store-type: jdbc\n    jdbc:\n      initialize-schema: embedded\n    auto-startup: false\n    startup-delay: 1s\n    overwrite-existing-jobs: true\n    properties:\n      org:\n        quartz:\n          scheduler:\n            instanceName: MyScheduler\n            instanceId: AUTO\n          jobStore:\n            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore\n            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate\n            tablePrefix: QRTZ_\n            isClustered: true\n            misfireThreshold: 12000\n            clusterCheckinInterval: 15000\n          threadPool:\n            class: org.quartz.simpl.SimpleThreadPool\n            threadCount: 10\n            threadPriority: 5\n            threadsInheritContextClassLoaderOfInitializingThread: true\n  jackson:\n    date-format: yyyy-MM-dd HH:mm:ss\n    time-zone: GMT+8\n  aop:\n    proxy-target-class: true\n  jpa:\n    open-in-view: false\n  freemarker:\n    suffix: .ftl\n    content-type: text/html\n    charset: UTF-8\n    cache: false\n    prefer-file-system-access: false\n    template-loader-path:\n      - classpath:/templates\n  mvc:\n    static-path-pattern: /**\n    pathmatch:\n      matching-strategy: ant_path_matcher\n  resource:\n    static-locations: classpath:/static/,classpath:/public/\n  autoconfigure:\n    exclude:\n      - com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure\n      - org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration\nmybatis-plus:\n  mapper-locations: classpath*:org/jeecg/**/xml/*Mapper.xml\n  global-config:\n    banner: false\n    db-config:\n      id-type: ASSIGN_ID\n      table-underline: true\n  configuration:\n    call-setters-on-nulls: true\nlogging:\n  level:\n    org.springframework.context.support.PostProcessorRegistrationDelegate: error\n    org.flywaydb: debug\n    org.jeecg.modules.system.mapper: info\n    org.jeecg.modules.demo.test.mapper: info\nliteflow:\n  print-banner: false\n  parse-mode: PARSE_ONE_ON_FIRST_EXEC\n  rule-source-ext-data-map:\n    applicationName: jeecg\n    #是否开启SQL日志\n    sqlLogEnabled: true\n    chainTableName: airag_flow\n    #编排规则表中应用名称存储字段名\n    chainApplicationNameField: application_name\n    #规则名称存储的字段名\n    chainNameField: id\n    #EL表达式的字段(只存EL)\n    elDataField: chain\n    chainCustomSql: select id, application_name, chain from airag_flow where status = \'enable\' and chain is not null', '2738a4ffea6f55f4afc7c784adcfbc7b', '2026-07-06 22:47:59', '2026-07-06 22:55:59', 'nacos', '0:0:0:0:0:0:0:1', '', 'public', '', NULL, NULL, 'yaml', NULL, '');
+INSERT INTO `config_info` VALUES (3, 'jeecg-dev.yaml', 'DEFAULT_GROUP', 'spring:\r\n  datasource:\r\n    druid:\r\n      stat-view-servlet:\r\n        enabled: true\r\n        loginUsername: admin\r\n        loginPassword: 123456\r\n        allow:\r\n      web-stat-filter:\r\n        enabled: true\r\n    dynamic:\r\n      druid:\r\n        initial-size: 5\r\n        min-idle: 5\r\n        maxActive: 20\r\n        maxWait: 60000\r\n        timeBetweenEvictionRunsMillis: 60000\r\n        minEvictableIdleTimeMillis: 300000\r\n        validationQuery: SELECT 1 FROM DUAL\r\n        testWhileIdle: true\r\n        testOnBorrow: false\r\n        testOnReturn: false\r\n        poolPreparedStatements: true\r\n        maxPoolPreparedStatementPerConnectionSize: 20\r\n        filters: stat,slf4j\r\n        wall:\r\n          selectWhereAlwayTrueCheck: false\r\n        stat:\r\n          merge-sql: true\r\n          slow-sql-millis: 5000\r\n      datasource:\r\n        master:\r\n          url: jdbc:mysql://jeecg-boot-mysql:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai\r\n          username: root\r\n          password: root\r\n          driver-class-name: com.mysql.cj.jdbc.Driver\r\n        # sharding-db:\r\n        #  driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver\r\n        #  url: jdbc:shardingsphere:nacos:sharding.yaml?serverAddr=${spring.cloud.nacos.config.server-addr}&namespace=${spring.cloud.nacos.config.namespace}&group=${spring.cloud.nacos.config.group}\r\n  data:\r\n    redis:\r\n      database: 0\r\n      host: jeecg-boot-redis\r\n      password:\r\n      port: 6379\r\n  rabbitmq:\r\n    host: jeecg-boot-rabbitmq\r\n    username: guest\r\n    password: guest\r\n    port: 5672\r\n    publisher-confirms: true\r\n    publisher-returns: true\r\n    virtual-host: /\r\n    listener:\r\n      simple:\r\n        acknowledge-mode: manual\r\n        concurrency: 1\r\n        max-concurrency: 1\r\n        retry:\r\n          enabled: true\r\n  flyway:\r\n    enabled: false\r\n    locations: classpath:flyway/sql/mysql\r\n    clean-disabled: true\r\nminidao:\r\n  base-package: org.jeecg.modules.jmreport.*,org.jeecg.modules.drag.*,org.jeecg.modules.chat2bi.*\r\njeecg:\r\n  firewall:\r\n    dataSourceSafe: false\r\n    lowCodeMode: dev\r\n  signatureSecret: dd05f1c54d63749eda95f9fa6d49v442a\r\n  signUrls: /sys/dict/getDictItems/*,/sys/dict/loadDict/*,/sys/dict/loadDictOrderByValue/*,/sys/dict/loadDictItem/*,/sys/dict/loadTreeData,/sys/api/queryTableDictItemsByCode,/sys/api/queryFilterTableDictInfo,/sys/api/queryTableDictByKeys,/sys/api/translateDictFromTable,/sys/api/translateDictFromTableByKeys\r\n  uploadType: local\r\n  domainUrl:\r\n    pc: http://localhost:3100\r\n    app: http://localhost:8051\r\n  path:\r\n    upload: /opt/upFiles\r\n    webapp: /opt/webapp\r\n  shiro:\r\n    excludeUrls: /test/jeecgDemo/demo3,/test/jeecgDemo/redisDemo/**,/category/**,/visual/**,/map/**,/jmreport/bigscreen2/**\r\n  oss:\r\n    endpoint: oss-cn-beijing.aliyuncs.com\r\n    accessKey: ??\r\n    secretKey: ??\r\n    bucketName: jeecgdev\r\n    staticDomain: ??  \r\n  file-view-domain: 127.0.0.1:8012\r\n  minio:\r\n    minio_url: http://minio.jeecg.com\r\n    minio_name: ??\r\n    minio_pass: ??\r\n    bucketName: otatest\r\n  jmreport:\r\n    saasMode:\r\n    firewall:\r\n      dataSourceSafe: false\r\n      lowCodeMode: dev\r\n  wps:\r\n    domain: https://wwo.wps.cn/office/\r\n    appid: ??\r\n    appsecret: ??\r\n  xxljob:\r\n    enabled: true\r\n    adminAddresses: http://jeecg-boot-xxljob:9080\r\n    appname: ${spring.application.name}\r\n    accessToken: \'\'\r\n    logPath: logs/jeecg/job/jobhandler/\r\n    logRetentionDays: 30\r\n  redisson:\r\n    address: jeecg-boot-redis:6379\r\n    password:\r\n    type: STANDALONE\r\n    enabled: true\r\n  ai-chat:\r\n    enabled: false\r\n    apiKey: \"？？？？\"\r\n    apiHost: \"https://api.openai.com\"\r\n    timeout: 60\r\n  ai-rag:\r\n    embed-store:\r\n      host: 127.0.0.1\r\n      port: 5432\r\n      database: postgres\r\n      user: postgres\r\n      password: postgres\r\n      table: embeddings\r\ncas:\r\n  prefixUrl: http://localhost:8888/cas\r\nknife4j:\r\n  production: false\r\n  basic:\r\n    enable: false\r\n    username: jeecg\r\n    password: jeecg1314\r\njustauth:\r\n  enabled: true\r\n  type:\r\n    GITHUB:\r\n      client-id: ??\r\n      client-secret: ??\r\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/github/callback\r\n    WECHAT_ENTERPRISE:\r\n      client-id: ??\r\n      client-secret: ??\r\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/wechat_enterprise/callback\r\n      agent-id: ??\r\n    DINGTALK:\r\n      client-id: ??\r\n      client-secret: ??\r\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/dingtalk/callback\r\n  cache:\r\n    type: default\r\n    prefix: \'demo::\'\r\n    timeout: 1h\r\nthird-app:\r\n  enabled: false\r\n  type:\r\n    WECHAT_ENTERPRISE:\r\n      enabled: false\r\n      client-id: ??\r\n      client-secret: ??\r\n      agent-id: ??\r\n    DINGTALK:\r\n      enabled: false\r\n      client-id: ??\r\n      client-secret: ??\r\n      agent-id: ??', '26cb34ebb20d38f4a84362a2675d2a6a', '2026-07-06 22:48:19', '2026-08-10 11:59:04', 'nacos_namespace_migrate', '0:0:0:0:0:0:0:1', '', '', '', NULL, NULL, 'yaml', NULL, '');
+INSERT INTO `config_info` VALUES (4, 'jeecg-dev.yaml', 'DEFAULT_GROUP', 'spring:\r\n  datasource:\r\n    druid:\r\n      stat-view-servlet:\r\n        enabled: true\r\n        loginUsername: admin\r\n        loginPassword: 123456\r\n        allow:\r\n      web-stat-filter:\r\n        enabled: true\r\n    dynamic:\r\n      druid:\r\n        initial-size: 5\r\n        min-idle: 5\r\n        maxActive: 20\r\n        maxWait: 60000\r\n        timeBetweenEvictionRunsMillis: 60000\r\n        minEvictableIdleTimeMillis: 300000\r\n        validationQuery: SELECT 1 FROM DUAL\r\n        testWhileIdle: true\r\n        testOnBorrow: false\r\n        testOnReturn: false\r\n        poolPreparedStatements: true\r\n        maxPoolPreparedStatementPerConnectionSize: 20\r\n        filters: stat,slf4j\r\n        wall:\r\n          selectWhereAlwayTrueCheck: false\r\n        stat:\r\n          merge-sql: true\r\n          slow-sql-millis: 5000\r\n      datasource:\r\n        master:\r\n          url: jdbc:mysql://jeecg-boot-mysql:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai\r\n          username: root\r\n          password: root\r\n          driver-class-name: com.mysql.cj.jdbc.Driver\r\n        # sharding-db:\r\n        #  driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver\r\n        #  url: jdbc:shardingsphere:nacos:sharding.yaml?serverAddr=${spring.cloud.nacos.config.server-addr}&namespace=${spring.cloud.nacos.config.namespace}&group=${spring.cloud.nacos.config.group}\r\n  data:\r\n    redis:\r\n      database: 0\r\n      host: jeecg-boot-redis\r\n      password:\r\n      port: 6379\r\n  rabbitmq:\r\n    host: jeecg-boot-rabbitmq\r\n    username: guest\r\n    password: guest\r\n    port: 5672\r\n    publisher-confirms: true\r\n    publisher-returns: true\r\n    virtual-host: /\r\n    listener:\r\n      simple:\r\n        acknowledge-mode: manual\r\n        concurrency: 1\r\n        max-concurrency: 1\r\n        retry:\r\n          enabled: true\r\n  flyway:\r\n    enabled: false\r\n    locations: classpath:flyway/sql/mysql\r\n    clean-disabled: true\r\nminidao:\r\n  base-package: org.jeecg.modules.jmreport.*,org.jeecg.modules.drag.*,org.jeecg.modules.chat2bi.*\r\njeecg:\r\n  firewall:\r\n    dataSourceSafe: false\r\n    lowCodeMode: dev\r\n  signatureSecret: dd05f1c54d63749eda95f9fa6d49v442a\r\n  signUrls: /sys/dict/getDictItems/*,/sys/dict/loadDict/*,/sys/dict/loadDictOrderByValue/*,/sys/dict/loadDictItem/*,/sys/dict/loadTreeData,/sys/api/queryTableDictItemsByCode,/sys/api/queryFilterTableDictInfo,/sys/api/queryTableDictByKeys,/sys/api/translateDictFromTable,/sys/api/translateDictFromTableByKeys\r\n  uploadType: local\r\n  domainUrl:\r\n    pc: http://localhost:3100\r\n    app: http://localhost:8051\r\n  path:\r\n    upload: /opt/upFiles\r\n    webapp: /opt/webapp\r\n  shiro:\r\n    excludeUrls: /test/jeecgDemo/demo3,/test/jeecgDemo/redisDemo/**,/category/**,/visual/**,/map/**,/jmreport/bigscreen2/**\r\n  oss:\r\n    endpoint: oss-cn-beijing.aliyuncs.com\r\n    accessKey: ??\r\n    secretKey: ??\r\n    bucketName: jeecgdev\r\n    staticDomain: ??  \r\n  file-view-domain: 127.0.0.1:8012\r\n  minio:\r\n    minio_url: http://minio.jeecg.com\r\n    minio_name: ??\r\n    minio_pass: ??\r\n    bucketName: otatest\r\n  jmreport:\r\n    saasMode:\r\n    firewall:\r\n      dataSourceSafe: false\r\n      lowCodeMode: dev\r\n  wps:\r\n    domain: https://wwo.wps.cn/office/\r\n    appid: ??\r\n    appsecret: ??\r\n  xxljob:\r\n    enabled: true\r\n    adminAddresses: http://jeecg-boot-xxljob:9080\r\n    appname: ${spring.application.name}\r\n    accessToken: \'\'\r\n    logPath: logs/jeecg/job/jobhandler/\r\n    logRetentionDays: 30\r\n  redisson:\r\n    address: jeecg-boot-redis:6379\r\n    password:\r\n    type: STANDALONE\r\n    enabled: true\r\n  ai-chat:\r\n    enabled: false\r\n    apiKey: \"？？？？\"\r\n    apiHost: \"https://api.openai.com\"\r\n    timeout: 60\r\n  ai-rag:\r\n    embed-store:\r\n      host: 127.0.0.1\r\n      port: 5432\r\n      database: postgres\r\n      user: postgres\r\n      password: postgres\r\n      table: embeddings\r\ncas:\r\n  prefixUrl: http://localhost:8888/cas\r\nknife4j:\r\n  production: false\r\n  basic:\r\n    enable: false\r\n    username: jeecg\r\n    password: jeecg1314\r\njustauth:\r\n  enabled: true\r\n  type:\r\n    GITHUB:\r\n      client-id: ??\r\n      client-secret: ??\r\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/github/callback\r\n    WECHAT_ENTERPRISE:\r\n      client-id: ??\r\n      client-secret: ??\r\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/wechat_enterprise/callback\r\n      agent-id: ??\r\n    DINGTALK:\r\n      client-id: ??\r\n      client-secret: ??\r\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/dingtalk/callback\r\n  cache:\r\n    type: default\r\n    prefix: \'demo::\'\r\n    timeout: 1h\r\nthird-app:\r\n  enabled: false\r\n  type:\r\n    WECHAT_ENTERPRISE:\r\n      enabled: false\r\n      client-id: ??\r\n      client-secret: ??\r\n      agent-id: ??\r\n    DINGTALK:\r\n      enabled: false\r\n      client-id: ??\r\n      client-secret: ??\r\n      agent-id: ??', '26cb34ebb20d38f4a84362a2675d2a6a', '2026-07-06 22:48:19', '2026-08-10 11:59:04', 'nacos', '0:0:0:0:0:0:0:1', '', 'public', '', NULL, NULL, 'yaml', NULL, '');
+INSERT INTO `config_info` VALUES (5, 'jeecg-dev-satoken.yaml', 'DEFAULT_GROUP', '################ Sa-Token 配置 (文档: https://sa-token.cc) ################\nsa-token:\n  # token 名称（同时也是 cookie 名称）\n  token-name: X-Access-Token\n  # token 有效期（单位：秒） 默认30天，-1 代表永久有效\n  timeout: 2592000\n  # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结\n  active-timeout: -1\n  # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）\n  is-concurrent: false\n  # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）\n  is-share: false\n  # token 风格（使用jwt-simple保持与原JWT token格式一致）\n  token-style: jwt-simple\n  # 是否输出操作日志\n  is-log: false\n  # 是否从 cookie 中读取 token\n  is-read-cookie: false\n  # 是否从 head 中读取 token\n  is-read-header: true\n  # 是否从请求体（URL参数）里读取 token\n  is-read-body: true\n  # jwt秘钥（重要：请修改为你自己的秘钥，确保足够复杂）\n  jwt-secret-key: \"dd05f1c54d63749eda95f9fa6d49v442a\"\n  \nspring:\n  datasource:\n    druid:\n      stat-view-servlet:\n        enabled: true\n        loginUsername: admin\n        loginPassword: 123456\n        allow:\n      web-stat-filter:\n        enabled: true\n    dynamic:\n      druid:\n        initial-size: 5\n        min-idle: 5\n        maxActive: 20\n        maxWait: 60000\n        timeBetweenEvictionRunsMillis: 60000\n        minEvictableIdleTimeMillis: 300000\n        validationQuery: SELECT 1 FROM DUAL\n        testWhileIdle: true\n        testOnBorrow: false\n        testOnReturn: false\n        poolPreparedStatements: true\n        maxPoolPreparedStatementPerConnectionSize: 20\n        filters: stat,slf4j\n        wall:\n          selectWhereAlwayTrueCheck: false\n        stat:\n          merge-sql: true\n          slow-sql-millis: 5000\n      datasource:\n        master:\n          url: jdbc:mysql://jeecg-boot-mysql:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai\n          username: root\n          password: root\n          driver-class-name: com.mysql.cj.jdbc.Driver\n        # sharding-db:\n        #  driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver\n        #  url: jdbc:shardingsphere:nacos:sharding.yaml?serverAddr=${spring.cloud.nacos.config.server-addr}&namespace=${spring.cloud.nacos.config.namespace}&group=${spring.cloud.nacos.config.group}\n  data:\n    redis:\n      database: 0\n      host: jeecg-boot-redis\n      password:\n      port: 6379\n  rabbitmq:\n    host: jeecg-boot-rabbitmq\n    username: guest\n    password: guest\n    port: 5672\n    publisher-confirms: true\n    publisher-returns: true\n    virtual-host: /\n    listener:\n      simple:\n        acknowledge-mode: manual\n        concurrency: 1\n        max-concurrency: 1\n        retry:\n          enabled: true\n  flyway:\n    enabled: false\n    locations: classpath:flyway/sql/mysql\n    clean-disabled: true\nminidao:\n  base-package: org.jeecg.modules.jmreport.*,org.jeecg.modules.drag.*,org.jeecg.modules.chat2bi.*\njeecg:\n  firewall:\n    dataSourceSafe: false\n    lowCodeMode: dev\n  signatureSecret: dd05f1c54d63749eda95f9fa6d49v442a\n  signUrls: /sys/dict/getDictItems/*,/sys/dict/loadDict/*,/sys/dict/loadDictOrderByValue/*,/sys/dict/loadDictItem/*,/sys/dict/loadTreeData,/sys/api/queryTableDictItemsByCode,/sys/api/queryFilterTableDictInfo,/sys/api/queryTableDictByKeys,/sys/api/translateDictFromTable,/sys/api/translateDictFromTableByKeys\n  uploadType: local\n  domainUrl:\n    pc: http://localhost:3100\n    app: http://localhost:8051\n  path:\n    upload: /opt/upFiles\n    webapp: /opt/webapp\n  shiro:\n    excludeUrls: /test/jeecgDemo/demo3,/test/jeecgDemo/redisDemo/**,/category/**,/visual/**,/map/**,/jmreport/bigscreen2/**\n  oss:\n    endpoint: oss-cn-beijing.aliyuncs.com\n    accessKey: ??\n    secretKey: ??\n    bucketName: jeecgdev\n    staticDomain: ??  \n  file-view-domain: 127.0.0.1:8012\n  minio:\n    minio_url: http://minio.jeecg.com\n    minio_name: ??\n    minio_pass: ??\n    bucketName: otatest\n  jmreport:\n    saasMode:\n    firewall:\n      dataSourceSafe: false\n      lowCodeMode: dev\n  wps:\n    domain: https://wwo.wps.cn/office/\n    appid: ??\n    appsecret: ??\n  xxljob:\n    enabled: false\n    adminAddresses: http://jeecg-boot-xxljob:9080/xxl-job-admin\n    appname: ${spring.application.name}\n    accessToken: \'\'\n    logPath: logs/jeecg/job/jobhandler/\n    logRetentionDays: 30\n  redisson:\n    address: jeecg-boot-redis:6379\n    password:\n    type: STANDALONE\n    enabled: true\n  ai-chat:\n    enabled: false\n    apiKey: \"？？？？\"\n    apiHost: \"https://api.openai.com\"\n    timeout: 60\n  ai-rag:\n    embed-store:\n      host: 127.0.0.1\n      port: 5432\n      database: postgres\n      user: postgres\n      password: postgres\n      table: embeddings\ncas:\n  prefixUrl: http://localhost:8888/cas\nknife4j:\n  production: false\n  basic:\n    enable: false\n    username: jeecg\n    password: jeecg1314\njustauth:\n  enabled: true\n  type:\n    GITHUB:\n      client-id: ??\n      client-secret: ??\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/github/callback\n    WECHAT_ENTERPRISE:\n      client-id: ??\n      client-secret: ??\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/wechat_enterprise/callback\n      agent-id: ??\n    DINGTALK:\n      client-id: ??\n      client-secret: ??\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/dingtalk/callback\n  cache:\n    type: default\n    prefix: \'demo::\'\n    timeout: 1h\nthird-app:\n  enabled: false\n  type:\n    WECHAT_ENTERPRISE:\n      enabled: false\n      client-id: ??\n      client-secret: ??\n      agent-id: ??\n    DINGTALK:\n      enabled: false\n      client-id: ??\n      client-secret: ??\n      agent-id: ??', '58e2693a1655d648432a595b6b2149ea', '2026-07-06 22:48:40', '2026-08-10 11:59:20', 'nacos_namespace_migrate', '0:0:0:0:0:0:0:1', '', '', '', NULL, NULL, 'yaml', NULL, '');
+INSERT INTO `config_info` VALUES (6, 'jeecg-dev-satoken.yaml', 'DEFAULT_GROUP', '################ Sa-Token 配置 (文档: https://sa-token.cc) ################\nsa-token:\n  # token 名称（同时也是 cookie 名称）\n  token-name: X-Access-Token\n  # token 有效期（单位：秒） 默认30天，-1 代表永久有效\n  timeout: 2592000\n  # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结\n  active-timeout: -1\n  # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）\n  is-concurrent: false\n  # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）\n  is-share: false\n  # token 风格（使用jwt-simple保持与原JWT token格式一致）\n  token-style: jwt-simple\n  # 是否输出操作日志\n  is-log: false\n  # 是否从 cookie 中读取 token\n  is-read-cookie: false\n  # 是否从 head 中读取 token\n  is-read-header: true\n  # 是否从请求体（URL参数）里读取 token\n  is-read-body: true\n  # jwt秘钥（重要：请修改为你自己的秘钥，确保足够复杂）\n  jwt-secret-key: \"dd05f1c54d63749eda95f9fa6d49v442a\"\n  \nspring:\n  datasource:\n    druid:\n      stat-view-servlet:\n        enabled: true\n        loginUsername: admin\n        loginPassword: 123456\n        allow:\n      web-stat-filter:\n        enabled: true\n    dynamic:\n      druid:\n        initial-size: 5\n        min-idle: 5\n        maxActive: 20\n        maxWait: 60000\n        timeBetweenEvictionRunsMillis: 60000\n        minEvictableIdleTimeMillis: 300000\n        validationQuery: SELECT 1 FROM DUAL\n        testWhileIdle: true\n        testOnBorrow: false\n        testOnReturn: false\n        poolPreparedStatements: true\n        maxPoolPreparedStatementPerConnectionSize: 20\n        filters: stat,slf4j\n        wall:\n          selectWhereAlwayTrueCheck: false\n        stat:\n          merge-sql: true\n          slow-sql-millis: 5000\n      datasource:\n        master:\n          url: jdbc:mysql://jeecg-boot-mysql:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai\n          username: root\n          password: root\n          driver-class-name: com.mysql.cj.jdbc.Driver\n        # sharding-db:\n        #  driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver\n        #  url: jdbc:shardingsphere:nacos:sharding.yaml?serverAddr=${spring.cloud.nacos.config.server-addr}&namespace=${spring.cloud.nacos.config.namespace}&group=${spring.cloud.nacos.config.group}\n  data:\n    redis:\n      database: 0\n      host: jeecg-boot-redis\n      password:\n      port: 6379\n  rabbitmq:\n    host: jeecg-boot-rabbitmq\n    username: guest\n    password: guest\n    port: 5672\n    publisher-confirms: true\n    publisher-returns: true\n    virtual-host: /\n    listener:\n      simple:\n        acknowledge-mode: manual\n        concurrency: 1\n        max-concurrency: 1\n        retry:\n          enabled: true\n  flyway:\n    enabled: false\n    locations: classpath:flyway/sql/mysql\n    clean-disabled: true\nminidao:\n  base-package: org.jeecg.modules.jmreport.*,org.jeecg.modules.drag.*,org.jeecg.modules.chat2bi.*\njeecg:\n  firewall:\n    dataSourceSafe: false\n    lowCodeMode: dev\n  signatureSecret: dd05f1c54d63749eda95f9fa6d49v442a\n  signUrls: /sys/dict/getDictItems/*,/sys/dict/loadDict/*,/sys/dict/loadDictOrderByValue/*,/sys/dict/loadDictItem/*,/sys/dict/loadTreeData,/sys/api/queryTableDictItemsByCode,/sys/api/queryFilterTableDictInfo,/sys/api/queryTableDictByKeys,/sys/api/translateDictFromTable,/sys/api/translateDictFromTableByKeys\n  uploadType: local\n  domainUrl:\n    pc: http://localhost:3100\n    app: http://localhost:8051\n  path:\n    upload: /opt/upFiles\n    webapp: /opt/webapp\n  shiro:\n    excludeUrls: /test/jeecgDemo/demo3,/test/jeecgDemo/redisDemo/**,/category/**,/visual/**,/map/**,/jmreport/bigscreen2/**\n  oss:\n    endpoint: oss-cn-beijing.aliyuncs.com\n    accessKey: ??\n    secretKey: ??\n    bucketName: jeecgdev\n    staticDomain: ??  \n  file-view-domain: 127.0.0.1:8012\n  minio:\n    minio_url: http://minio.jeecg.com\n    minio_name: ??\n    minio_pass: ??\n    bucketName: otatest\n  jmreport:\n    saasMode:\n    firewall:\n      dataSourceSafe: false\n      lowCodeMode: dev\n  wps:\n    domain: https://wwo.wps.cn/office/\n    appid: ??\n    appsecret: ??\n  xxljob:\n    enabled: false\n    adminAddresses: http://jeecg-boot-xxljob:9080/xxl-job-admin\n    appname: ${spring.application.name}\n    accessToken: \'\'\n    logPath: logs/jeecg/job/jobhandler/\n    logRetentionDays: 30\n  redisson:\n    address: jeecg-boot-redis:6379\n    password:\n    type: STANDALONE\n    enabled: true\n  ai-chat:\n    enabled: false\n    apiKey: \"？？？？\"\n    apiHost: \"https://api.openai.com\"\n    timeout: 60\n  ai-rag:\n    embed-store:\n      host: 127.0.0.1\n      port: 5432\n      database: postgres\n      user: postgres\n      password: postgres\n      table: embeddings\ncas:\n  prefixUrl: http://localhost:8888/cas\nknife4j:\n  production: false\n  basic:\n    enable: false\n    username: jeecg\n    password: jeecg1314\njustauth:\n  enabled: true\n  type:\n    GITHUB:\n      client-id: ??\n      client-secret: ??\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/github/callback\n    WECHAT_ENTERPRISE:\n      client-id: ??\n      client-secret: ??\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/wechat_enterprise/callback\n      agent-id: ??\n    DINGTALK:\n      client-id: ??\n      client-secret: ??\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/dingtalk/callback\n  cache:\n    type: default\n    prefix: \'demo::\'\n    timeout: 1h\nthird-app:\n  enabled: false\n  type:\n    WECHAT_ENTERPRISE:\n      enabled: false\n      client-id: ??\n      client-secret: ??\n      agent-id: ??\n    DINGTALK:\n      enabled: false\n      client-id: ??\n      client-secret: ??\n      agent-id: ??', '58e2693a1655d648432a595b6b2149ea', '2026-07-06 22:48:40', '2026-08-10 11:59:20', 'nacos', '0:0:0:0:0:0:0:1', '', 'public', '', NULL, NULL, 'yaml', NULL, '');
+INSERT INTO `config_info` VALUES (7, 'jeecg-gateway.yaml', 'DEFAULT_GROUP', 'jeecg:\r\n  route:\r\n    config:\r\n      #type:database nacos yml\r\n      data-type: database\r\n      data-id: jeecg-gateway-router\r\nspring:\r\n  data:\r\n    redis:\r\n      database: 0\r\n      host: jeecg-boot-redis\r\n      port: 6379\r\n      password:\r\nknife4j:\r\n  production: false', 'e70570696e25cdaac7313be77cc64fe7', '2026-07-06 22:48:58', '2026-07-06 22:48:58', 'nacos_namespace_migrate', '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, 'yaml', NULL, '');
+INSERT INTO `config_info` VALUES (8, 'jeecg-gateway.yaml', 'DEFAULT_GROUP', 'jeecg:\r\n  route:\r\n    config:\r\n      #type:database nacos yml\r\n      data-type: database\r\n      data-id: jeecg-gateway-router\r\nspring:\r\n  data:\r\n    redis:\r\n      database: 0\r\n      host: jeecg-boot-redis\r\n      port: 6379\r\n      password:\r\nknife4j:\r\n  production: false', 'e70570696e25cdaac7313be77cc64fe7', '2026-07-06 22:48:58', '2026-07-06 22:48:58', 'nacos', '0:0:0:0:0:0:0:1', '', 'public', NULL, NULL, NULL, 'yaml', NULL, '');
+INSERT INTO `config_info` VALUES (9, 'jeecg-gateway-router.json', 'DEFAULT_GROUP', '[{\r\n  \"id\": \"jeecg-system\",\r\n  \"order\": 0,\r\n  \"predicates\": [{\r\n    \"name\": \"Path\",\r\n    \"args\": {\r\n      \"_genkey_0\": \"/sys/**\",\r\n      \"_genkey_1\": \"/jmreport/**\",\r\n      \"_genkey_3\": \"/online/**\",\r\n      \"_genkey_4\": \"/generic/**\",\r\n      \"_genkey_5\": \"/oauth2/**\",\r\n      \"_genkey_6\": \"/drag/**\",\r\n      \"_genkey_7\": \"/actuator/**\"\r\n    }\r\n  }],\r\n  \"filters\": [],\r\n  \"uri\": \"lb://jeecg-system\"\r\n}, {\r\n  \"id\": \"jeecg-demo\",\r\n  \"order\": 1,\r\n  \"predicates\": [{\r\n    \"name\": \"Path\",\r\n    \"args\": {\r\n      \"_genkey_0\": \"/mock/**\",\r\n      \"_genkey_1\": \"/test/**\",\r\n      \"_genkey_2\": \"/bigscreen/template1/**\",\r\n      \"_genkey_3\": \"/bigscreen/template2/**\"\r\n    }\r\n  }],\r\n  \"filters\": [],\r\n  \"uri\": \"lb://jeecg-demo\"\r\n}, {\r\n  \"id\": \"jeecg-system-websocket\",\r\n  \"order\": 2,\r\n  \"predicates\": [{\r\n    \"name\": \"Path\",\r\n    \"args\": {\r\n      \"_genkey_0\": \"/websocket/**\",\r\n      \"_genkey_1\": \"/newsWebsocket/**\"\r\n    }\r\n  }],\r\n  \"filters\": [],\r\n  \"uri\": \"lb:ws://jeecg-system\"\r\n}, {\r\n  \"id\": \"jeecg-demo-websocket\",\r\n  \"order\": 3,\r\n  \"predicates\": [{\r\n    \"name\": \"Path\",\r\n    \"args\": {\r\n      \"_genkey_0\": \"/vxeSocket/**\"\r\n    }\r\n  }],\r\n  \"filters\": [],\r\n  \"uri\": \"lb:ws://jeecg-demo\"\r\n}]', '4b447abdde61f2af2836bda0390b698c', '2026-07-06 22:49:17', '2026-07-06 22:49:17', 'nacos_namespace_migrate', '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, 'json', NULL, '');
+INSERT INTO `config_info` VALUES (10, 'jeecg-gateway-router.json', 'DEFAULT_GROUP', '[{\r\n  \"id\": \"jeecg-system\",\r\n  \"order\": 0,\r\n  \"predicates\": [{\r\n    \"name\": \"Path\",\r\n    \"args\": {\r\n      \"_genkey_0\": \"/sys/**\",\r\n      \"_genkey_1\": \"/jmreport/**\",\r\n      \"_genkey_3\": \"/online/**\",\r\n      \"_genkey_4\": \"/generic/**\",\r\n      \"_genkey_5\": \"/oauth2/**\",\r\n      \"_genkey_6\": \"/drag/**\",\r\n      \"_genkey_7\": \"/actuator/**\"\r\n    }\r\n  }],\r\n  \"filters\": [],\r\n  \"uri\": \"lb://jeecg-system\"\r\n}, {\r\n  \"id\": \"jeecg-demo\",\r\n  \"order\": 1,\r\n  \"predicates\": [{\r\n    \"name\": \"Path\",\r\n    \"args\": {\r\n      \"_genkey_0\": \"/mock/**\",\r\n      \"_genkey_1\": \"/test/**\",\r\n      \"_genkey_2\": \"/bigscreen/template1/**\",\r\n      \"_genkey_3\": \"/bigscreen/template2/**\"\r\n    }\r\n  }],\r\n  \"filters\": [],\r\n  \"uri\": \"lb://jeecg-demo\"\r\n}, {\r\n  \"id\": \"jeecg-system-websocket\",\r\n  \"order\": 2,\r\n  \"predicates\": [{\r\n    \"name\": \"Path\",\r\n    \"args\": {\r\n      \"_genkey_0\": \"/websocket/**\",\r\n      \"_genkey_1\": \"/newsWebsocket/**\"\r\n    }\r\n  }],\r\n  \"filters\": [],\r\n  \"uri\": \"lb:ws://jeecg-system\"\r\n}, {\r\n  \"id\": \"jeecg-demo-websocket\",\r\n  \"order\": 3,\r\n  \"predicates\": [{\r\n    \"name\": \"Path\",\r\n    \"args\": {\r\n      \"_genkey_0\": \"/vxeSocket/**\"\r\n    }\r\n  }],\r\n  \"filters\": [],\r\n  \"uri\": \"lb:ws://jeecg-demo\"\r\n}]', '4b447abdde61f2af2836bda0390b698c', '2026-07-06 22:49:17', '2026-07-06 22:49:17', 'nacos', '0:0:0:0:0:0:0:1', '', 'public', NULL, NULL, NULL, 'json', NULL, '');
+INSERT INTO `config_info` VALUES (11, 'sharding.yaml', 'DEFAULT_GROUP', 'databaseName: sharding-db\r\n\r\ndataSources:\r\n  db_0:\r\n    dataSourceClassName: com.zaxxer.hikari.HikariDataSource\r\n    driverClassName: com.mysql.cj.jdbc.Driver\r\n    jdbcUrl: jdbc:mysql://jeecg-boot-mysql:3306/jeecg-boot?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai\r\n    password: root\r\n    username: root\r\n\r\nrules:\r\n  - !SHARDING\r\n    tables:\r\n      sys_log:\r\n        actualDataNodes: db_0.sys_log$->{0..1}\r\n        databaseStrategy:\r\n          none:\r\n        tableStrategy:\r\n          standard:\r\n            shardingColumn: log_type\r\n            shardingAlgorithmName: user_inline\r\n        keyGenerateStrategy:\r\n          column: id\r\n          keyGeneratorName: snowflake\r\n    keyGenerators:\r\n      snowflake:\r\n        type: SNOWFLAKE\r\n        props:\r\n          worker-id: 123\r\n    shardingAlgorithms:\r\n      user_inline:\r\n        type: INLINE\r\n        props:\r\n          algorithm-expression: sys_log$->{log_type % 2}\r\n\r\nprops:\r\n  sql-show: true', '349eeac4b34afbce196a57b017990172', '2026-07-06 22:49:36', '2026-07-06 22:49:36', 'nacos_namespace_migrate', '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, 'yaml', NULL, '');
+INSERT INTO `config_info` VALUES (12, 'sharding.yaml', 'DEFAULT_GROUP', 'databaseName: sharding-db\r\n\r\ndataSources:\r\n  db_0:\r\n    dataSourceClassName: com.zaxxer.hikari.HikariDataSource\r\n    driverClassName: com.mysql.cj.jdbc.Driver\r\n    jdbcUrl: jdbc:mysql://jeecg-boot-mysql:3306/jeecg-boot?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai\r\n    password: root\r\n    username: root\r\n\r\nrules:\r\n  - !SHARDING\r\n    tables:\r\n      sys_log:\r\n        actualDataNodes: db_0.sys_log$->{0..1}\r\n        databaseStrategy:\r\n          none:\r\n        tableStrategy:\r\n          standard:\r\n            shardingColumn: log_type\r\n            shardingAlgorithmName: user_inline\r\n        keyGenerateStrategy:\r\n          column: id\r\n          keyGeneratorName: snowflake\r\n    keyGenerators:\r\n      snowflake:\r\n        type: SNOWFLAKE\r\n        props:\r\n          worker-id: 123\r\n    shardingAlgorithms:\r\n      user_inline:\r\n        type: INLINE\r\n        props:\r\n          algorithm-expression: sys_log$->{log_type % 2}\r\n\r\nprops:\r\n  sql-show: true', '349eeac4b34afbce196a57b017990172', '2026-07-06 22:49:36', '2026-07-06 22:49:36', 'nacos', '0:0:0:0:0:0:0:1', '', 'public', NULL, NULL, NULL, 'yaml', NULL, '');
+
+-- ----------------------------
+-- Table structure for config_info_gray
+-- ----------------------------
+DROP TABLE IF EXISTS `config_info_gray`;
+CREATE TABLE `config_info_gray`  (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `data_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'data_id',
+  `group_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'group_id',
+  `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'content',
+  `md5` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'md5',
+  `src_user` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'src_user',
+  `src_ip` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'src_ip',
+  `gmt_create` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'gmt_create',
+  `gmt_modified` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT 'gmt_modified',
+  `app_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'app_name',
+  `tenant_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT 'tenant_id',
+  `gray_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'gray_name',
+  `gray_rule` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'gray_rule',
+  `encrypted_data_key` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'encrypted_data_key',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_configinfogray_datagrouptenantgray`(`data_id`, `group_id`, `tenant_id`, `gray_name`) USING BTREE,
+  INDEX `idx_dataid_gmt_modified`(`data_id`, `gmt_modified`) USING BTREE,
+  INDEX `idx_gmt_modified`(`gmt_modified`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'config_info_gray' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of config_info_gray
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for config_tags_relation
+-- ----------------------------
+DROP TABLE IF EXISTS `config_tags_relation`;
+CREATE TABLE `config_tags_relation`  (
+  `id` bigint(20) NOT NULL COMMENT 'id',
+  `tag_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'tag_name',
+  `tag_type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'tag_type',
+  `data_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'data_id',
+  `group_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'group_id',
+  `tenant_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT 'tenant_id',
+  `nid` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'nid, 自增长标识',
+  PRIMARY KEY (`nid`) USING BTREE,
+  UNIQUE INDEX `uk_configtagrelation_configidtag`(`id`, `tag_name`, `tag_type`) USING BTREE,
+  INDEX `idx_tenant_id`(`tenant_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'config_tag_relation' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of config_tags_relation
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for group_capacity
+-- ----------------------------
+DROP TABLE IF EXISTS `group_capacity`;
+CREATE TABLE `group_capacity`  (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `group_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Group ID，空字符表示整个集群',
+  `quota` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '配额，0表示使用默认值',
+  `usage` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '使用量',
+  `max_size` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '单个配置大小上限，单位为字节，0表示使用默认值',
+  `max_aggr_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '聚合子配置最大个数，，0表示使用默认值',
+  `max_aggr_size` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '单个聚合数据的子配置大小上限，单位为字节，0表示使用默认值',
+  `max_history_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '最大变更历史数量',
+  `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_group_id`(`group_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '集群、各Group容量信息表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of group_capacity
+-- ----------------------------
+INSERT INTO `group_capacity` VALUES (1, '', 0, 12, 0, 0, 0, 0, '2026-07-06 22:47:59', '2026-08-10 11:52:36');
+
+-- ----------------------------
+-- Table structure for his_config_info
+-- ----------------------------
+DROP TABLE IF EXISTS `his_config_info`;
+CREATE TABLE `his_config_info`  (
+  `id` bigint(20) UNSIGNED NOT NULL COMMENT 'id',
+  `nid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'nid, 自增标识',
+  `data_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'data_id',
+  `group_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'group_id',
+  `app_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'app_name',
+  `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'content',
+  `md5` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'md5',
+  `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `src_user` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'source user',
+  `src_ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'source ip',
+  `op_type` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'operation type',
+  `tenant_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '租户字段',
+  `encrypted_data_key` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '密钥',
+  `publish_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'formal' COMMENT 'publish type gray or formal',
+  `gray_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'gray name',
+  `ext_info` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'ext info',
+  PRIMARY KEY (`nid`) USING BTREE,
+  INDEX `idx_gmt_create`(`gmt_create`) USING BTREE,
+  INDEX `idx_gmt_modified`(`gmt_modified`) USING BTREE,
+  INDEX `idx_did`(`data_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '多租户改造' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of his_config_info
+-- ----------------------------
+INSERT INTO `his_config_info` VALUES (4, 9, 'jeecg-dev.yaml', 'DEFAULT_GROUP', '', 'spring:\r\n  datasource:\r\n    druid:\r\n      stat-view-servlet:\r\n        enabled: true\r\n        loginUsername: admin\r\n        loginPassword: 123456\r\n        allow:\r\n      web-stat-filter:\r\n        enabled: true\r\n    dynamic:\r\n      druid:\r\n        initial-size: 5\r\n        min-idle: 5\r\n        maxActive: 20\r\n        maxWait: 60000\r\n        timeBetweenEvictionRunsMillis: 60000\r\n        minEvictableIdleTimeMillis: 300000\r\n        validationQuery: SELECT 1 FROM DUAL\r\n        testWhileIdle: true\r\n        testOnBorrow: false\r\n        testOnReturn: false\r\n        poolPreparedStatements: true\r\n        maxPoolPreparedStatementPerConnectionSize: 20\r\n        filters: stat,slf4j\r\n        wall:\r\n          selectWhereAlwayTrueCheck: false\r\n        stat:\r\n          merge-sql: true\r\n          slow-sql-millis: 5000\r\n      datasource:\r\n        master:\r\n          url: jdbc:mysql://jeecg-boot-mysql:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai\r\n          username: root\r\n          password: root\r\n          driver-class-name: com.mysql.cj.jdbc.Driver\r\n        # sharding-db:\r\n        #  driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver\r\n        #  url: jdbc:shardingsphere:nacos:sharding.yaml?serverAddr=${spring.cloud.nacos.config.server-addr}&namespace=${spring.cloud.nacos.config.namespace}&group=${spring.cloud.nacos.config.group}\r\n  data:\r\n    redis:\r\n      database: 0\r\n      host: jeecg-boot-redis\r\n      password:\r\n      port: 6379\r\n  rabbitmq:\r\n    host: jeecg-boot-rabbitmq\r\n    username: guest\r\n    password: guest\r\n    port: 5672\r\n    publisher-confirms: true\r\n    publisher-returns: true\r\n    virtual-host: /\r\n    listener:\r\n      simple:\r\n        acknowledge-mode: manual\r\n        concurrency: 1\r\n        max-concurrency: 1\r\n        retry:\r\n          enabled: true\r\n  flyway:\r\n    enabled: false\r\n    locations: classpath:flyway/sql/mysql\r\n    clean-disabled: true\r\nminidao:\r\n  base-package: org.jeecg.modules.jmreport.*,org.jeecg.modules.drag.*\r\njeecg:\r\n  firewall:\r\n    dataSourceSafe: false\r\n    lowCodeMode: dev\r\n  signatureSecret: dd05f1c54d63749eda95f9fa6d49v442a\r\n  signUrls: /sys/dict/getDictItems/*,/sys/dict/loadDict/*,/sys/dict/loadDictOrderByValue/*,/sys/dict/loadDictItem/*,/sys/dict/loadTreeData,/sys/api/queryTableDictItemsByCode,/sys/api/queryFilterTableDictInfo,/sys/api/queryTableDictByKeys,/sys/api/translateDictFromTable,/sys/api/translateDictFromTableByKeys\r\n  uploadType: local\r\n  domainUrl:\r\n    pc: http://localhost:3100\r\n    app: http://localhost:8051\r\n  path:\r\n    upload: /opt/upFiles\r\n    webapp: /opt/webapp\r\n  shiro:\r\n    excludeUrls: /test/jeecgDemo/demo3,/test/jeecgDemo/redisDemo/**,/category/**,/visual/**,/map/**,/jmreport/bigscreen2/**\r\n  oss:\r\n    endpoint: oss-cn-beijing.aliyuncs.com\r\n    accessKey: ??\r\n    secretKey: ??\r\n    bucketName: jeecgdev\r\n    staticDomain: ??  \r\n  file-view-domain: 127.0.0.1:8012\r\n  minio:\r\n    minio_url: http://minio.jeecg.com\r\n    minio_name: ??\r\n    minio_pass: ??\r\n    bucketName: otatest\r\n  jmreport:\r\n    saasMode:\r\n    firewall:\r\n      dataSourceSafe: false\r\n      lowCodeMode: dev\r\n  wps:\r\n    domain: https://wwo.wps.cn/office/\r\n    appid: ??\r\n    appsecret: ??\r\n  xxljob:\r\n    enabled: true\r\n    adminAddresses: http://jeecg-boot-xxljob:9080\r\n    appname: ${spring.application.name}\r\n    accessToken: \'\'\r\n    logPath: logs/jeecg/job/jobhandler/\r\n    logRetentionDays: 30\r\n  redisson:\r\n    address: jeecg-boot-redis:6379\r\n    password:\r\n    type: STANDALONE\r\n    enabled: true\r\n  ai-chat:\r\n    enabled: false\r\n    apiKey: \"？？？？\"\r\n    apiHost: \"https://api.openai.com\"\r\n    timeout: 60\r\n  ai-rag:\r\n    embed-store:\r\n      host: 127.0.0.1\r\n      port: 5432\r\n      database: postgres\r\n      user: postgres\r\n      password: postgres\r\n      table: embeddings\r\ncas:\r\n  prefixUrl: http://localhost:8888/cas\r\nknife4j:\r\n  production: false\r\n  basic:\r\n    enable: false\r\n    username: jeecg\r\n    password: jeecg1314\r\njustauth:\r\n  enabled: true\r\n  type:\r\n    GITHUB:\r\n      client-id: ??\r\n      client-secret: ??\r\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/github/callback\r\n    WECHAT_ENTERPRISE:\r\n      client-id: ??\r\n      client-secret: ??\r\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/wechat_enterprise/callback\r\n      agent-id: ??\r\n    DINGTALK:\r\n      client-id: ??\r\n      client-secret: ??\r\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/dingtalk/callback\r\n  cache:\r\n    type: default\r\n    prefix: \'demo::\'\r\n    timeout: 1h\r\nthird-app:\r\n  enabled: false\r\n  type:\r\n    WECHAT_ENTERPRISE:\r\n      enabled: false\r\n      client-id: ??\r\n      client-secret: ??\r\n      agent-id: ??\r\n    DINGTALK:\r\n      enabled: false\r\n      client-id: ??\r\n      client-secret: ??\r\n      agent-id: ??', '3c0bb9da0a7bf310132e6826ea00b3ef', '2026-08-10 11:59:03', '2026-08-10 11:59:04', 'nacos', '0:0:0:0:0:0:0:1', 'U', 'public', '', 'formal', '', '{\"type\":\"yaml\",\"src_user\":\"nacos\"}');
+INSERT INTO `his_config_info` VALUES (6, 10, 'jeecg-dev-satoken.yaml', 'DEFAULT_GROUP', '', '################ Sa-Token 配置 (文档: https://sa-token.cc) ################\r\nsa-token:\r\n  # token 名称（同时也是 cookie 名称）\r\n  token-name: X-Access-Token\r\n  # token 有效期（单位：秒） 默认30天，-1 代表永久有效\r\n  timeout: 2592000\r\n  # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结\r\n  active-timeout: -1\r\n  # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）\r\n  is-concurrent: false\r\n  # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）\r\n  is-share: false\r\n  # token 风格（使用jwt-simple保持与原JWT token格式一致）\r\n  token-style: jwt-simple\r\n  # 是否输出操作日志\r\n  is-log: false\r\n  # 是否从 cookie 中读取 token\r\n  is-read-cookie: false\r\n  # 是否从 head 中读取 token\r\n  is-read-header: true\r\n  # 是否从请求体（URL参数）里读取 token\r\n  is-read-body: true\r\n  # jwt秘钥（重要：请修改为你自己的秘钥，确保足够复杂）\r\n  jwt-secret-key: \"dd05f1c54d63749eda95f9fa6d49v442a\"\r\n  \r\nspring:\r\n  datasource:\r\n    druid:\r\n      stat-view-servlet:\r\n        enabled: true\r\n        loginUsername: admin\r\n        loginPassword: 123456\r\n        allow:\r\n      web-stat-filter:\r\n        enabled: true\r\n    dynamic:\r\n      druid:\r\n        initial-size: 5\r\n        min-idle: 5\r\n        maxActive: 20\r\n        maxWait: 60000\r\n        timeBetweenEvictionRunsMillis: 60000\r\n        minEvictableIdleTimeMillis: 300000\r\n        validationQuery: SELECT 1 FROM DUAL\r\n        testWhileIdle: true\r\n        testOnBorrow: false\r\n        testOnReturn: false\r\n        poolPreparedStatements: true\r\n        maxPoolPreparedStatementPerConnectionSize: 20\r\n        filters: stat,slf4j\r\n        wall:\r\n          selectWhereAlwayTrueCheck: false\r\n        stat:\r\n          merge-sql: true\r\n          slow-sql-millis: 5000\r\n      datasource:\r\n        master:\r\n          url: jdbc:mysql://jeecg-boot-mysql:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai\r\n          username: root\r\n          password: root\r\n          driver-class-name: com.mysql.cj.jdbc.Driver\r\n        # sharding-db:\r\n        #  driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver\r\n        #  url: jdbc:shardingsphere:nacos:sharding.yaml?serverAddr=${spring.cloud.nacos.config.server-addr}&namespace=${spring.cloud.nacos.config.namespace}&group=${spring.cloud.nacos.config.group}\r\n  data:\r\n    redis:\r\n      database: 0\r\n      host: jeecg-boot-redis\r\n      password:\r\n      port: 6379\r\n  rabbitmq:\r\n    host: jeecg-boot-rabbitmq\r\n    username: guest\r\n    password: guest\r\n    port: 5672\r\n    publisher-confirms: true\r\n    publisher-returns: true\r\n    virtual-host: /\r\n    listener:\r\n      simple:\r\n        acknowledge-mode: manual\r\n        concurrency: 1\r\n        max-concurrency: 1\r\n        retry:\r\n          enabled: true\r\n  flyway:\r\n    enabled: false\r\n    locations: classpath:flyway/sql/mysql\r\n    clean-disabled: true\r\nminidao:\r\n  base-package: org.jeecg.modules.jmreport.*,org.jeecg.modules.drag.*\r\njeecg:\r\n  firewall:\r\n    dataSourceSafe: false\r\n    lowCodeMode: dev\r\n  signatureSecret: dd05f1c54d63749eda95f9fa6d49v442a\r\n  signUrls: /sys/dict/getDictItems/*,/sys/dict/loadDict/*,/sys/dict/loadDictOrderByValue/*,/sys/dict/loadDictItem/*,/sys/dict/loadTreeData,/sys/api/queryTableDictItemsByCode,/sys/api/queryFilterTableDictInfo,/sys/api/queryTableDictByKeys,/sys/api/translateDictFromTable,/sys/api/translateDictFromTableByKeys\r\n  uploadType: local\r\n  domainUrl:\r\n    pc: http://localhost:3100\r\n    app: http://localhost:8051\r\n  path:\r\n    upload: /opt/upFiles\r\n    webapp: /opt/webapp\r\n  shiro:\r\n    excludeUrls: /test/jeecgDemo/demo3,/test/jeecgDemo/redisDemo/**,/category/**,/visual/**,/map/**,/jmreport/bigscreen2/**\r\n  oss:\r\n    endpoint: oss-cn-beijing.aliyuncs.com\r\n    accessKey: ??\r\n    secretKey: ??\r\n    bucketName: jeecgdev\r\n    staticDomain: ??  \r\n  file-view-domain: 127.0.0.1:8012\r\n  minio:\r\n    minio_url: http://minio.jeecg.com\r\n    minio_name: ??\r\n    minio_pass: ??\r\n    bucketName: otatest\r\n  jmreport:\r\n    saasMode:\r\n    firewall:\r\n      dataSourceSafe: false\r\n      lowCodeMode: dev\r\n  wps:\r\n    domain: https://wwo.wps.cn/office/\r\n    appid: ??\r\n    appsecret: ??\r\n  xxljob:\r\n    enabled: false\r\n    adminAddresses: http://jeecg-boot-xxljob:9080/xxl-job-admin\r\n    appname: ${spring.application.name}\r\n    accessToken: \'\'\r\n    logPath: logs/jeecg/job/jobhandler/\r\n    logRetentionDays: 30\r\n  redisson:\r\n    address: jeecg-boot-redis:6379\r\n    password:\r\n    type: STANDALONE\r\n    enabled: true\r\n  ai-chat:\r\n    enabled: false\r\n    apiKey: \"？？？？\"\r\n    apiHost: \"https://api.openai.com\"\r\n    timeout: 60\r\n  ai-rag:\r\n    embed-store:\r\n      host: 127.0.0.1\r\n      port: 5432\r\n      database: postgres\r\n      user: postgres\r\n      password: postgres\r\n      table: embeddings\r\ncas:\r\n  prefixUrl: http://localhost:8888/cas\r\nknife4j:\r\n  production: false\r\n  basic:\r\n    enable: false\r\n    username: jeecg\r\n    password: jeecg1314\r\njustauth:\r\n  enabled: true\r\n  type:\r\n    GITHUB:\r\n      client-id: ??\r\n      client-secret: ??\r\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/github/callback\r\n    WECHAT_ENTERPRISE:\r\n      client-id: ??\r\n      client-secret: ??\r\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/wechat_enterprise/callback\r\n      agent-id: ??\r\n    DINGTALK:\r\n      client-id: ??\r\n      client-secret: ??\r\n      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/dingtalk/callback\r\n  cache:\r\n    type: default\r\n    prefix: \'demo::\'\r\n    timeout: 1h\r\nthird-app:\r\n  enabled: false\r\n  type:\r\n    WECHAT_ENTERPRISE:\r\n      enabled: false\r\n      client-id: ??\r\n      client-secret: ??\r\n      agent-id: ??\r\n    DINGTALK:\r\n      enabled: false\r\n      client-id: ??\r\n      client-secret: ??\r\n      agent-id: ??', '1c1b20938e6641f1c9a5c0ea94a0c1bd', '2026-08-10 11:59:20', '2026-08-10 11:59:20', 'nacos', '0:0:0:0:0:0:0:1', 'U', 'public', '', 'formal', '', '{\"type\":\"yaml\",\"src_user\":\"nacos\"}');
+
+-- ----------------------------
+-- Table structure for permissions
+-- ----------------------------
+DROP TABLE IF EXISTS `permissions`;
+CREATE TABLE `permissions`  (
+  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'role',
+  `resource` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'resource',
+  `action` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'action',
+  UNIQUE INDEX `uk_role_permission`(`role`, `resource`, `action`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of permissions
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for pipeline_execution
+-- ----------------------------
+DROP TABLE IF EXISTS `pipeline_execution`;
+CREATE TABLE `pipeline_execution`  (
+  `execution_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '执行ID',
+  `resource_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '资源类型',
+  `resource_name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '资源名称',
+  `namespace_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '命名空间ID',
+  `version` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '版本',
+  `status` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '执行状态',
+  `pipeline` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'pipeline节点结果JSON',
+  `create_time` bigint(20) NOT NULL COMMENT '创建时间',
+  `update_time` bigint(20) NOT NULL COMMENT '修改时间',
+  PRIMARY KEY (`execution_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'AI资源发布审核Pipeline执行记录' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of pipeline_execution
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for roles
+-- ----------------------------
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE `roles`  (
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'username',
+  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'role',
+  UNIQUE INDEX `idx_user_role`(`username`, `role`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of roles
+-- ----------------------------
+INSERT INTO `roles` VALUES ('nacos', 'ROLE_ADMIN');
+
+-- ----------------------------
+-- Table structure for tenant_capacity
+-- ----------------------------
+DROP TABLE IF EXISTS `tenant_capacity`;
+CREATE TABLE `tenant_capacity`  (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `tenant_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Tenant ID',
+  `quota` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '配额，0表示使用默认值',
+  `usage` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '使用量',
+  `max_size` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '单个配置大小上限，单位为字节，0表示使用默认值',
+  `max_aggr_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '聚合子配置最大个数',
+  `max_aggr_size` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '单个聚合数据的子配置大小上限，单位为字节，0表示使用默认值',
+  `max_history_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '最大变更历史数量',
+  `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_tenant_id`(`tenant_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '租户容量信息表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of tenant_capacity
+-- ----------------------------
+INSERT INTO `tenant_capacity` VALUES (1, 'public', 0, 6, 0, 0, 0, 0, '2026-07-06 22:47:59', '2026-08-10 11:52:36');
+
+-- ----------------------------
+-- Table structure for tenant_info
+-- ----------------------------
+DROP TABLE IF EXISTS `tenant_info`;
+CREATE TABLE `tenant_info`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `kp` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'kp',
+  `tenant_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT 'tenant_id',
+  `tenant_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT 'tenant_name',
+  `tenant_desc` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'tenant_desc',
+  `create_source` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'create_source',
+  `gmt_create` bigint(20) NOT NULL COMMENT '创建时间',
+  `gmt_modified` bigint(20) NOT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_tenant_info_kptenantid`(`kp`, `tenant_id`) USING BTREE,
+  INDEX `idx_tenant_id`(`tenant_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'tenant_info' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of tenant_info
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for users
+-- ----------------------------
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users`  (
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'username',
+  `password` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'password',
+  `enabled` tinyint(1) NOT NULL COMMENT 'enabled',
+  PRIMARY KEY (`username`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of users
+-- ----------------------------
+INSERT INTO `users` VALUES ('nacos', '$2a$10$.zgIaGYNB/Mu3/fJhJLPlO3xwPq0EOxNqjMeIFoOSyGFNzougoUE2', 1);
+
+SET FOREIGN_KEY_CHECKS = 1;

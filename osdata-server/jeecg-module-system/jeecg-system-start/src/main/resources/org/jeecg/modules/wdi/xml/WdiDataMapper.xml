@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.wdi.mapper.WdiDataMapper">
+
+    <!--
+        面板数据查询(主表t_wdi_data约900w行, 严格索引防护):
+        WHERE条件 country_code IN + indicator_code IN + year范围 完整匹配联合唯一索引
+        uk_country_indicator_year(country_code, indicator_code, year), 走索引range扫描, 禁止全表扫描
+        ORDER BY与索引序一致, 无filesort; LIMIT maxRows防止大结果集OOM(截断由service层判断)
+    -->
+    <select id="queryPanelDataRows" resultType="org.jeecg.modules.wdi.entity.WdiData">
+        SELECT
+            d.country_code AS countryCode,
+            d.indicator_code AS indicatorCode,
+            d.year AS year,
+            d.`value` AS value
+        FROM t_wdi_data d
+        WHERE d.country_code IN
+        <foreach collection="countryCodes" item="cc" open="(" separator="," close=")">
+            #{cc}
+        </foreach>
+        AND d.indicator_code IN
+        <foreach collection="indicatorCodes" item="ic" open="(" separator="," close=")">
+            #{ic}
+        </foreach>
+        <if test="startYear != null">
+            AND d.year &gt;= #{startYear}
+        </if>
+        <if test="endYear != null">
+            AND d.year &lt;= #{endYear}
+        </if>
+        ORDER BY d.country_code, d.indicator_code, d.year
+        LIMIT #{maxRows}
+    </select>
+
+    <!--
+        脚注查询(关联t_wdi_footnote带出脚注内容):
+        脚注为小表, 按国家×指标×年份区间过滤(年份直接与入参比较), LIMIT防御性限制
+    -->
+    <select id="queryFootnotes" resultType="org.jeecg.modules.wdi.entity.WdiFootnote">
+        SELECT
+            f.country_code AS countryCode,
+            f.series_code AS seriesCode,
+            f.year AS year,
+            f.footnote_text AS footnoteText,
+            f.footnote_text_cn AS footnoteTextCn
+        FROM t_wdi_footnote f
+        WHERE f.country_code IN
+        <foreach collection="countryCodes" item="cc" open="(" separator="," close=")">
+            #{cc}
+        </foreach>
+        AND f.series_code IN
+        <foreach collection="seriesCodes" item="sc" open="(" separator="," close=")">
+            #{sc}
+        </foreach>
+        <if test="startYear != null">
+            AND f.year &gt;= #{startYear}
+        </if>
+        <if test="endYear != null">
+            AND f.year &lt;= #{endYear}
+        </if>
+        ORDER BY f.country_code, f.series_code, f.year
+        LIMIT #{maxRows}
+    </select>
+</mapper>

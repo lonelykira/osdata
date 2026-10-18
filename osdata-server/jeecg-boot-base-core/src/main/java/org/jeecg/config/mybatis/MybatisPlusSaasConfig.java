@@ -1,0 +1,177 @@
+package org.jeecg.config.mybatis;
+
+import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
+import com.baomidou.mybatisplus.extension.plugins.inner.DynamicTableNameInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
+import lombok.extern.slf4j.Slf4j;
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.LongValue;
+import org.jeecg.common.config.TenantContext;
+import org.jeecg.common.constant.CommonConstant;
+import org.jeecg.common.constant.TenantConstant;
+import org.jeecg.common.util.SpringContextUtils;
+import org.jeecg.common.util.TokenUtils;
+import org.jeecg.common.util.oConvertUtils;
+import org.jeecg.config.mybatis.interceptor.MultiDataSourcePaginationInnerInterceptor;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 单数据源配置（jeecg.datasource.open = false时生效）
+ * @Author zhoujf
+ *
+ */
+@Slf4j
+@Configuration
+@MapperScan(value={"org.jeecg.**.mapper*"})
+public class MybatisPlusSaasConfig {
+    
+    /**
+     * 是否开启系统模块的租户隔离
+     *  控制范围：用户、角色、部门、我的部门、字典、分类字典、多数据源、职务、通知公告
+     *  
+     *  实现功能
+     *  1.用户表通过硬编码实现租户ID隔离
+     *  2.角色、部门、我的部门、字典、分类字典、多数据源、职务、通知公告除了硬编码还加入的 TENANT_TABLE 配置中，实现租户隔离更安全
+     *  3.菜单表、租户表不做租户隔离
+     *  4.通过拦截器MybatisInterceptor实现，增删改查数据 自动注入租户ID
+     */
+    public static final Boolean OPEN_SYSTEM_TENANT_CONTROL = false;
+    
+    /**
+     * 哪些表需要做多租户 表需要添加一个字段 tenant_id
+     */
+    public static final List<String> TENANT_TABLE = new ArrayList<String>();
+
+    static {
+        //1.需要租户隔离的表请在此配置
+        if (MybatisPlusSaasConfig.OPEN_SYSTEM_TENANT_CONTROL) {
+            //a.系统管理表
+            //TENANT_TABLE.add("sys_role");
+            //TENANT_TABLE.add("sys_user_role");
+            TENANT_TABLE.add("sys_depart");
+            TENANT_TABLE.add("sys_category");
+            TENANT_TABLE.add("sys_data_source");
+            TENANT_TABLE.add("sys_position");
+            //b-2.仪表盘
+            TENANT_TABLE.add("onl_drag_page");
+            TENANT_TABLE.add("onl_drag_dataset_head");
+            TENANT_TABLE.add("jimu_report_data_source");
+            TENANT_TABLE.add("jimu_report");
+            TENANT_TABLE.add("jimu_dict");
+            //b-4.AIRAG
+            TENANT_TABLE.add("airag_app");
+            TENANT_TABLE.add("airag_flow");
+            TENANT_TABLE.add("airag_knowledge");
+            TENANT_TABLE.add("airag_knowledge_doc");
+            TENANT_TABLE.add("airag_model");
+        }
+
+        //2.示例测试
+        //TENANT_TABLE.add("demo");
+        //3.online租户隔离测试
+        //TENANT_TABLE.add("ceapp_issue");
+    }
+
+
+    @Bean
+    // 顺序需低于 OnlineCgformDataSourceMybatisInterceptor（其为 LOWEST_PRECEDENCE），使分页插件处于数据源切换拦截器的内层，
+    // 保证 Online 物理表查询时数据源已 push、分页插件 beforeQuery 探测连接能路由到正确的数据源
+    // author:zhangdaiscott date:2026-07-09 for：修复Online配置多数据源导出excel数据为空
+    @Order(Ordered.LOWEST_PRECEDENCE - 1)
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        // 先 add TenantLineInnerInterceptor 再 add PaginationInnerInterceptor
+        interceptor.addInnerInterceptor(new TenantLineInnerInterceptor(new TenantLineHandler() {
+            @Override
+            public Expression getTenantId() {
+                String tenantId = TenantContext.getTenant();
+                //如果通过线程获取租户ID为空，则通过当前请求的request获取租户（shiro排除拦截器的请求会获取不到租户ID）
+                if(oConvertUtils.isEmpty(tenantId)){
+                    try {
+                        tenantId = TokenUtils.getTenantIdByRequest(SpringContextUtils.getHttpServletRequest());
+                    } catch (Exception e) {
+                        //e.printStackTrace();
+                    }
+                }
+                if(oConvertUtils.isEmpty(tenantId)){
+                    tenantId = "0";
+                }
+                return new LongValue(tenantId);
+            }
+
+            @Override
+            public String getTenantIdColumn(){
+                return TenantConstant.TENANT_ID_TABLE;
+            }
+
+            // 返回 true 表示不走租户逻辑
+            @Override
+            public boolean ignoreTable(String tableName) {
+                for(String temp: TENANT_TABLE){
+                    if(temp.equalsIgnoreCase(tableName)){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }));
+        // 注入动态表名适配拦截器解决多表名问题
+        interceptor.addInnerInterceptor(dynamicTableNameInnerInterceptor());
+        //update-begin---author:scott ---date:2026-07-09  for：【LHZP-9、LHZP-8】使用按连接实时探测方言的分页拦截器，兼容主库/从库不同数据库类型（多数据源）；SQL Server 走 2005 方言并做 ORDER BY 去重（保留 issues/8666 修复）---
+        interceptor.addInnerInterceptor(new MultiDataSourcePaginationInnerInterceptor());
+        //update-end---author:scott ---date:2026-07-09  for：【LHZP-9、LHZP-8】使用按连接实时探测方言的分页拦截器，兼容主库/从库不同数据库类型（多数据源）；SQL Server 走 2005 方言并做 ORDER BY 去重（保留 issues/8666 修复）---
+        // 增加@Version乐观锁支持 
+        interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+        return interceptor;
+    }
+
+    /**
+     * 动态表名切换拦截器,用于适配vue2和vue3同一个表有多个的情况,如sys_role_index在vue3情况下表名为sys_role_index_v3
+     * @return
+     */
+    private DynamicTableNameInnerInterceptor dynamicTableNameInnerInterceptor() {
+        DynamicTableNameInnerInterceptor dynamicTableNameInnerInterceptor = new DynamicTableNameInnerInterceptor();
+        dynamicTableNameInnerInterceptor.setTableNameHandler((sql, tableName) -> {
+            //获取需要动态解析的表名
+            String dynamicTableName = ThreadLocalDataHelper.get(CommonConstant.DYNAMIC_TABLE_NAME);
+            //当dynamicTableName不为空时才走动态表名处理逻辑,否则返回原始表名
+            if (ObjectUtil.isNotEmpty(dynamicTableName) && dynamicTableName.equals(tableName)) {
+                // 获取前端传递的版本号标识
+                Object version = ThreadLocalDataHelper.get(CommonConstant.VERSION);
+                if (ObjectUtil.isNotEmpty(version)) {
+                    //拼接表名规则(原始表名+下划线+前端传递的版本号)
+                    return tableName + "_" + version;
+                }
+            }
+            return tableName;
+        });
+        return dynamicTableNameInnerInterceptor;
+    }
+
+//    /**
+//     * 下个版本会删除，现在为了避免缓存出现问题不得不配置
+//     * @return
+//     */
+//    @Bean
+//    public ConfigurationCustomizer configurationCustomizer() {
+//        return configuration -> configuration.setUseDeprecatedExecutor(false);
+//    }
+//    /**
+//     * mybatis-plus SQL执行效率插件【生产环境可以关闭】
+//     */
+//    @Bean
+//    public PerformanceInterceptor performanceInterceptor() {
+//        return new PerformanceInterceptor();
+//    }
+
+}

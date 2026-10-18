@@ -1,0 +1,990 @@
+package org.jeecg.modules.airag.llm.handler;
+
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
+import dev.langchain4j.data.document.Document;
+import dev.langchain4j.data.document.DocumentSplitter;
+import dev.langchain4j.data.document.Metadata;
+import dev.langchain4j.data.document.splitter.DocumentSplitters;
+import dev.langchain4j.data.embedding.Embedding;
+import dev.langchain4j.data.segment.TextSegment;
+import dev.langchain4j.model.embedding.EmbeddingModel;
+import dev.langchain4j.rag.content.retriever.ContentRetriever;
+import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
+import dev.langchain4j.rag.query.router.DefaultQueryRouter;
+import dev.langchain4j.rag.query.router.QueryRouter;
+import dev.langchain4j.store.embedding.EmbeddingMatch;
+import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
+import dev.langchain4j.store.embedding.EmbeddingStore;
+import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
+import dev.langchain4j.store.embedding.filter.Filter;
+import dev.langchain4j.store.embedding.filter.logical.And;
+import dev.langchain4j.store.embedding.pgvector.PgVectorEmbeddingStore;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.tika.parser.AutoDetectParser;
+import org.jeecg.ai.factory.AiModelFactory;
+import org.jeecg.ai.factory.AiModelOptions;
+import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.util.filter.SsrfFileTypeFilter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import org.jeecg.config.AiChatConfig;
+import org.jeecg.common.system.util.JwtUtil;
+import org.jeecg.common.util.*;
+import org.jeecg.modules.airag.common.handler.IEmbeddingHandler;
+import org.jeecg.modules.airag.common.vo.knowledge.KnowledgeSearchResult;
+import org.jeecg.modules.airag.llm.config.EmbedStoreConfigBean;
+import org.jeecg.modules.airag.llm.config.KnowConfigBean;
+import org.jeecg.modules.airag.llm.consts.LLMConsts;
+import org.jeecg.modules.airag.llm.document.TikaDocumentParser;
+import org.jeecg.modules.airag.llm.document.WebPageParser;
+import org.jeecg.modules.airag.llm.entity.AiragKnowledge;
+import org.jeecg.modules.airag.llm.entity.AiragKnowledgeDoc;
+import org.jeecg.modules.airag.llm.entity.AiragModel;
+import org.jeecg.modules.airag.llm.mapper.AiragKnowledgeMapper;
+import org.jeecg.modules.airag.llm.mapper.AiragModelMapper;
+import org.jeecg.modules.airag.llm.service.IAiragKnowledgeService;
+import org.jeecg.modules.airag.llm.splitter.CustomDocumentSplitter;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static dev.langchain4j.store.embedding.filter.MetadataFilterBuilder.metadataKey;
+import static org.jeecg.modules.airag.llm.consts.LLMConsts.KNOWLEDGE_DOC_TYPE_FILE;
+import static org.jeecg.modules.airag.llm.consts.LLMConsts.KNOWLEDGE_DOC_TYPE_WEB;
+
+/**
+ * 向量工具类
+ *
+ * @Author: chenrui
+ * @Date: 2025/2/18 14:31
+ */
+@Slf4j
+@Component
+public class EmbeddingHandler implements IEmbeddingHandler {
+
+    @Autowired
+    EmbedStoreConfigBean embedStoreConfigBean;
+
+    @Autowired
+    private AiragModelMapper airagModelMapper;
+
+    @Autowired
+    @Lazy
+    private IAiragKnowledgeService airagKnowledgeService;
+
+    @Autowired
+    private AiragKnowledgeMapper airagKnowledgeMapper;
+
+    @Value(value = "${jeecg.path.upload:}")
+    private String uploadpath;
+
+    @Autowired
+    KnowConfigBean knowConfigBean;
+
+    @Autowired(required = false)
+    private AiChatConfig aiChatConfig;
+
+    /**
+     * 默认分段长度
+     */
+    private static final int DEFAULT_SEGMENT_SIZE = 1000;
+
+    /**
+     * 默认分段重叠长度
+     */
+    private static final int DEFAULT_OVERLAP_SIZE = 50;
+
+    /**
+     * 最大输出长度
+     */
+    private static final int DEFAULT_MAX_OUTPUT_CHARS = 4000;
+
+    /**
+     * 向量存储元数据:knowledgeId
+     */
+    public static final String EMBED_STORE_METADATA_KNOWLEDGEID = "knowledgeId";
+
+    /**
+     * 向量存储元数据: 用户账号
+     */
+    public static final String EMBED_STORE_METADATA_USER_NAME = "username";
+
+    /**
+     * 向量存储元数据:docId
+     */
+    public static final String EMBED_STORE_METADATA_DOCID = "docId";
+
+    /**
+     * 向量存储元数据:docName
+     */
+    public static final String EMBED_STORE_METADATA_DOCNAME = "docName";
+
+    /**
+     * 向量存储元数据：创建时间
+     */
+    public static final String EMBED_STORE_CREATE_TIME = "createTime";
+
+    /**
+     * 向量存储缓存
+     */
+    private static final ConcurrentHashMap<String, EmbeddingStore<TextSegment>> EMBED_STORE_CACHE = new ConcurrentHashMap<>();
+
+
+    /**
+     * 正则匹配: md图片
+     * "!\\[(.*?)]\\((.*?)(\\s*=\\d+)?\\)"
+     */
+    private static final Pattern PATTERN_MD_IMAGE = Pattern.compile("!\\[(.*?)]\\((.*?)\\)");
+
+    //update-begin---author:wangshuai ---date:2026-04-20  for：【issues/9551】HTML表格向量化分段时被截断修复-----------
+    /**
+     * 正则匹配: HTML表格完整块（跨行，大小写不敏感）
+     */
+    private static final Pattern PATTERN_HTML_TABLE = Pattern.compile("(?is)<table\\b.*?</table>");
+    //update-end---author:wangshuai ---date:2026-04-20  for：【issues/9551】HTML表格向量化分段时被截断修复-----------
+
+    /**
+     * 向量化文档
+     *
+     * @param knowId
+     * @param doc
+     * @return
+     * @author chenrui
+     * @date 2025/2/18 11:52
+     */
+    public Map<String, Object> embeddingDocument(String knowId, AiragKnowledgeDoc doc) {
+        AiragKnowledge airagKnowledge = airagKnowledgeService.getById(knowId);
+        AssertUtils.assertNotEmpty("知识库不存在", airagKnowledge);
+        AssertUtils.assertNotEmpty("请先为知识库配置向量模型库", airagKnowledge.getEmbedId());
+        AssertUtils.assertNotEmpty("文档不能为空", doc);
+        // 读取文档
+        String content = doc.getContent();
+        // 向量化并存储
+        if (oConvertUtils.isEmpty(content)) {
+            switch (doc.getType()) {
+                case KNOWLEDGE_DOC_TYPE_FILE:
+                    //解析文件
+                    if (knowConfigBean.isEnableMinerU()) {
+                        parseFileByMinerU(doc);
+                    }
+                    content = parseFile(doc);
+                    break;
+                case KNOWLEDGE_DOC_TYPE_WEB:
+                    content = parseWebPage(doc);
+                    // 将解析的网页内容回写到文档，便于后续查看
+                    doc.setContent(content);
+                    break;
+            }
+        }
+        //update-begin---author:chenrui ---date:20250307  for：[QQYUN-11443]【AI】是不是应该把标题也生成到向量库里，标题一般是有意义的------------
+        if (oConvertUtils.isNotEmpty(doc.getTitle())) {
+            content = doc.getTitle() + "\n\n" + content;
+        }
+        //update-end---author:chenrui ---date:20250307  for：[QQYUN-11443]【AI】是不是应该把标题也生成到向量库里，标题一般是有意义的------------
+
+        // 向量化 date:2025/2/18
+        AiragModel model = getEmbedModelData(airagKnowledge.getEmbedId());
+        AiModelOptions modelOp = buildModelOptions(model);
+        EmbeddingModel embeddingModel = AiModelFactory.createEmbeddingModel(modelOp);
+        EmbeddingStore<TextSegment> embeddingStore = getEmbedStore(model);
+        // 删除旧数据
+        embeddingStore.removeAll(metadataKey(EMBED_STORE_METADATA_DOCID).isEqualTo(doc.getId()));
+        // 分段器
+        DocumentSplitter splitter = createDocumentSplitter(doc);
+        // 分段并存储
+        EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
+                .documentSplitter(splitter)
+                .embeddingModel(embeddingModel)
+                .embeddingStore(embeddingStore)
+                .build();
+        Metadata metadata = Metadata.metadata(EMBED_STORE_METADATA_DOCID, doc.getId())
+                .put(EMBED_STORE_METADATA_KNOWLEDGEID, doc.getKnowledgeId())
+                .put(EMBED_STORE_METADATA_DOCNAME, FilenameUtils.getName(doc.getTitle()))
+                 //初始化记忆库的时候添加创建时间选项
+                .put(EMBED_STORE_CREATE_TIME, String.valueOf(doc.getCreateTime() != null ? doc.getCreateTime().getTime() : System.currentTimeMillis()));
+        //update-begin---author:wangshuai---date:2025-12-26---for:【QQYUN-14265】【AI】支持记忆---
+        //添加用户名字到元数据里面，用于记忆库中数据隔离
+        String username = doc.getCreateBy();
+        if (oConvertUtils.isEmpty(username)) {
+            try {
+                HttpServletRequest request = SpringContextUtils.getHttpServletRequest();
+                String token = TokenUtils.getTokenByRequest(request);
+                username = JwtUtil.getUsername(token);
+            } catch (Exception e) {
+                // ignore：token获取不到默认为admin
+                username = "admin";
+            }
+        }
+        if (oConvertUtils.isNotEmpty(username)) {
+            metadata.put(EMBED_STORE_METADATA_USER_NAME, username);
+        }
+        //update-end---author:wangshuai---date:2025-12-26---for:【QQYUN-14265】【AI】支持记忆---
+        Document from = Document.from(content, metadata);
+        //update-begin---author:wangshuai ---date:2026-04-20  for：【issues/9551】HTML表格分段时被截断，保留完整表格块-----------
+        boolean hasHtmlTable = content != null && PATTERN_HTML_TABLE.matcher(content).find();
+        if (hasHtmlTable) {
+            try {
+                List<TextSegment> segments = splitDocumentPreservingHtmlTables(from, splitter);
+                List<Embedding> embeddings = embeddingModel.embedAll(segments).content();
+                embeddingStore.addAll(embeddings, segments);
+            } catch (Exception e) {
+                log.error("向量存储失败，请检查向量模型配置是否正确", e);
+                throw new JeecgBootException("向量存储失败：" + e.getMessage());
+            }
+        } else {
+            //update-begin---author:jeecg---date:2026-02-26---for:[#9374]【AI知识库】千帆向量报错，添加异常处理防止空指针
+            try {
+                ingestor.ingest(from);
+            } catch (Exception e) {
+                log.error("向量存储失败，请检查向量模型配置是否正确", e);
+                throw new JeecgBootException("向量存储失败：" + e.getMessage());
+            }
+            //update-end---author:jeecg---date:2026-02-26---for:[#9374]【AI知识库】千帆向量报错，添加异常处理防止空指针
+        }
+        //update-end---author:wangshuai ---date:2026-04-20  for：【issues/9551】HTML表格分段时被截断，保留完整表格块-----------
+
+        return metadata.toMap();
+    }
+
+    /**
+     * 创建分段器
+     *
+     * @param doc
+     * @return
+     */
+    private DocumentSplitter createDocumentSplitter(AiragKnowledgeDoc doc) {
+        DocumentSplitter splitter = null;
+        int maxSegment = DEFAULT_SEGMENT_SIZE;
+        int overlapSize = DEFAULT_OVERLAP_SIZE;
+
+        if (oConvertUtils.isNotEmpty(doc.getMetadata())) {
+            try {
+                JSONObject json = JSONObject.parseObject(doc.getMetadata());
+
+                //update-begin---wangshuai---date:20260414  for：【QQYUN-14932】创建知识库时，可以创建一个分段策略，知识库里面的文档默认使用知识库的分段策略------------
+                // 文档使用知识库默认分段策略：读取知识库自身的 metadata 来决定分段方式
+                Boolean useKnowledgeDefault = json.getBoolean(LLMConsts.USE_KNOWLEDGE_DEFAULT);
+                if (Boolean.TRUE.equals(useKnowledgeDefault)) {
+                    if (oConvertUtils.isNotEmpty(doc.getKnowledgeId())) {
+                        AiragKnowledge knowledge = airagKnowledgeMapper.selectById(doc.getKnowledgeId());
+                        if (knowledge != null && oConvertUtils.isNotEmpty(knowledge.getMetadata())) {
+                            // 用知识库的 metadata 覆盖，后续逻辑统一处理
+                            json = JSONObject.parseObject(knowledge.getMetadata());
+                        } else {
+                            // 知识库没有配置分段策略，使用默认分段器
+                            return DocumentSplitters.recursive(maxSegment, overlapSize);
+                        }
+                    } else {
+                        return DocumentSplitters.recursive(maxSegment, overlapSize);
+                    }
+                }
+                //update-end---wangshuai---date:20260414  for：【QQYUN-14932】创建知识库时，可以创建一个分段策略，知识库里面的文档默认使用知识库的分段策略------------
+
+                Object segmentStrategy = json.get(LLMConsts.SEGMENT_STRATEGY);
+                //update-begin---author:wangshuai ---date:2026-04-09  for：【issue/9418】AI知识库上传文件太大向量化失败-----------
+                // 1. 不论策略是auto还是custom，优先使用前端传入的分段大小和重叠度
+                Integer sizeObj = json.getInteger(LLMConsts.MAX_SEGMENT);
+                if (sizeObj != null && sizeObj > 0) {
+                    maxSegment = sizeObj;
+                }
+                Double overlapObj = json.getDouble(LLMConsts.OVERLAP);
+                if (overlapObj != null && overlapObj >= 0) {
+                    double rate = overlapObj / 100;
+                    overlapSize = (int) (maxSegment * rate);
+                }
+                if(segmentStrategy != null && LLMConsts.SEGMENT_STRATEGY_CUSTOM.equals(segmentStrategy.toString())){
+                //update-end---author:wangshuai ---date:2026-04-09  for：【issue/9418】AI知识库上传文件太大向量化失败-----------
+                    String splitChar = json.getString(LLMConsts.SEPARATOR);
+                    if (oConvertUtils.isNotEmpty(splitChar)) {
+                        //自定义
+                        if(LLMConsts.SEGMENT_STRATEGY_CUSTOM.equals(splitChar)){
+                            splitChar = oConvertUtils.getString(json.getString(LLMConsts.CUSTOM_SEPARATOR),"\n");
+                        }
+                        // 处理转义字符
+                        splitChar = splitChar.replace("\\n", "\n").replace("\\t", "\t").replace("\\r", "\r");
+                        String textRules = json.getString(LLMConsts.TEXT_RULES);
+                        
+                        splitter = new CustomDocumentSplitter(textRules, splitChar, maxSegment, overlapSize);
+                    }
+                }
+            } catch (Exception e) {
+                log.warn("解析自定义分词配置失败: {}", e.getMessage());
+            }
+        }
+
+        if (splitter == null) {
+            splitter = DocumentSplitters.recursive(maxSegment, overlapSize);
+        }
+        return splitter;
+    }
+
+    //update-begin---author:wangshuai ---date:2026-04-20  for：【issues/9551】HTML表格分段时被截断，新增保留表格完整性的分段辅助方法-----------
+    /**
+     * 按 HTML 表格边界分段：表格块完整保留，表格外文本交给 splitter 正常分段
+     */
+    public static List<TextSegment> splitDocumentPreservingHtmlTables(Document document, DocumentSplitter splitter) {
+        String text = document.text();
+        Metadata metadata = document.metadata();
+        List<TextSegment> result = new ArrayList<>();
+        Matcher matcher = PATTERN_HTML_TABLE.matcher(text);
+        int lastEnd = 0;
+        while (matcher.find()) {
+            String before = text.substring(lastEnd, matcher.start());
+            if (!before.isBlank()) {
+                appendSplitText(before, metadata, splitter, result);
+            }
+            appendSegment(matcher.group(), metadata, result);
+            lastEnd = matcher.end();
+        }
+        String remaining = text.substring(lastEnd);
+        if (!remaining.isBlank()) {
+            appendSplitText(remaining, metadata, splitter, result);
+        }
+        reindexSegments(result);
+        return result;
+    }
+
+    /**
+     * 将非表格文本交给 splitter 分段后追加到 result
+     */
+    public static void appendSplitText(String text, Metadata metadata, DocumentSplitter splitter, List<TextSegment> result) {
+        List<TextSegment> segments = splitter.split(Document.from(text, metadata));
+        result.addAll(segments);
+    }
+
+    /**
+     * 将文本作为单个完整段追加到 result（不经过分段器，用于保留完整表格块）
+     */
+    public static void appendSegment(String text, Metadata metadata, List<TextSegment> result) {
+        result.add(TextSegment.from(text, metadata));
+    }
+
+    /**
+     * 为分段列表的 metadata 写入从 0 开始的连续 index，供检索时标识顺序
+     */
+    public static void reindexSegments(List<TextSegment> segments) {
+        for (int i = 0; i < segments.size(); i++) {
+            segments.get(i).metadata().put("index", String.valueOf(i));
+        }
+    }
+    //update-end---author:wangshuai ---date:2026-04-20  for：【issues/9551】HTML表格分段时被截断，新增保留表格完整性的分段辅助方法-----------
+
+    /**
+     * 向量查询(多知识库)
+     *
+     * @param knowIds
+     * @param queryText
+     * @param topNumber
+     * @param similarity
+     * @return
+     * @author chenrui
+     * @date 2025/2/18 16:52
+     */
+    @Override
+    public KnowledgeSearchResult embeddingSearch(List<String> knowIds, String queryText, Integer topNumber, Double similarity) {
+        AssertUtils.assertNotEmpty("请选择知识库", knowIds);
+        AssertUtils.assertNotEmpty("请填写查询内容", queryText);
+
+        topNumber = oConvertUtils.getInteger(topNumber, 5);
+
+        //命中的文档列表
+        List<Map<String, Object>> documents = new ArrayList<>(16);
+        for (String knowId : knowIds) {
+            List<Map<String, Object>> searchResp = searchEmbedding(knowId, queryText, topNumber, similarity);
+            if (oConvertUtils.isObjectNotEmpty(searchResp)) {
+                documents.addAll(searchResp);
+            }
+        }
+
+        StringBuilder data = new StringBuilder();
+        //update-begin---author:wangshuai---date:2026-01-04---for:【QQYUN-14479】给ai的时候需要限制几个字---
+        //是否为记忆库
+        boolean memoryMode = false;
+        //记忆库只有一个
+        if (knowIds.size() == 1) {
+            String firstId = knowIds.get(0);
+            if (oConvertUtils.isNotEmpty(firstId)) {
+                AiragKnowledge k = airagKnowledgeMapper.getByIdIgnoreTenant(firstId);
+                memoryMode = (k != null && LLMConsts.KNOWLEDGE_TYPE_MEMORY.equalsIgnoreCase(k.getType()));
+            }
+        }
+        //如果是记忆库按照创建时间排序，如果不是按照score分值进行排序
+        List<Map<String, Object>> prepared = documents.stream()
+                .sorted(memoryMode
+                        ? Comparator.comparingLong((Map<String, Object> doc) -> oConvertUtils.getLong(doc.get(EMBED_STORE_CREATE_TIME), 0L)).reversed()
+                        : Comparator.comparingDouble((Map<String, Object> doc) -> (Double) doc.get("score")).reversed())
+                .collect(Collectors.toList());
+        List<Map<String, Object>> limited = new ArrayList<>();
+        //将返回的结果按照最大的token进行长度限制
+        for (Map<String, Object> doc : prepared) {
+            if (limited.size() >= topNumber) {
+                break;
+            }
+            String content = oConvertUtils.getString(doc.get("content"), "");
+            int remain = DEFAULT_MAX_OUTPUT_CHARS - data.length();
+            if (remain <= 0) {
+                break;
+            }
+            //数据库中文本的长度和已经拼接的长度
+            if (content.length() <= remain) {
+                data.append(content).append("\n");
+                limited.add(doc);
+            } else {
+                data.append(content, 0, remain);
+                limited.add(doc);
+                break;
+            }
+        }
+        return new KnowledgeSearchResult(data.toString(), limited);
+        //update-end---author:wangshuai---date:2026-01-04---for:【QQYUN-14479】给ai的时候需要限制几个字---
+    }
+
+    /**
+     * 向量查询
+     *
+     * @param knowId
+     * @param queryText
+     * @param topNumber
+     * @param similarity
+     * @return
+     * @author chenrui
+     * @date 2025/2/18 16:52
+     */
+    public List<Map<String, Object>> searchEmbedding(String knowId, String queryText, Integer topNumber, Double similarity) {
+        AssertUtils.assertNotEmpty("请选择知识库", knowId);
+        AiragKnowledge knowledge = airagKnowledgeMapper.getByIdIgnoreTenant(knowId);
+        AssertUtils.assertNotEmpty("知识库不存在", knowledge);
+        AssertUtils.assertNotEmpty("请填写查询内容", queryText);
+        AiragModel model = getEmbedModelData(knowledge.getEmbedId());
+
+        AiModelOptions modelOp = buildModelOptions(model);
+        EmbeddingModel embeddingModel = AiModelFactory.createEmbeddingModel(modelOp);
+        Embedding queryEmbedding = embeddingModel.embed(queryText).content();
+
+        topNumber = oConvertUtils.getInteger(topNumber, modelOp.getTopNumber());
+        similarity = oConvertUtils.getDou(similarity, modelOp.getSimilarity());
+        
+        //update-begin---author:wangshuai---date:2025-12-26---for:【QQYUN-14265】【AI】支持记忆---
+        Filter filter = metadataKey(EMBED_STORE_METADATA_KNOWLEDGEID).isEqualTo(knowId);
+
+        // 记忆库的时候需要根据用户隔离
+        if (LLMConsts.KNOWLEDGE_TYPE_MEMORY.equalsIgnoreCase(knowledge.getType())) {
+            try {
+                HttpServletRequest request = SpringContextUtils.getHttpServletRequest();
+                String token = TokenUtils.getTokenByRequest(request);
+                String username = JwtUtil.getUsername(token);
+                if (oConvertUtils.isNotEmpty(username)) {
+                    filter = new And(filter, metadataKey(EMBED_STORE_METADATA_USER_NAME).isEqualTo(username));
+                }
+            } catch (Exception e) {
+                // ignore
+                log.info("构建过滤器异常,{}",e.getMessage());
+            }
+        }
+        //update-end---author:wangshuai---date:2025-12-26---for:【QQYUN-14265】【AI】支持记忆---
+        
+        EmbeddingSearchRequest embeddingSearchRequest = EmbeddingSearchRequest.builder()
+                .queryEmbedding(queryEmbedding)
+                .maxResults(topNumber)
+                .minScore(similarity)
+                .filter(filter)
+                .build();
+
+        EmbeddingStore<TextSegment> embeddingStore = getEmbedStore(model);
+        List<EmbeddingMatch<TextSegment>> relevant = embeddingStore.search(embeddingSearchRequest).matches();
+        List<Map<String, Object>> result = new ArrayList<>();
+        if (oConvertUtils.isObjectNotEmpty(relevant)) {
+            result = relevant.stream().map(matchRes -> {
+                Map<String, Object> data = new HashMap<>();
+                data.put("score", matchRes.score());
+                data.put("content", matchRes.embedded().text());
+                Metadata metadata = matchRes.embedded().metadata();
+                data.put("chunk", metadata.getInteger("index"));
+                data.put(EMBED_STORE_METADATA_DOCNAME, metadata.getString(EMBED_STORE_METADATA_DOCNAME));
+                //查询返回的时候增加创建时间，用于排序
+                String ct = metadata.getString(EMBED_STORE_CREATE_TIME);
+                data.put(EMBED_STORE_CREATE_TIME, ct);
+                return data;
+            }).collect(Collectors.toList());
+        }
+        return result;
+    }
+
+    /**
+     * 获取向量查询路由
+     *
+     * @param knowIds
+     * @param topNumber
+     * @param similarity
+     * @return
+     * @author chenrui
+     * @date 2025/2/20 21:03
+     */
+    @Override
+    public QueryRouter getQueryRouter(List<String> knowIds, Integer topNumber, Double similarity) {
+        AssertUtils.assertNotEmpty("请选择知识库", knowIds);
+        List<ContentRetriever> retrievers = Lists.newArrayList();
+        for (String knowId : knowIds) {
+            if (oConvertUtils.isEmpty(knowId)) {
+                continue;
+            }
+            AiragKnowledge knowledge = airagKnowledgeMapper.getByIdIgnoreTenant(knowId);
+            AssertUtils.assertNotEmpty("知识库不存在", knowledge);
+            AiragModel model = getEmbedModelData(knowledge.getEmbedId());
+            AiModelOptions modelOptions = buildModelOptions(model);
+            EmbeddingModel embeddingModel = AiModelFactory.createEmbeddingModel(modelOptions);
+
+            EmbeddingStore<TextSegment> embeddingStore = getEmbedStore(model);
+            topNumber = oConvertUtils.getInteger(topNumber, 5);
+            similarity = oConvertUtils.getDou(similarity, 0.75);
+
+            //update-begin---author:wangshuai---date:2025-12-26---for:【QQYUN-14265】【AI】支持记忆---
+            Filter filter = metadataKey(EMBED_STORE_METADATA_KNOWLEDGEID).isEqualTo(knowId);
+            // 记忆库的时候需要根据用户隔离
+            if (LLMConsts.KNOWLEDGE_TYPE_MEMORY.equalsIgnoreCase(knowledge.getType())) {
+                try {
+                    HttpServletRequest request = SpringContextUtils.getHttpServletRequest();
+                    String token = TokenUtils.getTokenByRequest(request);
+                    String username = JwtUtil.getUsername(token);
+                    if (oConvertUtils.isNotEmpty(username)) {
+                        filter = new And(filter, metadataKey(EMBED_STORE_METADATA_USER_NAME).isEqualTo(username));
+                    }
+                } catch (Exception e) {
+                    // ignore
+                    log.info("构建过滤器异常,{}",e.getMessage());
+                }
+            }
+            //update-end---author:wangshuai---date:2025-12-26---for:【QQYUN-14265】【AI】支持记忆---
+            
+            // 构建一个嵌入存储内容检索器，用于从嵌入存储中检索内容
+            EmbeddingStoreContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
+                    .embeddingStore(embeddingStore)
+                    .embeddingModel(embeddingModel)
+                    .maxResults(topNumber)
+                    .minScore(similarity)
+                    .filter(filter)
+                    .build();
+            retrievers.add(contentRetriever);
+        }
+        if (retrievers.isEmpty()) {
+            return null;
+        } else {
+            return new DefaultQueryRouter(retrievers);
+        }
+    }
+
+    /**
+     * 删除向量化文档
+     *
+     * @param knowId
+     * @param modelId
+     * @author chenrui
+     * @date 2025/2/18 19:07
+     */
+    public void deleteEmbedDocsByKnowId(String knowId, String modelId) {
+        AssertUtils.assertNotEmpty("选择知识库", knowId);
+        AiragModel model = getEmbedModelData(modelId);
+
+        EmbeddingStore<TextSegment> embeddingStore = getEmbedStore(model);
+        // 删除数据
+        embeddingStore.removeAll(metadataKey(EMBED_STORE_METADATA_KNOWLEDGEID).isEqualTo(knowId));
+    }
+
+    /**
+     * 删除向量化文档
+     *
+     * @param docIds
+     * @param modelId
+     * @author chenrui
+     * @date 2025/2/18 19:07
+     */
+    public void deleteEmbedDocsByDocIds(List<String> docIds, String modelId) {
+        AssertUtils.assertNotEmpty("选择文档", docIds);
+        AiragModel model = getEmbedModelData(modelId);
+
+        EmbeddingStore<TextSegment> embeddingStore = getEmbedStore(model);
+        // 删除数据
+        embeddingStore.removeAll(metadataKey(EMBED_STORE_METADATA_DOCID).isIn(docIds));
+    }
+
+    /**
+     * 查询向量模型数据，若未指定或不存在则回退到 yml 中配置的默认向量模型
+     *
+     * @param modelId
+     * @return
+     * @author chenrui
+     * @date 2025/2/20 20:08
+     */
+    private AiragModel getEmbedModelData(String modelId) {
+        //update-begin---author:wangshuai---date:2026-03-09---for:【QQYUN-14645】添加默认向量模型---
+        if (oConvertUtils.isNotEmpty(modelId)) {
+            AiragModel model = airagModelMapper.getByIdIgnoreTenant(modelId);
+            if (model != null) {
+                AssertUtils.assertEquals("仅支持向量模型", LLMConsts.MODEL_TYPE_EMBED, model.getModelType());
+                // 判断模型是否已激活，未激活则回退到默认模型
+                if (model.getActivateFlag() != null && model.getActivateFlag() == 1) {
+                    return model;
+                }
+                log.warn("向量模型[{}]未激活，尝试使用 yml 中配置的默认向量模型", modelId);
+            }
+        }
+        // 回退到 yml 默认向量模型
+        if (aiChatConfig != null && oConvertUtils.isNotEmpty(aiChatConfig.getAiModelEmbed().getApiKey())) {
+            log.info("使用 yml 中配置的默认向量模型: {}", aiChatConfig.getAiModelEmbed().getModel());
+            return buildDefaultEmbedModel(aiChatConfig.getAiModelEmbed());
+        }
+        AssertUtils.assertNotEmpty("向量模型不能为空，请先配置向量模型或在 yml 中设置默认向量模型(jeecg.ai-chat.ai-model-embed)", modelId);
+        return null;
+        //update-end---author:wangshuai---date:2026-03-09---for:【QQYUN-14645】添加默认向量模型---
+    }
+
+    /**
+     * 根据 yml 配置构建默认向量模型对象
+     *
+     * @param embedConfig yml 中的向量模型配置
+     * @return AiragModel
+     */
+    private AiragModel buildDefaultEmbedModel(AiChatConfig.ModelConfig embedConfig) {
+        AiragModel model = new AiragModel();
+        model.setModelName(embedConfig.getModel());
+        model.setBaseUrl(embedConfig.getApiHost());
+        model.setProvider(embedConfig.getProvider());
+        model.setModelType(LLMConsts.MODEL_TYPE_EMBED);
+        JSONObject credential = new JSONObject();
+        credential.put("apiKey", embedConfig.getApiKey());
+        model.setCredential(credential.toJSONString());
+        return model;
+    }
+
+    /**
+     * 获取向量存储
+     *
+     * @param model
+     * @return
+     * @author chenrui
+     * @date 2025/2/18 14:56
+     */
+    private EmbeddingStore<TextSegment> getEmbedStore(AiragModel model) {
+        AssertUtils.assertNotEmpty("未配置模型", model);
+        String modelId = model.getId();
+        String connectionInfo = embedStoreConfigBean.getHost() + embedStoreConfigBean.getPort() + embedStoreConfigBean.getDatabase();
+        String key = modelId + connectionInfo;
+        if (EMBED_STORE_CACHE.containsKey(key)) {
+            return EMBED_STORE_CACHE.get(key);
+        }
+
+
+        AiModelOptions modelOp = buildModelOptions(model);
+        EmbeddingModel embeddingModel = AiModelFactory.createEmbeddingModel(modelOp);
+
+        String tableName = embedStoreConfigBean.getTable();
+
+        // update-begin---author:sunjianlei ---date:20250509  for：【QQYUN-12345】向量模型维度不一致问题
+        // 如果该模型不是默认的向量维度
+        int dimension = embeddingModel.dimension();
+        if (!LLMConsts.EMBED_MODEL_DEFAULT_DIMENSION.equals(dimension)) {
+            // 就加上维度后缀，防止因维度不一致导致保存失败
+            tableName += ("_" + dimension);
+        }
+        // update-end-----author:sunjianlei ---date:20250509  for：【QQYUN-12345】向量模型维度不一致问题
+
+        EmbeddingStore<TextSegment> embeddingStore = PgVectorEmbeddingStore.builder()
+                // Connection and table parameters
+                .host(embedStoreConfigBean.getHost())
+                .port(embedStoreConfigBean.getPort())
+                .database(embedStoreConfigBean.getDatabase())
+                .user(embedStoreConfigBean.getUser())
+                .password(embedStoreConfigBean.getPassword())
+                .table(tableName)
+                // Embedding dimension
+                // Required: Must match the embedding model’s output dimension
+                .dimension(embeddingModel.dimension())
+                // Indexing and performance options
+                // Enable IVFFlat index
+                .useIndex(true)
+                // Number of lists
+                // for IVFFlat index
+                .indexListSize(100)
+                // Table creation options
+                // Automatically create the table if it doesn’t exist
+                .createTable(true)
+                //Don’t drop the table first (set to true if you want a fresh start)
+                .dropTableFirst(false)
+                .build();
+        EMBED_STORE_CACHE.put(key, embeddingStore);
+        return embeddingStore;
+    }
+
+    /**
+     * 构造ModelOptions
+     *
+     * @param model
+     * @return
+     * @author chenrui
+     * @date 2025/3/11 17:45
+     */
+    public static AiModelOptions buildModelOptions(AiragModel model) {
+        AiModelOptions.AiModelOptionsBuilder modelOpBuilder = AiModelOptions.builder()
+                .provider(model.getProvider())
+                .modelName(model.getModelName())
+                .baseUrl(model.getBaseUrl());
+        if (oConvertUtils.isObjectNotEmpty(model.getCredential())) {
+            JSONObject modelCredential = JSONObject.parseObject(model.getCredential());
+            modelOpBuilder.apiKey(oConvertUtils.getString(modelCredential.getString("apiKey"), null));
+            modelOpBuilder.secretKey(oConvertUtils.getString(modelCredential.getString("secretKey"), null));
+            if(modelCredential.containsKey("httpVersionOne")){
+                modelOpBuilder.izHttpVersionOne(modelCredential.getInteger("httpVersionOne") == 1);
+            }
+        }
+        modelOpBuilder.topNumber(5);
+        modelOpBuilder.similarity(0.75);
+        return modelOpBuilder.build();
+    }
+
+    /**
+     * 解析网页内容，使用Jsoup爬取并转换为Markdown
+     *
+     * @param doc 知识库文档（metadata中需包含website字段）
+     * @return Markdown格式的网页内容
+     * @date 2026/3/19
+     */
+    private String parseWebPage(AiragKnowledgeDoc doc) {
+        String metadata = doc.getMetadata();
+        AssertUtils.assertNotEmpty("请先配置网页URL", metadata);
+        JSONObject metadataJson = JSONObject.parseObject(metadata);
+        String website = metadataJson.getString(LLMConsts.KNOWLEDGE_DOC_METADATA_WEBSITE);
+        AssertUtils.assertNotEmpty("请先配置网页URL", website);
+
+        Matcher matcher = LLMConsts.WEB_PATTERN.matcher(website);
+        if (!matcher.matches()) {
+            throw new JeecgBootException("网页URL格式不正确，请以http://或https://开头");
+        }
+        //update-begin---author:zhangdaihao ---date:2026-08-06  for：【issues/9808】AI知识库Web文档抓取SSRF漏洞修复，抓取前调用SSRF校验器-----------
+        SsrfFileTypeFilter.checkSsrfHttpUrl(website);
+        //update-end---author:zhangdaihao ---date:2026-08-06  for：【issues/9808】AI知识库Web文档抓取SSRF漏洞修复，抓取前调用SSRF校验器-----------
+
+        try {
+            WebPageParser webPageParser = new WebPageParser();
+            String content = webPageParser.parseToMarkdown(website);
+            if (oConvertUtils.isEmpty(content)) {
+                throw new JeecgBootException("网页内容为空，请检查URL是否可访问");
+            }
+            log.info("网页解析成功, URL: {}, 内容长度: {}", website, content.length());
+            return content;
+        } catch (JeecgBootException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("网页解析失败, URL: {}, 错误: {}", website, e.getMessage(), e);
+            throw new JeecgBootException("网页解析失败: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 解析文件
+     *
+     * @param doc
+     * @author chenrui
+     * @date 2025/3/5 11:31
+     */
+    private String parseFile(AiragKnowledgeDoc doc) {
+        String metadata = doc.getMetadata();
+        AssertUtils.assertNotEmpty("请先上传文件", metadata);
+        JSONObject metadataJson = JSONObject.parseObject(metadata);
+        if (!metadataJson.containsKey(LLMConsts.KNOWLEDGE_DOC_METADATA_FILEPATH)) {
+            throw new JeecgBootException("请先上传文件");
+        }
+        String filePath = metadataJson.getString(LLMConsts.KNOWLEDGE_DOC_METADATA_FILEPATH);
+        AssertUtils.assertNotEmpty("请先上传文件", filePath);
+        // 网络资源,先下载到临时目录
+        filePath = ensureFile(filePath);
+        // 提取文档内容
+        File docFile = new File(filePath);
+        if (docFile.exists()) {
+            Document document = new TikaDocumentParser(AutoDetectParser::new, null, null, null).parse(docFile);
+            if (null != document) {
+                String content = document.text();
+                // 判断是否md文档
+                String fileType = FilenameUtils.getExtension(docFile.getName());
+                if ("md".contains(fileType)) {
+                    // 如果是md文件，查找所有图片语法，如果是本地图片，替换成网络图片
+                    String baseUrl = "#{domainURL}/sys/common/static/";
+                    String sourcePath = metadataJson.getString(LLMConsts.KNOWLEDGE_DOC_METADATA_SOURCES_PATH);
+                    if(oConvertUtils.isNotEmpty(sourcePath)) {
+                        String escapedPath = uploadpath;
+                        //update-begin---author:wangshuai---date:2025-06-03---for:【QQYUN-12636】【AI知识库】文档库上传 本地local 文档中的图片不展示---
+                        /*if (File.separator.equals("\\")){
+                            escapedPath = uploadpath.replace("//", "\\\\");
+                        }*/
+                        //update-end---author:wangshuai---date:2025-06-03---for:【QQYUN-12636】【AI知识库】文档库上传 本地local 文档中的图片不展示---
+                        sourcePath = sourcePath.replaceFirst("^" + escapedPath, "").replace("\\", "/");
+                        String docFilePath = metadataJson.getString(LLMConsts.KNOWLEDGE_DOC_METADATA_FILEPATH);
+                        docFilePath = FilenameUtils.getPath(docFilePath);
+                        docFilePath = docFilePath.replace("\\", "/");
+                        StringBuffer sb = replaceImageUrl(content, baseUrl + sourcePath + "/", baseUrl + docFilePath);
+                        content = sb.toString();
+                    }
+                }
+                return content;
+            }
+        }
+        return null;
+    }
+
+    @NotNull
+    private static StringBuffer replaceImageUrl(String content, String abstractBaseUrl, String relativeBaseUrl) {
+        // 正则表达式匹配md文件中的图片语法 ![alt text](image url)
+        Matcher matcher = PATTERN_MD_IMAGE.matcher(content);
+
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            String imageUrl = matcher.group(2);
+            // 检查是否是本地图片路径
+            if (!imageUrl.startsWith("http")) {
+                // 替换成网络图片路径
+                String networkImageUrl = abstractBaseUrl + imageUrl;
+                if(imageUrl.startsWith("/")) {
+                    // 绝对路径
+                    networkImageUrl = abstractBaseUrl + imageUrl;
+                }else{
+                    // 相对路径
+                    networkImageUrl = relativeBaseUrl + imageUrl;
+                }
+                // 修改图片路径中//->/，但保留http://和https://
+                networkImageUrl = networkImageUrl.replaceAll("(?<!http:)(?<!https:)//", "/");
+                matcher.appendReplacement(sb, "![" + matcher.group(1) + "](" + networkImageUrl + ")");
+            } else {
+                matcher.appendReplacement(sb, "![" + matcher.group(1) + "](" + imageUrl + ")");
+            }
+        }
+        matcher.appendTail(sb);
+        return sb;
+    }
+
+    /**
+     * 通过MinerU解析文件
+     *
+     * @param doc
+     * @author chenrui
+     * @date 2025/4/1 17:37
+     */
+    private void parseFileByMinerU(AiragKnowledgeDoc doc) {
+        String metadata = doc.getMetadata();
+        AssertUtils.assertNotEmpty("请先上传文件", metadata);
+        JSONObject metadataJson = JSONObject.parseObject(metadata);
+        if (!metadataJson.containsKey(LLMConsts.KNOWLEDGE_DOC_METADATA_FILEPATH)) {
+            throw new JeecgBootException("请先上传文件");
+        }
+        String filePath = metadataJson.getString(LLMConsts.KNOWLEDGE_DOC_METADATA_FILEPATH);
+        AssertUtils.assertNotEmpty("请先上传文件", filePath);
+        filePath = ensureFile(filePath);
+
+        File docFile = new File(filePath);
+        String fileType = FilenameUtils.getExtension(filePath);
+        if (!docFile.exists()
+                || "txt".equalsIgnoreCase(fileType)
+                || "md".equalsIgnoreCase(fileType)) {
+            return ;
+        }
+
+        // 安全校验：拒绝文件名/路径中含有 Shell 注入字符的文件，防止命令注入
+        try {
+            CommandExecUtil.validateFilePath(docFile.getAbsolutePath());
+            CommandExecUtil.validateFilePath(docFile.getName());
+        } catch (IllegalArgumentException e) {
+            log.error("文件路径包含非法字符，拒绝执行 MinerU 解析: {}", e.getMessage());
+            throw new JeecgBootException("文件名包含非法字符，无法处理该文件");
+        }
+
+        // 使用 String[] 数组构建命令，避免 split(" ") 带来的参数边界问题
+        String[] command;
+        if (oConvertUtils.isNotEmpty(knowConfigBean.getCondaEnv())) {
+            command = new String[]{"conda", "run", "-n", knowConfigBean.getCondaEnv(), "magic-pdf"};
+        } else {
+            command = new String[]{"magic-pdf"};
+        }
+
+        String outputPath = docFile.getParentFile().getAbsolutePath();
+        String[] args = {
+                "-p", docFile.getAbsolutePath(),
+                "-o", outputPath,
+        };
+
+        try {
+            String execLog = CommandExecUtil.execCommand(command, args);
+            log.info("执行命令行:" + Arrays.toString(command) + " args:" + Arrays.toString(args) + "\n log::" + execLog);
+            // 如果成功,替换文件路径和静态资源路径
+            String fileBaseName = FilenameUtils.getBaseName(docFile.getName());
+            String newFileDir = outputPath + File.separator + fileBaseName + File.separator + "auto" + File.separator ;
+            // 先检查文件是否存在,存在才替换
+            File convertedFile = new File(newFileDir + fileBaseName + ".md");
+            if (convertedFile.exists()) {
+                log.info("文件转换成md成功,替换文件路径和静态资源路径");
+                newFileDir = newFileDir.replaceFirst("^" + uploadpath, "");
+                metadataJson.put(LLMConsts.KNOWLEDGE_DOC_METADATA_FILEPATH, newFileDir + fileBaseName + ".md");
+                metadataJson.put(LLMConsts.KNOWLEDGE_DOC_METADATA_SOURCES_PATH, newFileDir);
+                doc.setMetadata(metadataJson.toJSONString());
+            }
+        } catch (IOException e) {
+            log.error("文件转换md失败,使用传统提取方案{}", e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 确保文件存在
+     * @param filePath
+     * @return
+     * @author chenrui
+     * @date 2025/4/1 17:36
+     */
+    @NotNull
+    private String ensureFile(String filePath) {
+        // 网络资源,先下载到临时目录
+        Matcher matcher = LLMConsts.WEB_PATTERN.matcher(filePath);
+        if (matcher.matches()) {
+            log.info("网络资源,下载到临时目录:" + filePath);
+            // 准备文件
+            String tempFilePath = uploadpath + File.separator + "tmp" + File.separator + UUIDGenerator.generate() + File.separator;
+            String fileName = filePath;
+            if (fileName.contains("?")) {
+                fileName = fileName.substring(0, fileName.indexOf("?"));
+            }
+            fileName = FilenameUtils.getName(fileName);
+            tempFilePath = tempFilePath + fileName;
+            FileDownloadUtils.download2DiskFromNet(filePath, tempFilePath);
+            filePath = tempFilePath;
+        } else {
+            //update-begin---author:wangshuai---date:2026-03-30---for:【issues/9424】CommandExecUtil 命令执行过程中存在疑似路径遍历漏洞/【issues/9425】EmbeddingHandler 知识库解析过程中疑似存在路径遍历漏洞---
+            // 1. 路径遍历检查：拒绝 .. 和 %2e 等绕过手段
+            SsrfFileTypeFilter.checkPathTraversal(filePath);
+            // 2. 标准化路径并校验是否在 uploadpath 范围内
+            Path root = Paths.get(uploadpath).toAbsolutePath().normalize();
+            //update-begin---author:wangshuai ---date:2026-04-13  for：zip文件 filePath 以 \ 或 / 开头，在Windows下被Path.resolve当成驱动器根路径导致误判路径遍历，先剥掉前导分隔符-----------
+            // 去除前导分隔符，保证作为相对路径 resolve 到 uploadpath 之下
+            String relativePath = filePath.replaceAll("^[\\\\/]+", "");
+            Path target = root.resolve(relativePath).toAbsolutePath().normalize();
+            //update-end---author:wangshuai ---date:2026-04-13  for：zip文件 filePath 以 \ 或 / 开头，在Windows下被Path.resolve当成驱动器根路径导致误判路径遍历，先剥掉前导分隔符-----------
+            if (!target.startsWith(root)) {
+                log.error("检测到路径遍历攻击! filePath: {}, 解析后: {}", filePath, target);
+                throw new JeecgBootException("文件路径包含非法字符");
+            }
+            filePath = target.toString();
+            //update-end---author:wangshuai---date:2026-03-30---for:【issues/9424】CommandExecUtil 命令执行过程中存在疑似路径遍历漏洞/【issues/9425】EmbeddingHandler 知识库解析过程中疑似存在路径遍历漏洞---
+        }
+        return filePath;
+    }
+
+
+}

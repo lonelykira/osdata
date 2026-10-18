@@ -1,0 +1,57 @@
+# Git
+.git/
+.gitignore
+.gitmodules
+
+# SVN
+.svn/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# VS Code
+.vscode/
+
+# Maven / Gradle build output
+target/
+build/
+!.mvn/wrapper/maven-wrapper.jar
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Node (frontend artifacts if any)
+node_modules/
+dist/
+
+# Docker volumes / data
+docker/data/
+
+# Compiled classes
+*.class
+
+# Custom
+*.qqy
+代码修改.log
+代码修改日志
+*.zip
+backup/
+.history/
+.cursor/
+doc/
+docs/

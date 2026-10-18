@@ -1,0 +1,70 @@
+package org.jeecg.modules.airag.app.vo;
+
+import lombok.Data;
+import org.jeecg.modules.airag.app.entity.AiragApp;
+import org.jeecg.modules.airag.common.vo.MessageHistory;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @Description: 聊天会话
+ * @Author: chenrui
+ * @Date: 2025/2/25 14:56
+ */
+@Data
+public class ChatConversation {
+
+    /**
+     * 会话id
+     */
+    private String id;
+
+    /**
+     * 会话标题
+     */
+    private String title;
+
+    /**
+     * 消息记录
+     */
+    private List<MessageHistory> messages;
+
+    /**
+     * app
+     */
+    private AiragApp app;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 流程入参配置（工作流的额外参数设置）
+     * key: 参数field, value: 参数值
+     * for [issues/8545]新建AI应用的时候只能选择没有自定义参数的AI流程
+     */
+    private Map<String, Object> flowInputs;
+
+    /**
+     * portal 应用门户
+     */
+    private String sessionType;
+
+    /**
+     * 是否保存会话
+     */
+    private Boolean izSaveSession;
+
+    /**
+     * 会话归属用户标识（管理后台：登录用户名；小程序：openId）
+     */
+    private String userId;
+
+    /**
+     * 会话来源（manage:后台管理系统；wxapp:微信小程序）
+     */
+    private String sessionSource;
+}
