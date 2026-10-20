@@ -15,7 +15,8 @@ const route = useRoute();
 // 顶部导航链接配置
 const navItems = [
   { key: "home", label: "首页", path: "/home" },
-  { key: "topic", label: "指标浏览", path: "/wdi/topic" },
+  { key: "topic", label: "WDI指标浏览", path: "/wdi/topic" },
+  { key: "weoTopic", label: "WEO指标浏览", path: "/weo/topic" },
 ];
 
 // 当前激活的导航项
@@ -25,6 +26,8 @@ const activeKey = computed(() => {
   if (path.startsWith("/wdi/query")) return "query";
   if (path.startsWith("/wdi/scheme")) return "scheme";
   if (path.startsWith("/wdi/export")) return "export";
+  if (path.startsWith("/weo/topic")) return "weoTopic";
+  if (path.startsWith("/weo/query")) return "weoQuery";
   return "home";
 });
 </script>
@@ -41,8 +44,8 @@ const activeKey = computed(() => {
         <router-link to="/home" class="site-logo">
           <div class="logo-icon">W</div>
           <div class="logo-text">
-            <span class="logo-title">WDI 世界发展指标</span>
-            <span class="logo-sub">World Development Indicators</span>
+            <span class="logo-title">开源数据平台</span>
+            <span class="logo-sub">Open-source Data Platform</span>
           </div>
         </router-link>
 

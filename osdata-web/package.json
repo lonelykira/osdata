@@ -2,7 +2,7 @@
   "name": "wdi-portal",
   "version": "1.0.0",
   "private": true,
-  "description": "WDI 世界发展指标数据查询网站（面向普通访客）",
+  "description": "WDI 世界发展指标数据查询平台 WEO 世界经济展望数据查询网站（面向普通访客）",
   "type": "module",
   "scripts": {
     "dev": "vite",

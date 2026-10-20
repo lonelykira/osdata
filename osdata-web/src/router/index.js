@@ -27,6 +27,18 @@ const routes = [
         component: () => import('@/views/wdi/query.vue'),
         meta: { title: '数据查询' }
       },
+      {
+        path: 'weo/topic',
+        name: 'WeoTopic',
+        component: () => import('@/views/weo/topic.vue'),
+        meta: { title: 'WEO 指标浏览' }
+      },
+      {
+        path: 'weo/query',
+        name: 'WeoQuery',
+        component: () => import('@/views/weo/query.vue'),
+        meta: { title: 'WEO 数据查询' }
+      },
     ]
   },
   // 兜底路由：未匹配路径重定向首页

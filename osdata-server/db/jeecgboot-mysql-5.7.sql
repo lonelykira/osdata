@@ -1,51 +1,45 @@
-CREATE database if NOT EXISTS `jeecg-boot` default character set utf8mb4 collate utf8mb4_unicode_ci;
-USE `jeecg-boot`;
-
 /*
  Navicat Premium Data Transfer
 
- Source Server         : mysql5.7
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 50738 (5.7.38)
- Source Host           : 127.0.0.1:3306
- Source Schema         : jeecg-boot
+ Source Server Version : 80033
+ Source Host           : localhost:3306
+ Source Schema         : osdata
 
  Target Server Type    : MySQL
- Target Server Version : 50738 (5.7.38)
+ Target Server Version : 80033
  File Encoding         : 65001
 
- Date: 24/08/2026 11:52:20
+ Date: 20/10/2026 18:02:30
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
--- 加速首次初始化导入：关闭逐条提交与唯一性检查，整体批量提交
-SET autocommit = 0;
-SET unique_checks = 0;
 
 -- ----------------------------
 -- Table structure for aigc_word_template
 -- ----------------------------
 DROP TABLE IF EXISTS `aigc_word_template`;
 CREATE TABLE `aigc_word_template`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '所属部门',
-  `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '模版名称',
-  `code` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '模版编码',
-  `header` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL COMMENT '页眉',
-  `footer` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL COMMENT '页脚',
-  `main` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL COMMENT '主体内容',
-  `margins` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '页边距',
-  `width` int(11) NULL DEFAULT NULL COMMENT '宽度',
-  `height` int(11) NULL DEFAULT NULL COMMENT '高度',
-  `paper_direction` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '纸张方向 vertical纵向 horizontal横向',
-  `watermark` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '水印',
+  `sys_org_code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '所属部门',
+  `name` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '模版名称',
+  `code` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '模版编码',
+  `header` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL COMMENT '页眉',
+  `footer` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL COMMENT '页脚',
+  `main` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL COMMENT '主体内容',
+  `margins` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '页边距',
+  `width` int NULL DEFAULT NULL COMMENT '宽度',
+  `height` int NULL DEFAULT NULL COMMENT '高度',
+  `paper_direction` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '纸张方向 vertical纵向 horizontal横向',
+  `watermark` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '水印',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = 'Word模版' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = 'Word模版' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of aigc_word_template
@@ -74,18 +68,18 @@ CREATE TABLE `airag_app`  (
   `knowledge_ids` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '知识库',
   `flow_id` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '流程id（多个以逗号分隔）',
   `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '状态（enable=启用、disable=禁用、release=发布）',
-  `msg_num` int(11) NULL DEFAULT NULL COMMENT '历史消息数',
+  `msg_num` int NULL DEFAULT NULL COMMENT '历史消息数',
   `metadata` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '元数据',
   `preset_question` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '预设问题',
   `quick_command` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '快捷指令',
   `plugins` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '插件',
   `memory_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '记忆库(知识库的id)',
   `variables` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '存放变量的配置',
-  `iz_open_memory` int(1) NULL DEFAULT NULL COMMENT '是否开启记忆(0 不开启，1开启)',
+  `iz_open_memory` int NULL DEFAULT NULL COMMENT '是否开启记忆(0 不开启，1开启)',
   `memory_prompt` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '记忆和变量提示词',
   `share_token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '分享令牌（匿名聊天凭证）',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `idx_airag_app_share_token`(`share_token`) USING BTREE
+  UNIQUE INDEX `idx_airag_app_share_token`(`share_token` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -129,9 +123,9 @@ CREATE TABLE `airag_ext_data`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `sys_org_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '所属部门',
   `tenant_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '租户id',
-  `version` int(10) NULL DEFAULT NULL COMMENT '版本1开始',
+  `version` int NULL DEFAULT NULL COMMENT '版本1开始',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_biz`(`biz_type`) USING BTREE
+  INDEX `idx_biz`(`biz_type` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '通用扩展数据表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -308,7 +302,7 @@ CREATE TABLE `airag_mcp`  (
   `headers` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '请求头（sse类型）、环境变量（stdio类型）',
   `tools` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '工具列表',
   `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '状态（enable=启用、disable=禁用）',
-  `synced` int(11) NULL DEFAULT NULL COMMENT '是否同步',
+  `synced` int NULL DEFAULT NULL COMMENT '是否同步',
   `metadata` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '元数据',
   `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
@@ -348,7 +342,7 @@ CREATE TABLE `airag_model`  (
   `base_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'API域名',
   `model_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '模型类型',
   `model_params` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '模型参数',
-  `activate_flag` int(11) NULL DEFAULT NULL COMMENT '是否激活（1=是，0=否）',
+  `activate_flag` int NULL DEFAULT NULL COMMENT '是否激活（1=是，0=否）',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
@@ -378,16 +372,16 @@ CREATE TABLE `airag_prompts`  (
   `model_param` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '大模型的参数配置',
   `status` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '0' COMMENT '状态（0:未发布 1:已发布）',
   `version` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '版本号(格式 0.0.1)',
-  `del_flag` int(1) NULL DEFAULT NULL COMMENT '删除状态（0未删除 1已删除）',
+  `del_flag` int NULL DEFAULT NULL COMMENT '删除状态（0未删除 1已删除）',
   `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
   `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   `sys_org_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '所属部门',
   `tenant_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '租户id',
-  INDEX `idx_category`(`category`) USING BTREE,
-  INDEX `idx_status`(`status`) USING BTREE,
-  INDEX `idx_name`(`name`) USING BTREE
+  INDEX `idx_category`(`category` ASC) USING BTREE,
+  INDEX `idx_status`(`status` ASC) USING BTREE,
+  INDEX `idx_name`(`name` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'AI提示词表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -414,15 +408,15 @@ CREATE TABLE `chat2bi_assistant`  (
   `show_sql` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '是否展示SQL 1/是,0/否',
   `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '状态 online/已上线,draft/草稿,offline/已下线',
   `questions_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '推荐问题JSON [\"...\",...]',
-  `sort_no` int(11) NULL DEFAULT NULL COMMENT '排序号',
+  `sort_no` int NULL DEFAULT NULL COMMENT '排序号',
   `perm_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '访问权限配置JSON {grantRoles,grantUsers}',
   `create_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `tenant_id` int(11) NULL DEFAULT 0 COMMENT '多租户标识',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '多租户标识',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_c2b_assistant_domain`(`domain_id`) USING BTREE
+  INDEX `idx_c2b_assistant_domain`(`domain_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Chat2BI 对话助理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -444,9 +438,9 @@ CREATE TABLE `chat2bi_conversation`  (
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `tenant_id` int(11) NULL DEFAULT 0 COMMENT '多租户标识',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '多租户标识',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_c2b_conv_ast_user`(`assistant_id`, `create_by`) USING BTREE
+  INDEX `idx_c2b_conv_ast_user`(`assistant_id` ASC, `create_by` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Chat2BI 对话会话' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -472,14 +466,14 @@ CREATE TABLE `chat2bi_domain`  (
   `description` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
   `datasource_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '绑定数据源id（jimu_report_data_source.id，空=应用默认库）',
   `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '状态 enabled/启用,disabled/停用',
-  `sort_no` int(11) NULL DEFAULT NULL COMMENT '排序号',
+  `sort_no` int NULL DEFAULT NULL COMMENT '排序号',
   `joins_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '表关联JSON [{id,left,right,leftCol,rightCol,type}]',
   `perm_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '权限/安全护栏配置JSON {grantRoles,grantUsers,sensWords,sensCats,rowRules,colRules,sensitivity,isPublic}',
   `create_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `tenant_id` int(11) NULL DEFAULT 0 COMMENT '多租户标识',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '多租户标识',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Chat2BI 数据域' ROW_FORMAT = DYNAMIC;
 
@@ -499,10 +493,10 @@ CREATE TABLE `chat2bi_message`  (
   `role` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色 user/ai',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '文本内容（预览/检索用）',
   `msg_json` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '完整消息对象JSON（含dsl/data/sql/chartType/insight等，无损还原）',
-  `sort_no` int(11) NULL DEFAULT NULL COMMENT '顺序号',
+  `sort_no` int NULL DEFAULT NULL COMMENT '顺序号',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_c2b_msg_conv`(`conversation_id`) USING BTREE
+  INDEX `idx_c2b_msg_conv`(`conversation_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Chat2BI 对话消息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -572,14 +566,14 @@ CREATE TABLE `chat2bi_table`  (
   `mode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '类型 table/数据库表,sql/SQL虚拟表',
   `sql_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'SQL虚拟表定义（mode=sql时）',
   `columns_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '列定义JSON [{col,type,agg,alias,enabled}]',
-  `sort_no` int(11) NULL DEFAULT NULL COMMENT '排序号',
+  `sort_no` int NULL DEFAULT NULL COMMENT '排序号',
   `create_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `tenant_id` int(11) NULL DEFAULT 0 COMMENT '多租户标识',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '多租户标识',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_c2b_table_domain`(`domain_id`) USING BTREE
+  INDEX `idx_c2b_table_domain`(`domain_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Chat2BI 注册表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -609,19 +603,19 @@ CREATE TABLE `chat2bi_table_meta`  (
   `table_comment` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '表注释-用户(用户手动填写, 同步不覆盖)',
   `columns_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '列定义[{name,type,source_comment,comment,is_primary,sample_values,nulltable}]',
   `relations_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '关联关系[{column,ref_table,ref_column,type}]',
-  `is_enabled` tinyint(4) NOT NULL DEFAULT 1 COMMENT '对LLM可见: 0=否 1=是',
+  `is_enabled` tinyint NOT NULL DEFAULT 1 COMMENT '对LLM可见: 0=否 1=是',
   `synced_time` datetime NULL DEFAULT NULL COMMENT '最近同步时间',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `tenant_id` int(11) NULL DEFAULT NULL COMMENT '多租户标识',
+  `tenant_id` int NULL DEFAULT NULL COMMENT '多租户标识',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uk_source_table`(`db_source_type`, `db_source_id`, `schema_name`, `table_name`) USING BTREE,
-  INDEX `idx_source`(`db_source_type`, `db_source_id`) USING BTREE,
-  INDEX `idx_table_name`(`table_name`) USING BTREE,
-  INDEX `idx_table_name_comment`(`table_name`, `source_comment`(320), `table_comment`(320)) USING BTREE,
-  INDEX `idx_table_comment`(`table_comment`) USING BTREE
+  UNIQUE INDEX `uk_source_table`(`db_source_type` ASC, `db_source_id` ASC, `schema_name` ASC, `table_name` ASC) USING BTREE,
+  INDEX `idx_source`(`db_source_type` ASC, `db_source_id` ASC) USING BTREE,
+  INDEX `idx_table_name`(`table_name` ASC) USING BTREE,
+  INDEX `idx_table_name_comment`(`table_name` ASC, `source_comment`(320) ASC, `table_comment`(320) ASC) USING BTREE,
+  INDEX `idx_table_comment`(`table_comment` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '表元数据(同步+手动维护, 支持多数据源表)' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -641,14 +635,14 @@ CREATE TABLE `chat2bi_term`  (
   `apply_kind` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '应用方式 none/仅释义,time/时间口径,filter/数据筛选',
   `apply_time` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '时间口径取值（apply_kind=time）',
   `apply_clause` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '追加WHERE过滤条件（apply_kind=filter）',
-  `sort_no` int(11) NULL DEFAULT NULL COMMENT '排序号',
+  `sort_no` int NULL DEFAULT NULL COMMENT '排序号',
   `create_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `tenant_id` int(11) NULL DEFAULT 0 COMMENT '多租户标识',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '多租户标识',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_c2b_term_domain`(`domain_id`) USING BTREE
+  INDEX `idx_c2b_term_domain`(`domain_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Chat2BI 业务术语' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -675,14 +669,14 @@ CREATE TABLE `chat2bi_topic`  (
   `description` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
   `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '状态 published/已发布,draft/草稿',
   `fields_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '主题字段JSON [\"table.col\",...]',
-  `sort_no` int(11) NULL DEFAULT NULL COMMENT '排序号',
+  `sort_no` int NULL DEFAULT NULL COMMENT '排序号',
   `create_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `tenant_id` int(11) NULL DEFAULT 0 COMMENT '多租户标识',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '多租户标识',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_c2b_topic_domain`(`domain_id`) USING BTREE
+  INDEX `idx_c2b_topic_domain`(`domain_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Chat2BI 查询主题' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -693,59 +687,22 @@ INSERT INTO `chat2bi_topic` VALUES ('9f7d87761ff64c64b1469b3fd04fa0ab', '8422bb4
 INSERT INTO `chat2bi_topic` VALUES ('d7c0137607e9469197f48238d26231c5', 'c5c943945ba343a295f10d0ffb227b13', 'dfdd', 'ddd', 'published', '[\"f1dafa028e9a448c9fcc9880538036ab.id\",\"f1dafa028e9a448c9fcc9880538036ab.annual_inspection_no\",\"2a882f23485844dbadef446659449653.col1\",\"f1dafa028e9a448c9fcc9880538036ab.create_by\",\"f1dafa028e9a448c9fcc9880538036ab.next_annual_inspection_date\"]', NULL, 'admin', '2026-05-23 22:41:28', 'admin', '2026-05-23 22:41:31', 0);
 
 -- ----------------------------
--- Table structure for demo
--- ----------------------------
-DROP TABLE IF EXISTS `demo`;
-CREATE TABLE `demo`  (
-  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID',
-  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '姓名',
-  `key_word` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '关键词',
-  `punch_time` datetime NULL DEFAULT NULL COMMENT '打卡时间',
-  `salary_money` decimal(10, 3) NULL DEFAULT NULL COMMENT '工资',
-  `bonus_money` double(10, 2) NULL DEFAULT NULL COMMENT '奖金',
-  `sex` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别 {男:1,女:2}',
-  `age` int(11) NULL DEFAULT NULL COMMENT '年龄',
-  `birthday` date NULL DEFAULT NULL COMMENT '生日',
-  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
-  `content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '个人简介',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `sys_org_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属部门编码',
-  `tenant_id` int(10) NULL DEFAULT 0,
-  `update_count` int(11) NULL DEFAULT NULL COMMENT '乐观锁测试',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of demo
--- ----------------------------
-INSERT INTO `demo` VALUES ('1353563050407936002', '小红帽4', '44', '2021-01-26 12:39:04', NULL, NULL, '1', 22, '2021-01-25', NULL, NULL, 'admin', '2021-01-25 12:39:14', 'admin', '2022-11-09 11:20:46', 'A01', 0, NULL);
-INSERT INTO `demo` VALUES ('1400734875399024641', '名字', NULL, '2022-09-08 10:56:30', 33.000, NULL, '2', 23, '2022-09-30', '111@333.com', '333', 'admin', '2021-06-04 16:43:13', 'admin', '2022-11-09 11:20:43', 'A01', 0, NULL);
-INSERT INTO `demo` VALUES ('1586651771328786433', '孙亦菲', '222', NULL, 6000.000, NULL, '1', 1, '2022-10-30', NULL, NULL, 'admin', '2022-10-30 17:30:36', NULL, NULL, 'A01', 1, NULL);
-INSERT INTO `demo` VALUES ('1586651850919899137', '龙佳昊', NULL, '2022-10-08 17:30:46', 5000.000, NULL, '1', 1, '2022-10-30', '111@1.com', NULL, 'admin', '2022-10-30 17:30:54', NULL, NULL, 'A01', 1, NULL);
-INSERT INTO `demo` VALUES ('1586651922650886146', '龙建林', NULL, '2022-10-24 17:30:58', 9000111.000, NULL, '1', 1, '2022-10-30', '2@1.com', NULL, 'admin', '2022-10-30 17:31:12', 'admin', '2024-06-20 18:22:30', 'A01', 1, NULL);
-INSERT INTO `demo` VALUES ('1589491272526827521', '单表示例', NULL, NULL, NULL, NULL, '1', 1, NULL, NULL, NULL, 'admin', '2022-11-07 13:33:45', NULL, NULL, 'A01', 0, NULL);
-INSERT INTO `demo` VALUES ('1590178491193339906', '2323', NULL, '2022-11-04 11:04:38', NULL, NULL, '1', 1, '2022-11-24', NULL, NULL, 'admin', '2022-11-09 11:04:31', 'admin', '2023-03-04 22:38:55', 'A01', 0, NULL);
-
--- ----------------------------
 -- Table structure for flyway_schema_history
 -- ----------------------------
 DROP TABLE IF EXISTS `flyway_schema_history`;
 CREATE TABLE `flyway_schema_history`  (
-  `installed_rank` int(11) NOT NULL,
+  `installed_rank` int NOT NULL,
   `version` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `script` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `checksum` int(11) NULL DEFAULT NULL,
+  `checksum` int NULL DEFAULT NULL,
   `installed_by` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `installed_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `execution_time` int(11) NOT NULL,
+  `execution_time` int NOT NULL,
   `success` tinyint(1) NOT NULL,
   PRIMARY KEY (`installed_rank`) USING BTREE,
-  INDEX `flyway_schema_history_s_idx`(`success`) USING BTREE
+  INDEX `flyway_schema_history_s_idx`(`success` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -777,9 +734,9 @@ INSERT INTO `flyway_schema_history` VALUES (20, '3.9.5.0', 'all upgrade', 'SQL',
 -- ----------------------------
 DROP TABLE IF EXISTS `ins_claim`;
 CREATE TABLE `ins_claim`  (
-  `id` bigint(20) NOT NULL COMMENT '理赔ID',
+  `id` bigint NOT NULL COMMENT '理赔ID',
   `claim_no` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '理赔单号',
-  `policy_id` bigint(20) NULL DEFAULT NULL COMMENT '保单ID',
+  `policy_id` bigint NULL DEFAULT NULL COMMENT '保单ID',
   `policy_no` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '保单号',
   `cust_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '客户姓名',
   `product_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '险种类型',
@@ -929,11 +886,11 @@ INSERT INTO `ins_claim` VALUES (300128, 'CL300128', 200299, 'P200299', '赵娟�
 -- ----------------------------
 DROP TABLE IF EXISTS `ins_customer`;
 CREATE TABLE `ins_customer`  (
-  `id` bigint(20) NOT NULL COMMENT '客户ID',
+  `id` bigint NOT NULL COMMENT '客户ID',
   `cust_no` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '客户编号',
   `cust_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '客户姓名',
   `gender` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '性别（男/女）',
-  `age` int(11) NULL DEFAULT NULL COMMENT '年龄',
+  `age` int NULL DEFAULT NULL COMMENT '年龄',
   `province` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '省份',
   `city` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '城市',
   `region` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '大区（华东/华南/华北/华中/西南/西北）',
@@ -1028,544 +985,28 @@ INSERT INTO `ins_customer` VALUES (100079, 'IC100079', '曹娜', '男', 55, '云
 INSERT INTO `ins_customer` VALUES (100080, 'IC100080', '卢超桂英', '女', 23, '山西省', '太原市', '华北', '医生', '普通', '2025-03-17');
 
 -- ----------------------------
--- Table structure for ins_policy
--- ----------------------------
-DROP TABLE IF EXISTS `ins_policy`;
-CREATE TABLE `ins_policy`  (
-  `id` bigint(20) NOT NULL COMMENT '保单ID',
-  `policy_no` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '保单号',
-  `cust_id` bigint(20) NULL DEFAULT NULL COMMENT '客户ID',
-  `cust_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '客户姓名',
-  `product_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '险种名称',
-  `product_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '险种类型（寿险/健康险/车险/意外险/财产险）',
-  `channel` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '销售渠道（线上直销/代理人/银保/电销/经纪）',
-  `premium` decimal(12, 2) NULL DEFAULT NULL COMMENT '年保费（元）',
-  `coverage_amount` decimal(14, 2) NULL DEFAULT NULL COMMENT '保额（元）',
-  `term_years` int(11) NULL DEFAULT NULL COMMENT '保障年限',
-  `sign_date` date NULL DEFAULT NULL COMMENT '投保日期',
-  `effect_date` date NULL DEFAULT NULL COMMENT '生效日期',
-  `expire_date` date NULL DEFAULT NULL COMMENT '到期日期',
-  `status` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '保单状态（生效/已过期/退保）',
-  `province` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '出单省份',
-  `region` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '大区',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '保险保单表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of ins_policy
--- ----------------------------
-INSERT INTO `ins_policy` VALUES (200001, 'P200001', 100022, '刘思远嘉怡', '百万守护意外险', '意外险', '代理人', 15288.48, 1593795.46, 10, '2025-02-06', '2025-02-07', '2035-02-06', '生效', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200002, 'P200002', 100010, '郑霞', 'e生保百万医疗', '健康险', '电销', 6309.37, 279801.21, 10, '2023-09-12', '2023-09-13', '2033-09-12', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200003, 'P200003', 100044, '程婷', '企业财产基本险', '财产险', '经纪', 15416.63, 1785869.13, 5, '2025-08-25', '2025-08-26', '2030-08-25', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200004, 'P200004', 100071, '徐建华', '货运物流险', '财产险', '电销', 796.51, 65791.87, 5, '2025-04-24', '2025-04-25', '2030-04-24', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200005, 'P200005', 100068, '张玲敏', '交强险', '车险', '电销', 1134.32, 126080.76, 30, '2023-01-10', '2023-01-11', '2053-01-10', '生效', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200006, 'P200006', 100059, '梁敏', '企业财产基本险', '财产险', '线上直销', 5117.29, 381032.19, 1, '2026-01-11', '2026-01-12', '2027-01-11', '已过期', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200007, 'P200007', 100080, '陈军', '货运物流险', '财产险', '银保', 17327.21, 1329003.72, 1, '2024-03-31', '2024-04-01', '2025-03-28', '生效', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200008, 'P200008', 100027, '许辉', '雇主责任险', '财产险', '经纪', 651.83, 30182.55, 20, '2024-10-29', '2024-10-30', '2044-10-28', '生效', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200009, 'P200009', 100007, '林子轩辉', '国寿福满一生', '寿险', '线上直销', 14003.05, 445725.92, 20, '2025-02-20', '2025-02-21', '2045-02-20', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200010, 'P200010', 100051, '郑敏', '金佑人生两全险', '寿险', '银保', 6113.89, 473759.33, 10, '2023-01-22', '2023-01-23', '2033-01-22', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200011, 'P200011', 100074, '卢杰雪', '交通意外险', '意外险', '线上直销', 12686.54, 549978.72, 30, '2025-02-24', '2025-02-25', '2055-02-24', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200012, 'P200012', 100047, '徐嘉怡丽', '货运物流险', '财产险', '线上直销', 8240.07, 478499.07, 20, '2025-07-06', '2025-07-07', '2045-07-06', '退保', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200013, 'P200013', 100039, '徐思远', '金佑人生两全险', '寿险', '代理人', 13059.74, 987600.94, 1, '2023-01-09', '2023-01-10', '2024-01-09', '已过期', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200014, 'P200014', 100012, '姚桂英超', '少儿门诊医疗', '健康险', '经纪', 501.39, 18037.89, 30, '2024-05-31', '2024-06-01', '2054-05-28', '生效', '北京市', '华北');
-INSERT INTO `ins_policy` VALUES (200015, 'P200015', 100005, '袁嘉怡', '综合意外险', '意外险', '代理人', 17508.37, 1258736.91, 20, '2023-12-26', '2023-12-27', '2043-12-26', '已过期', '山东省', '华东');
-INSERT INTO `ins_policy` VALUES (200016, 'P200016', 100046, '肖嘉怡军', '成人意外伤害险', '意外险', '电销', 3017.16, 227153.79, 30, '2026-05-05', '2026-05-06', '2056-05-05', '生效', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200017, 'P200017', 100005, '郭涛', '交强险', '车险', '代理人', 8645.17, 248629.33, 30, '2025-09-28', '2025-09-29', '2055-09-28', '已过期', '山东省', '华东');
-INSERT INTO `ins_policy` VALUES (200018, 'P200018', 100036, '郭平建华', '少儿门诊医疗', '健康险', '代理人', 7667.39, 537651.17, 30, '2023-07-09', '2023-07-10', '2053-07-09', '已过期', '湖南省', '华中');
-INSERT INTO `ins_policy` VALUES (200019, 'P200019', 100012, '黄艳宇', 'e生保百万医疗', '健康险', '代理人', 8148.30, 823461.89, 20, '2025-07-25', '2025-07-26', '2045-07-25', '生效', '北京市', '华北');
-INSERT INTO `ins_policy` VALUES (200020, 'P200020', 100066, '魏梓涵', '综合意外险', '意外险', '线上直销', 16926.26, 1650225.50, 5, '2023-02-08', '2023-02-09', '2028-02-08', '生效', '陕西省', '西北');
-INSERT INTO `ins_policy` VALUES (200021, 'P200021', 100063, '袁明明', '国寿福满一生', '寿险', '电销', 1328.36, 100084.09, 1, '2024-05-22', '2024-05-23', '2025-05-22', '生效', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200022, 'P200022', 100060, '韩嘉怡', 'e生保百万医疗', '健康险', '电销', 11444.48, 578111.96, 1, '2026-03-07', '2026-03-08', '2027-03-07', '生效', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200023, 'P200023', 100057, '叶刚', '综合意外险', '意外险', '银保', 1482.86, 75119.97, 20, '2023-10-06', '2023-10-07', '2043-10-06', '生效', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200024, 'P200024', 100056, '许嘉怡', '百万守护意外险', '意外险', '银保', 11110.83, 228139.82, 1, '2024-11-16', '2024-11-17', '2025-11-16', '已过期', '河北省', '华北');
-INSERT INTO `ins_policy` VALUES (200025, 'P200025', 100069, '宋晓东霞', '交通意外险', '意外险', '电销', 16818.51, 790603.27, 30, '2025-04-13', '2025-04-14', '2055-04-13', '退保', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200026, 'P200026', 100010, '肖嘉怡', '企业财产基本险', '财产险', '线上直销', 15134.01, 1130757.85, 20, '2023-08-22', '2023-08-23', '2043-08-22', '退保', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200027, 'P200027', 100071, '叶磊涛', '增额终身寿2026', '寿险', '经纪', 978.66, 108085.75, 20, '2024-08-19', '2024-08-20', '2044-08-19', '已过期', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200028, 'P200028', 100074, '王梓涵浩然', '第三者责任险', '车险', '经纪', 17304.52, 1656364.56, 30, '2025-01-13', '2025-01-14', '2055-01-13', '退保', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200029, 'P200029', 100053, '任鑫', '少儿门诊医疗', '健康险', '经纪', 12045.43, 1071288.42, 1, '2024-03-01', '2024-03-02', '2025-03-01', '退保', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200030, 'P200030', 100009, '胡思远', '好医保长期医疗', '健康险', '代理人', 2465.44, 81195.08, 10, '2025-07-28', '2025-07-29', '2035-07-28', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200031, 'P200031', 100070, '高浩然', '车损险尊享', '车险', '银保', 3894.92, 279225.38, 30, '2024-09-15', '2024-09-16', '2054-09-15', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200032, 'P200032', 100080, '谢娟', '国寿福满一生', '寿险', '银保', 17000.62, 428127.79, 1, '2024-06-21', '2024-06-22', '2025-06-21', '已过期', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200033, 'P200033', 100030, '宋宇勇', '好医保长期医疗', '健康险', '代理人', 17962.57, 1588838.64, 1, '2024-11-08', '2024-11-09', '2025-11-08', '生效', '湖南省', '华中');
-INSERT INTO `ins_policy` VALUES (200034, 'P200034', 100012, '许辉', '重疾无忧A款', '健康险', '电销', 1950.36, 71063.84, 30, '2024-08-01', '2024-08-02', '2054-08-01', '生效', '北京市', '华北');
-INSERT INTO `ins_policy` VALUES (200035, 'P200035', 100049, '马晓东', '增额终身寿2026', '寿险', '电销', 15356.55, 1705783.67, 1, '2025-11-23', '2025-11-24', '2026-11-23', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200036, 'P200036', 100024, '朱娟', 'e生保百万医疗', '健康险', '银保', 9574.05, 1122967.46, 1, '2024-07-06', '2024-07-07', '2025-07-06', '生效', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200037, 'P200037', 100031, '沈芳', '增额终身寿2026', '寿险', '银保', 2827.86, 141582.44, 20, '2023-06-07', '2023-06-08', '2043-06-07', '已过期', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200038, 'P200038', 100060, '林艳', '百万守护意外险', '意外险', '电销', 9546.20, 458367.90, 10, '2026-01-12', '2026-01-13', '2036-01-12', '退保', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200039, 'P200039', 100048, '朱辉思远', '重疾无忧A款', '健康险', '电销', 16666.56, 1976949.82, 10, '2024-07-28', '2024-07-29', '2034-07-28', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200040, 'P200040', 100008, '姚玲', '少儿门诊医疗', '健康险', '线上直销', 6061.19, 407455.18, 1, '2024-04-08', '2024-04-09', '2025-04-08', '生效', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200041, 'P200041', 100061, '姚玲', '百万守护意外险', '意外险', '代理人', 8734.15, 523012.02, 20, '2023-08-14', '2023-08-15', '2043-08-14', '生效', '河北省', '华北');
-INSERT INTO `ins_policy` VALUES (200042, 'P200042', 100074, '苏丽磊', '国寿福满一生', '寿险', '银保', 13179.69, 1249124.99, 1, '2023-01-29', '2023-01-30', '2024-01-28', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200043, 'P200043', 100072, '彭思远', '交强险', '车险', '线上直销', 9091.53, 457448.04, 1, '2025-09-30', '2025-10-01', '2026-09-28', '生效', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200044, 'P200044', 100010, '王嘉怡', '企业财产基本险', '财产险', '电销', 5174.08, 530179.80, 1, '2025-02-13', '2025-02-14', '2026-02-13', '已过期', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200045, 'P200045', 100029, '曾娜', '商业车险全保', '车险', '电销', 17711.83, 1973682.71, 1, '2023-04-01', '2023-04-02', '2024-04-01', '已过期', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200046, 'P200046', 100011, '潘强', '好医保长期医疗', '健康险', '线上直销', 1835.60, 109472.35, 1, '2024-08-24', '2024-08-25', '2025-08-24', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200047, 'P200047', 100030, '魏嘉怡', '金佑人生两全险', '寿险', '代理人', 14320.07, 1170615.17, 30, '2025-01-10', '2025-01-11', '2055-01-10', '生效', '湖南省', '华中');
-INSERT INTO `ins_policy` VALUES (200048, 'P200048', 100067, '任敏', '国寿福满一生', '寿险', '代理人', 10272.78, 1223838.56, 30, '2023-06-29', '2023-06-30', '2053-06-28', '生效', '陕西省', '西北');
-INSERT INTO `ins_policy` VALUES (200049, 'P200049', 100075, '叶强', '金佑人生两全险', '寿险', '线上直销', 13969.40, 790171.64, 10, '2024-09-16', '2024-09-17', '2034-09-16', '退保', '河北省', '华北');
-INSERT INTO `ins_policy` VALUES (200050, 'P200050', 100058, '潘强', '重疾无忧A款', '健康险', '经纪', 5384.67, 277489.04, 20, '2025-04-29', '2025-04-30', '2045-04-28', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200051, 'P200051', 100047, '梁艳', '综合意外险', '意外险', '经纪', 10392.83, 1039067.99, 30, '2023-02-04', '2023-02-05', '2053-02-04', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200052, 'P200052', 100035, '朱洋娜', '企业财产基本险', '财产险', '银保', 2453.79, 54246.46, 1, '2025-10-06', '2025-10-07', '2026-10-06', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200053, 'P200053', 100034, '卢杰', '家庭财产综合险', '财产险', '代理人', 16269.50, 664866.40, 10, '2023-09-09', '2023-09-10', '2033-09-09', '生效', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200054, 'P200054', 100029, '周梓涵', '金佑人生两全险', '寿险', '电销', 2532.77, 64699.54, 5, '2025-12-08', '2025-12-09', '2030-12-08', '生效', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200055, 'P200055', 100017, '任霞', '企业财产基本险', '财产险', '银保', 15697.94, 424448.69, 10, '2024-05-11', '2024-05-12', '2034-05-11', '已过期', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200056, 'P200056', 100039, '罗晓东', '平安福终身寿险', '寿险', '银保', 1988.78, 233485.86, 20, '2023-11-25', '2023-11-26', '2043-11-25', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200057, 'P200057', 100058, '吴芳', '好医保长期医疗', '健康险', '代理人', 2947.94, 205707.16, 10, '2025-07-23', '2025-07-24', '2035-07-23', '已过期', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200058, 'P200058', 100006, '潘丽', '成人意外伤害险', '意外险', '代理人', 2910.70, 251849.94, 5, '2023-11-07', '2023-11-08', '2028-11-07', '生效', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200059, 'P200059', 100032, '唐鑫浩然', '重疾无忧A款', '健康险', '电销', 4757.12, 360682.26, 10, '2025-09-19', '2025-09-20', '2035-09-19', '生效', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200060, 'P200060', 100021, '罗欣怡', '平安福终身寿险', '寿险', '银保', 14052.96, 724865.49, 20, '2024-12-09', '2024-12-10', '2044-12-09', '已过期', '海南省', '华南');
-INSERT INTO `ins_policy` VALUES (200061, 'P200061', 100004, '程晓东', '雇主责任险', '财产险', '银保', 15087.48, 1699174.48, 5, '2024-03-27', '2024-03-28', '2029-03-27', '生效', '河北省', '华北');
-INSERT INTO `ins_policy` VALUES (200062, 'P200062', 100065, '孙军', '商业车险全保', '车险', '代理人', 16606.22, 1718602.79, 10, '2023-05-11', '2023-05-12', '2033-05-11', '退保', '海南省', '华南');
-INSERT INTO `ins_policy` VALUES (200063, 'P200063', 100058, '韩玲', '家庭财产综合险', '财产险', '经纪', 17084.42, 824229.54, 1, '2024-10-25', '2024-10-26', '2025-10-25', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200064, 'P200064', 100050, '吕军', '少儿门诊医疗', '健康险', '线上直销', 10485.63, 458128.44, 1, '2023-09-27', '2023-09-28', '2024-09-27', '生效', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200065, 'P200065', 100067, '徐鑫', '交强险', '车险', '银保', 8561.82, 203527.37, 1, '2025-07-03', '2025-07-04', '2026-07-03', '生效', '陕西省', '西北');
-INSERT INTO `ins_policy` VALUES (200066, 'P200066', 100012, '郭辉丽', '雇主责任险', '财产险', '电销', 11574.98, 1031286.91, 1, '2024-10-06', '2024-10-07', '2025-10-06', '生效', '北京市', '华北');
-INSERT INTO `ins_policy` VALUES (200067, 'P200067', 100052, '许伟', '国寿福满一生', '寿险', '代理人', 4673.07, 185483.00, 5, '2024-11-14', '2024-11-15', '2029-11-14', '已过期', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200068, 'P200068', 100021, '孙丽敏', '金佑人生两全险', '寿险', '电销', 1200.36, 49166.92, 30, '2025-11-01', '2025-11-02', '2055-11-01', '生效', '海南省', '华南');
-INSERT INTO `ins_policy` VALUES (200069, 'P200069', 100045, '罗娟', '平安福终身寿险', '寿险', '电销', 8940.89, 1040979.65, 20, '2025-01-18', '2025-01-19', '2045-01-18', '生效', '河南省', '华中');
-INSERT INTO `ins_policy` VALUES (200070, 'P200070', 100074, '郑伟艳', '第三者责任险', '车险', '代理人', 1379.64, 62173.29, 10, '2026-02-19', '2026-02-20', '2036-02-19', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200071, 'P200071', 100026, '曾洋', '百万守护意外险', '意外险', '经纪', 461.02, 52111.16, 30, '2025-10-14', '2025-10-15', '2055-10-14', '生效', '福建省', '华南');
-INSERT INTO `ins_policy` VALUES (200072, 'P200072', 100003, '彭鑫', '车损险尊享', '车险', '银保', 886.07, 98474.12, 1, '2023-07-15', '2023-07-16', '2024-07-15', '已过期', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200073, 'P200073', 100037, '吕强静', '少儿门诊医疗', '健康险', '电销', 4979.17, 123715.56, 1, '2026-03-04', '2026-03-05', '2027-03-04', '已过期', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200074, 'P200074', 100011, '叶艳', '平安福终身寿险', '寿险', '代理人', 6242.74, 213981.41, 1, '2023-01-03', '2023-01-04', '2024-01-03', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200075, 'P200075', 100011, '高晓东', '少儿门诊医疗', '健康险', '银保', 6814.20, 811139.58, 5, '2024-11-29', '2024-11-30', '2029-11-28', '退保', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200076, 'P200076', 100031, '曾艳', '平安福终身寿险', '寿险', '经纪', 8845.93, 876128.18, 1, '2024-05-05', '2024-05-06', '2025-05-05', '已过期', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200077, 'P200077', 100070, '唐明', '少儿门诊医疗', '健康险', '电销', 8348.00, 621591.94, 10, '2023-09-13', '2023-09-14', '2033-09-13', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200078, 'P200078', 100009, '蒋艳梓涵', 'e生保百万医疗', '健康险', '银保', 12634.45, 1321904.99, 5, '2023-11-16', '2023-11-17', '2028-11-16', '退保', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200079, 'P200079', 100079, '韩子轩', '交通意外险', '意外险', '银保', 9546.43, 495985.54, 1, '2024-07-16', '2024-07-17', '2025-07-16', '生效', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200080, 'P200080', 100027, '潘浩然', '家庭财产综合险', '财产险', '银保', 10621.58, 269882.53, 20, '2024-02-12', '2024-02-13', '2044-02-12', '生效', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200081, 'P200081', 100041, '韩强', '国寿福满一生', '寿险', '经纪', 5137.23, 448392.35, 20, '2023-03-17', '2023-03-18', '2043-03-17', '生效', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200082, 'P200082', 100031, '董桂英', '商业车险全保', '车险', '电销', 5030.62, 264304.15, 5, '2024-09-03', '2024-09-04', '2029-09-03', '退保', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200083, 'P200083', 100009, '何浩然', '百万守护意外险', '意外险', '经纪', 3278.49, 70536.23, 30, '2023-11-09', '2023-11-10', '2053-11-09', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200084, 'P200084', 100010, '周婷磊', '企业财产基本险', '财产险', '代理人', 16505.10, 1147804.69, 1, '2024-05-06', '2024-05-07', '2025-05-06', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200085, 'P200085', 100074, '姚婷雪', '百万守护意外险', '意外险', '线上直销', 16004.35, 1635325.31, 20, '2024-04-26', '2024-04-27', '2044-04-26', '已过期', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200086, 'P200086', 100062, '郭晓东欣怡', '成人意外伤害险', '意外险', '银保', 1019.23, 30575.38, 1, '2024-04-04', '2024-04-05', '2025-04-04', '生效', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200087, 'P200087', 100061, '田静军', '平安福终身寿险', '寿险', '经纪', 17318.00, 415513.64, 1, '2025-01-09', '2025-01-10', '2026-01-09', '生效', '河北省', '华北');
-INSERT INTO `ins_policy` VALUES (200088, 'P200088', 100038, '田子轩', '平安福终身寿险', '寿险', '经纪', 10417.25, 746629.33, 10, '2023-12-02', '2023-12-03', '2033-12-02', '退保', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200089, 'P200089', 100036, '沈雪子轩', '雇主责任险', '财产险', '代理人', 10186.40, 1007476.62, 1, '2024-01-28', '2024-01-29', '2025-01-28', '退保', '湖南省', '华中');
-INSERT INTO `ins_policy` VALUES (200090, 'P200090', 100061, '赵宇', '少儿门诊医疗', '健康险', '银保', 8950.13, 213395.84, 5, '2025-09-10', '2025-09-11', '2030-09-10', '退保', '河北省', '华北');
-INSERT INTO `ins_policy` VALUES (200091, 'P200091', 100050, '谢静', '成人意外伤害险', '意外险', '代理人', 8810.99, 763490.71, 1, '2023-08-31', '2023-09-01', '2024-08-28', '生效', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200092, 'P200092', 100020, '郭宇梓涵', '国寿福满一生', '寿险', '电销', 2709.72, 117944.38, 30, '2025-12-05', '2025-12-06', '2055-12-05', '退保', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200093, 'P200093', 100017, '肖超', '重疾无忧A款', '健康险', '银保', 13355.72, 275977.99, 1, '2023-05-04', '2023-05-05', '2024-05-04', '已过期', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200094, 'P200094', 100013, '罗磊', '综合意外险', '意外险', '电销', 5005.41, 417980.27, 30, '2025-02-26', '2025-02-27', '2055-02-26', '生效', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200095, 'P200095', 100034, '肖勇', '商业车险全保', '车险', '经纪', 17599.99, 779816.14, 30, '2025-10-11', '2025-10-12', '2055-10-11', '生效', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200096, 'P200096', 100027, '黄强', '成人意外伤害险', '意外险', '线上直销', 4161.21, 337168.31, 30, '2023-07-03', '2023-07-04', '2053-07-03', '生效', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200097, 'P200097', 100003, '姚霞', '雇主责任险', '财产险', '线上直销', 16183.15, 1363776.91, 1, '2023-07-26', '2023-07-27', '2024-07-26', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200098, 'P200098', 100006, '程辉', '少儿门诊医疗', '健康险', '银保', 5211.02, 355481.50, 30, '2023-10-10', '2023-10-11', '2053-10-10', '已过期', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200099, 'P200099', 100080, '于军', '交强险', '车险', '电销', 7699.55, 283827.72, 5, '2025-07-29', '2025-07-30', '2030-07-28', '生效', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200100, 'P200100', 100042, '马超', '车损险尊享', '车险', '代理人', 17200.88, 1376327.93, 1, '2025-03-28', '2025-03-29', '2026-03-28', '生效', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200101, 'P200101', 100055, '罗强', '雇主责任险', '财产险', '电销', 17537.99, 429642.99, 1, '2026-03-28', '2026-03-29', '2027-03-28', '生效', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200102, 'P200102', 100032, '冯浩然丽', '平安福终身寿险', '寿险', '线上直销', 6987.81, 142652.72, 5, '2025-03-18', '2025-03-19', '2030-03-18', '生效', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200103, 'P200103', 100029, '田宇', '金佑人生两全险', '寿险', '银保', 11681.66, 976621.21, 20, '2024-04-11', '2024-04-12', '2044-04-11', '生效', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200104, 'P200104', 100015, '周娟', '好医保长期医疗', '健康险', '电销', 7846.07, 479065.75, 10, '2023-04-15', '2023-04-16', '2033-04-15', '生效', '山东省', '华东');
-INSERT INTO `ins_policy` VALUES (200105, 'P200105', 100059, '陈洋', '第三者责任险', '车险', '代理人', 9892.44, 207503.91, 1, '2023-05-12', '2023-05-13', '2024-05-12', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200106, 'P200106', 100038, '徐勇', 'e生保百万医疗', '健康险', '线上直销', 9260.75, 439816.81, 1, '2025-05-09', '2025-05-10', '2026-05-09', '已过期', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200107, 'P200107', 100076, '朱晓东超', 'e生保百万医疗', '健康险', '电销', 16713.23, 1012166.55, 30, '2023-11-06', '2023-11-07', '2053-11-06', '已过期', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200108, 'P200108', 100049, '郑洋', 'e生保百万医疗', '健康险', '银保', 14259.08, 349375.26, 30, '2024-11-05', '2024-11-06', '2054-11-05', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200109, 'P200109', 100071, '苏芳', '雇主责任险', '财产险', '银保', 13114.65, 1560876.12, 30, '2026-03-07', '2026-03-08', '2056-03-07', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200110, 'P200110', 100054, '赵子轩', '平安福终身寿险', '寿险', '银保', 1056.09, 41547.63, 20, '2025-04-02', '2025-04-03', '2045-04-02', '生效', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200111, 'P200111', 100076, '吕娟艳', '商业车险全保', '车险', '代理人', 313.79, 21786.85, 10, '2024-10-06', '2024-10-07', '2034-10-06', '已过期', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200112, 'P200112', 100008, '卢刚思远', '综合意外险', '意外险', '银保', 5899.65, 142757.90, 5, '2025-10-12', '2025-10-13', '2030-10-12', '生效', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200113, 'P200113', 100050, '邓娜', '雇主责任险', '财产险', '代理人', 6484.33, 761562.79, 5, '2025-07-06', '2025-07-07', '2030-07-06', '退保', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200114, 'P200114', 100034, '赵勇', '家庭财产综合险', '财产险', '代理人', 2230.81, 180703.89, 5, '2025-12-16', '2025-12-17', '2030-12-16', '生效', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200115, 'P200115', 100055, '肖军', '增额终身寿2026', '寿险', '电销', 11466.04, 245446.24, 1, '2024-01-23', '2024-01-24', '2025-01-23', '生效', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200116, 'P200116', 100079, '郑梓涵', '商业车险全保', '车险', '经纪', 17997.47, 1350869.03, 20, '2024-01-25', '2024-01-26', '2044-01-25', '已过期', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200117, 'P200117', 100038, '赵芳', '增额终身寿2026', '寿险', '代理人', 12235.59, 1101458.81, 10, '2025-06-01', '2025-06-02', '2035-06-01', '已过期', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200118, 'P200118', 100060, '卢鑫婷', '货运物流险', '财产险', '银保', 9642.72, 530944.89, 1, '2024-02-28', '2024-02-29', '2025-02-28', '已过期', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200119, 'P200119', 100072, '任娟', '平安福终身寿险', '寿险', '线上直销', 1432.27, 50299.37, 1, '2025-04-12', '2025-04-13', '2026-04-12', '退保', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200120, 'P200120', 100075, '张子轩', '家庭财产综合险', '财产险', '银保', 15450.80, 922089.74, 10, '2025-08-30', '2025-08-31', '2035-08-28', '生效', '河北省', '华北');
-INSERT INTO `ins_policy` VALUES (200121, 'P200121', 100039, '苏娜丽', '货运物流险', '财产险', '电销', 13050.72, 1316619.30, 10, '2024-11-02', '2024-11-03', '2034-11-02', '退保', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200122, 'P200122', 100067, '冯桂英涛', '商业车险全保', '车险', '经纪', 12292.28, 327477.34, 1, '2023-09-16', '2023-09-17', '2024-09-16', '退保', '陕西省', '西北');
-INSERT INTO `ins_policy` VALUES (200123, 'P200123', 100002, '梁娜', '雇主责任险', '财产险', '电销', 6869.36, 314282.19, 1, '2023-06-22', '2023-06-23', '2024-06-22', '生效', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200124, 'P200124', 100071, '程玲桂英', '商业车险全保', '车险', '代理人', 6524.77, 639815.55, 1, '2024-02-28', '2024-02-29', '2025-02-28', '退保', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200125, 'P200125', 100031, '蔡平', '增额终身寿2026', '寿险', '银保', 6199.07, 372975.72, 1, '2024-08-19', '2024-08-20', '2025-08-19', '退保', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200126, 'P200126', 100068, '赵军宇', '成人意外伤害险', '意外险', '银保', 6927.93, 705003.32, 10, '2024-11-09', '2024-11-10', '2034-11-09', '生效', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200127, 'P200127', 100076, '胡静', '国寿福满一生', '寿险', '电销', 12654.53, 1142445.15, 1, '2025-09-19', '2025-09-20', '2026-09-19', '退保', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200128, 'P200128', 100074, '孙磊', '百万守护意外险', '意外险', '代理人', 10862.82, 778442.64, 1, '2023-03-17', '2023-03-18', '2024-03-17', '已过期', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200129, 'P200129', 100029, '程军', '综合意外险', '意外险', '银保', 758.62, 86867.51, 5, '2023-03-12', '2023-03-13', '2028-03-12', '生效', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200130, 'P200130', 100027, '郭玲', '雇主责任险', '财产险', '代理人', 17899.36, 812303.59, 30, '2024-01-17', '2024-01-18', '2054-01-17', '生效', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200131, 'P200131', 100046, '朱玲鑫', '车损险尊享', '车险', '银保', 13488.02, 622322.85, 1, '2025-06-01', '2025-06-02', '2026-06-01', '生效', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200132, 'P200132', 100014, '杨玲', '好医保长期医疗', '健康险', '经纪', 15575.74, 1193409.67, 1, '2024-05-03', '2024-05-04', '2025-05-03', '已过期', '湖南省', '华中');
-INSERT INTO `ins_policy` VALUES (200133, 'P200133', 100015, '宋桂英晓东', '雇主责任险', '财产险', '电销', 4666.80, 509795.77, 10, '2023-02-02', '2023-02-03', '2033-02-02', '生效', '山东省', '华东');
-INSERT INTO `ins_policy` VALUES (200134, 'P200134', 100058, '周鑫', 'e生保百万医疗', '健康险', '线上直销', 9477.41, 460399.22, 30, '2024-12-27', '2024-12-28', '2054-12-27', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200135, 'P200135', 100025, '吕洋', '重疾无忧A款', '健康险', '经纪', 2356.51, 113917.48, 30, '2025-07-07', '2025-07-08', '2055-07-07', '已过期', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200136, 'P200136', 100013, '徐静', '货运物流险', '财产险', '线上直销', 2945.62, 121423.91, 20, '2024-07-31', '2024-08-01', '2044-07-28', '已过期', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200137, 'P200137', 100038, '叶军', '雇主责任险', '财产险', '电销', 7466.60, 614671.16, 30, '2023-04-19', '2023-04-20', '2053-04-19', '生效', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200138, 'P200138', 100072, '任晓东', '成人意外伤害险', '意外险', '线上直销', 5898.43, 591380.85, 1, '2023-07-22', '2023-07-23', '2024-07-22', '生效', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200139, 'P200139', 100068, '姚芳', '交强险', '车险', '银保', 16750.52, 1875355.49, 30, '2024-12-22', '2024-12-23', '2054-12-22', '已过期', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200140, 'P200140', 100080, '肖桂英建华', 'e生保百万医疗', '健康险', '代理人', 13399.85, 943408.63, 30, '2025-09-28', '2025-09-29', '2055-09-28', '生效', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200141, 'P200141', 100053, '韩勇', '增额终身寿2026', '寿险', '电销', 3711.43, 368824.39, 1, '2025-10-19', '2025-10-20', '2026-10-19', '已过期', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200142, 'P200142', 100060, '马勇', '综合意外险', '意外险', '经纪', 3709.57, 335643.99, 5, '2023-12-29', '2023-12-30', '2028-12-28', '已过期', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200143, 'P200143', 100045, '郑欣怡欣怡', '综合意外险', '意外险', '银保', 11126.21, 351141.83, 1, '2023-03-04', '2023-03-05', '2024-03-04', '生效', '河南省', '华中');
-INSERT INTO `ins_policy` VALUES (200144, 'P200144', 100005, '田丽', 'e生保百万医疗', '健康险', '经纪', 600.07, 36862.88, 5, '2023-05-12', '2023-05-13', '2028-05-12', '退保', '山东省', '华东');
-INSERT INTO `ins_policy` VALUES (200145, 'P200145', 100041, '沈思远', '百万守护意外险', '意外险', '线上直销', 14438.44, 1724863.91, 20, '2023-09-19', '2023-09-20', '2043-09-19', '已过期', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200146, 'P200146', 100078, '苏磊', '百万守护意外险', '意外险', '线上直销', 5833.79, 597088.79, 10, '2024-01-06', '2024-01-07', '2034-01-06', '退保', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200147, 'P200147', 100070, '许明鑫', '成人意外伤害险', '意外险', '线上直销', 16804.21, 1686638.71, 30, '2024-12-30', '2024-12-31', '2054-12-28', '已过期', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200148, 'P200148', 100063, '朱杰', '少儿门诊医疗', '健康险', '代理人', 3185.41, 101398.92, 10, '2026-02-25', '2026-02-26', '2036-02-25', '生效', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200149, 'P200149', 100057, '田浩然勇', '交通意外险', '意外险', '经纪', 8973.36, 1055022.17, 1, '2024-12-30', '2024-12-31', '2025-12-28', '退保', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200150, 'P200150', 100017, '田丽', '交通意外险', '意外险', '电销', 16165.04, 1427563.91, 1, '2025-06-13', '2025-06-14', '2026-06-13', '退保', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200151, 'P200151', 100027, '任敏', '重疾无忧A款', '健康险', '电销', 1506.11, 57683.63, 30, '2024-08-03', '2024-08-04', '2054-08-03', '退保', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200152, 'P200152', 100074, '王超玲', '少儿门诊医疗', '健康险', '经纪', 6062.53, 596604.29, 5, '2026-01-24', '2026-01-25', '2031-01-24', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200153, 'P200153', 100080, '唐宇', '国寿福满一生', '寿险', '电销', 11599.98, 1027660.49, 20, '2024-11-02', '2024-11-03', '2044-11-02', '已过期', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200154, 'P200154', 100016, '卢涛娟', '交强险', '车险', '线上直销', 4535.92, 258834.40, 1, '2025-09-13', '2025-09-14', '2026-09-13', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200155, 'P200155', 100080, '袁宇', '交强险', '车险', '代理人', 14671.58, 560751.29, 1, '2025-01-30', '2025-01-31', '2026-01-28', '退保', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200156, 'P200156', 100026, '吕军强', '货运物流险', '财产险', '银保', 1452.49, 35086.61, 20, '2023-10-26', '2023-10-27', '2043-10-26', '生效', '福建省', '华南');
-INSERT INTO `ins_policy` VALUES (200157, 'P200157', 100061, '吴敏', '国寿福满一生', '寿险', '经纪', 9788.79, 506644.84, 10, '2024-11-10', '2024-11-11', '2034-11-10', '已过期', '河北省', '华北');
-INSERT INTO `ins_policy` VALUES (200158, 'P200158', 100010, '袁刚', '综合意外险', '意外险', '银保', 10391.10, 379960.18, 10, '2026-04-15', '2026-04-16', '2036-04-15', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200159, 'P200159', 100035, '何桂英', '雇主责任险', '财产险', '经纪', 6747.65, 682797.18, 30, '2024-02-15', '2024-02-16', '2054-02-15', '退保', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200160, 'P200160', 100066, '李超明', '车损险尊享', '车险', '代理人', 7174.71, 257931.76, 10, '2024-10-15', '2024-10-16', '2034-10-15', '生效', '陕西省', '西北');
-INSERT INTO `ins_policy` VALUES (200161, 'P200161', 100011, '陈梓涵', '商业车险全保', '车险', '经纪', 7638.37, 318602.39, 5, '2026-03-02', '2026-03-03', '2031-03-02', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200162, 'P200162', 100050, '林宇', '百万守护意外险', '意外险', '电销', 2159.99, 58100.07, 20, '2025-08-26', '2025-08-27', '2045-08-26', '生效', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200163, 'P200163', 100011, '周娜', '雇主责任险', '财产险', '代理人', 1500.41, 132941.04, 1, '2024-09-30', '2024-10-01', '2025-09-28', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200164, 'P200164', 100012, '朱静', '第三者责任险', '车险', '代理人', 14746.65, 295344.14, 1, '2024-01-24', '2024-01-25', '2025-01-24', '退保', '北京市', '华北');
-INSERT INTO `ins_policy` VALUES (200165, 'P200165', 100063, '郭桂英', '综合意外险', '意外险', '电销', 3028.17, 102017.51, 5, '2023-12-18', '2023-12-19', '2028-12-18', '已过期', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200166, 'P200166', 100020, '徐梓涵', '综合意外险', '意外险', '银保', 11767.26, 540327.03, 20, '2023-09-17', '2023-09-18', '2043-09-17', '生效', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200167, 'P200167', 100003, '胡霞', '少儿门诊医疗', '健康险', '电销', 14432.26, 1160495.77, 20, '2025-04-19', '2025-04-20', '2045-04-19', '退保', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200168, 'P200168', 100011, '丁鑫宇', '平安福终身寿险', '寿险', '线上直销', 1423.59, 122301.92, 10, '2026-02-11', '2026-02-12', '2036-02-11', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200169, 'P200169', 100015, '刘建华', '重疾无忧A款', '健康险', '银保', 2351.10, 64935.23, 30, '2025-05-08', '2025-05-09', '2055-05-08', '退保', '山东省', '华东');
-INSERT INTO `ins_policy` VALUES (200170, 'P200170', 100062, '田洋', '车损险尊享', '车险', '电销', 17843.61, 1979911.50, 5, '2025-12-21', '2025-12-22', '2030-12-21', '生效', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200171, 'P200171', 100031, '苏芳浩然', '百万守护意外险', '意外险', '银保', 17422.52, 578822.53, 1, '2023-06-25', '2023-06-26', '2024-06-25', '生效', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200172, 'P200172', 100074, '蒋桂英婷', '企业财产基本险', '财产险', '代理人', 14764.82, 362285.45, 1, '2023-09-21', '2023-09-22', '2024-09-21', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200173, 'P200173', 100003, '高欣怡嘉怡', '成人意外伤害险', '意外险', '电销', 1260.20, 112041.19, 1, '2024-05-24', '2024-05-25', '2025-05-24', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200174, 'P200174', 100025, '周强', '交强险', '车险', '线上直销', 11140.98, 284282.41, 10, '2025-03-05', '2025-03-06', '2035-03-05', '已过期', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200175, 'P200175', 100078, '潘子轩晓东', '增额终身寿2026', '寿险', '电销', 7735.83, 876034.37, 30, '2025-12-12', '2025-12-13', '2055-12-12', '生效', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200176, 'P200176', 100069, '罗杰', '金佑人生两全险', '寿险', '代理人', 11142.47, 951678.02, 5, '2024-12-01', '2024-12-02', '2029-12-01', '已过期', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200177, 'P200177', 100007, '姚梓涵', '交强险', '车险', '银保', 5917.94, 688640.45, 10, '2025-09-25', '2025-09-26', '2035-09-25', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200178, 'P200178', 100018, '曹刚', '企业财产基本险', '财产险', '代理人', 7021.91, 322674.12, 1, '2023-06-02', '2023-06-03', '2024-06-02', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200179, 'P200179', 100078, '叶伟桂英', '百万守护意外险', '意外险', '电销', 13629.96, 851633.25, 30, '2023-12-26', '2023-12-27', '2053-12-26', '已过期', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200180, 'P200180', 100055, '邓欣怡杰', '货运物流险', '财产险', '银保', 6551.14, 335160.32, 5, '2023-11-20', '2023-11-21', '2028-11-20', '生效', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200181, 'P200181', 100029, '魏丽', '成人意外伤害险', '意外险', '经纪', 4629.41, 545390.50, 1, '2026-02-13', '2026-02-14', '2027-02-13', '已过期', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200182, 'P200182', 100001, '冯敏晓东', '成人意外伤害险', '意外险', '代理人', 14521.42, 579030.85, 5, '2023-04-10', '2023-04-11', '2028-04-10', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200183, 'P200183', 100043, '曹刚', '重疾无忧A款', '健康险', '代理人', 11124.21, 946713.01, 1, '2024-10-25', '2024-10-26', '2025-10-25', '生效', '陕西省', '西北');
-INSERT INTO `ins_policy` VALUES (200184, 'P200184', 100009, '郑伟霞', '增额终身寿2026', '寿险', '电销', 13078.73, 893886.44, 1, '2024-06-23', '2024-06-24', '2025-06-23', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200185, 'P200185', 100067, '魏洋', 'e生保百万医疗', '健康险', '线上直销', 9735.27, 433065.09, 10, '2024-01-21', '2024-01-22', '2034-01-21', '已过期', '陕西省', '西北');
-INSERT INTO `ins_policy` VALUES (200186, 'P200186', 100047, '冯辉', '企业财产基本险', '财产险', '线上直销', 3187.25, 104729.28, 1, '2023-12-16', '2023-12-17', '2024-12-16', '已过期', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200187, 'P200187', 100012, '沈涛', '商业车险全保', '车险', '电销', 14194.10, 1534548.20, 10, '2024-11-11', '2024-11-12', '2034-11-11', '生效', '北京市', '华北');
-INSERT INTO `ins_policy` VALUES (200188, 'P200188', 100048, '魏婷', '企业财产基本险', '财产险', '代理人', 16359.67, 455771.58, 5, '2025-07-07', '2025-07-08', '2030-07-07', '退保', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200189, 'P200189', 100007, '何建华', '金佑人生两全险', '寿险', '银保', 14361.82, 483417.26, 1, '2023-06-14', '2023-06-15', '2024-06-14', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200190, 'P200190', 100018, '曾玲嘉怡', '重疾无忧A款', '健康险', '银保', 363.96, 8543.59, 5, '2024-02-23', '2024-02-24', '2029-02-23', '已过期', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200191, 'P200191', 100027, '陈军', '商业车险全保', '车险', '线上直销', 9348.46, 632629.61, 1, '2025-10-29', '2025-10-30', '2026-10-28', '已过期', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200192, 'P200192', 100013, '赵超', '平安福终身寿险', '寿险', '代理人', 14460.76, 1153484.94, 1, '2026-02-28', '2026-03-01', '2027-02-28', '生效', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200193, 'P200193', 100060, '唐艳晓东', '家庭财产综合险', '财产险', '线上直销', 12722.85, 932319.78, 30, '2024-08-10', '2024-08-11', '2054-08-10', '已过期', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200194, 'P200194', 100025, '吴艳霞', '重疾无忧A款', '健康险', '电销', 10456.74, 879297.14, 30, '2023-11-16', '2023-11-17', '2053-11-16', '生效', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200195, 'P200195', 100033, '彭桂英', '货运物流险', '财产险', '电销', 8543.93, 684899.64, 10, '2026-02-24', '2026-02-25', '2036-02-24', '已过期', '上海市', '华东');
-INSERT INTO `ins_policy` VALUES (200196, 'P200196', 100068, '杜明', '好医保长期医疗', '健康险', '线上直销', 3072.66, 299527.31, 1, '2024-02-12', '2024-02-13', '2025-02-12', '生效', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200197, 'P200197', 100001, '朱娜', '少儿门诊医疗', '健康险', '银保', 1525.39, 129366.44, 1, '2023-06-09', '2023-06-10', '2024-06-09', '已过期', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200198, 'P200198', 100029, '苏宇', '雇主责任险', '财产险', '电销', 14564.09, 1595436.00, 1, '2023-09-22', '2023-09-23', '2024-09-22', '生效', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200199, 'P200199', 100013, '蒋娜', '成人意外伤害险', '意外险', '代理人', 10603.06, 610013.93, 30, '2024-03-30', '2024-03-31', '2054-03-28', '生效', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200200, 'P200200', 100007, '彭鑫', '雇主责任险', '财产险', '线上直销', 5867.64, 402722.27, 30, '2025-10-22', '2025-10-23', '2055-10-22', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200201, 'P200201', 100049, '丁强', '商业车险全保', '车险', '经纪', 9857.01, 802135.16, 30, '2023-08-13', '2023-08-14', '2053-08-13', '退保', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200202, 'P200202', 100035, '丁敏', '车损险尊享', '车险', '代理人', 6965.11, 282373.42, 10, '2025-01-04', '2025-01-05', '2035-01-04', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200203, 'P200203', 100016, '肖婷宇', '货运物流险', '财产险', '电销', 14421.60, 1037274.00, 30, '2023-05-11', '2023-05-12', '2053-05-11', '已过期', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200204, 'P200204', 100020, '叶雪磊', '平安福终身寿险', '寿险', '代理人', 666.28, 32170.39, 10, '2023-10-02', '2023-10-03', '2033-10-02', '生效', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200205, 'P200205', 100068, '梁辉', '家庭财产综合险', '财产险', '电销', 4757.50, 251031.74, 10, '2024-08-12', '2024-08-13', '2034-08-12', '已过期', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200206, 'P200206', 100045, '袁欣怡嘉怡', '平安福终身寿险', '寿险', '电销', 17255.05, 1541666.89, 10, '2023-08-06', '2023-08-07', '2033-08-06', '生效', '河南省', '华中');
-INSERT INTO `ins_policy` VALUES (200207, 'P200207', 100024, '曾静', '第三者责任险', '车险', '银保', 10087.49, 702239.61, 10, '2023-01-16', '2023-01-17', '2033-01-16', '生效', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200208, 'P200208', 100040, '郭鑫', '商业车险全保', '车险', '经纪', 2038.36, 142819.06, 1, '2023-11-05', '2023-11-06', '2024-11-05', '生效', '陕西省', '西北');
-INSERT INTO `ins_policy` VALUES (200209, 'P200209', 100067, '吕平', '企业财产基本险', '财产险', '经纪', 1572.88, 138455.26, 5, '2024-07-08', '2024-07-09', '2029-07-08', '已过期', '陕西省', '西北');
-INSERT INTO `ins_policy` VALUES (200210, 'P200210', 100053, '潘娜', '好医保长期医疗', '健康险', '银保', 5059.08, 564983.64, 20, '2024-03-05', '2024-03-06', '2044-03-05', '退保', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200211, 'P200211', 100052, '程杰', '交强险', '车险', '银保', 14433.08, 1635681.20, 10, '2023-04-03', '2023-04-04', '2033-04-03', '退保', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200212, 'P200212', 100013, '郭勇', 'e生保百万医疗', '健康险', '线上直销', 821.96, 95405.84, 1, '2023-06-24', '2023-06-25', '2024-06-24', '退保', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200213, 'P200213', 100013, '邓宇伟', '综合意外险', '意外险', '代理人', 16280.37, 1909468.74, 10, '2023-08-14', '2023-08-15', '2033-08-14', '退保', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200214, 'P200214', 100028, '魏娟', '交通意外险', '意外险', '银保', 2480.70, 292979.78, 10, '2025-02-25', '2025-02-26', '2035-02-25', '退保', '河南省', '华中');
-INSERT INTO `ins_policy` VALUES (200215, 'P200215', 100023, '郑敏', '综合意外险', '意外险', '银保', 13243.39, 1211401.76, 10, '2025-09-07', '2025-09-08', '2035-09-07', '已过期', '河北省', '华北');
-INSERT INTO `ins_policy` VALUES (200216, 'P200216', 100060, '姚玲', '金佑人生两全险', '寿险', '银保', 607.72, 58313.21, 10, '2025-05-18', '2025-05-19', '2035-05-18', '已过期', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200217, 'P200217', 100074, '何欣怡', '国寿福满一生', '寿险', '银保', 7706.28, 760501.67, 30, '2023-12-01', '2023-12-02', '2053-12-01', '退保', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200218, 'P200218', 100055, '潘涛建华', '增额终身寿2026', '寿险', '电销', 8362.62, 211025.86, 20, '2025-06-30', '2025-07-01', '2045-06-28', '生效', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200219, 'P200219', 100053, '田勇', '综合意外险', '意外险', '线上直销', 6615.01, 708738.31, 30, '2024-03-27', '2024-03-28', '2054-03-27', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200220, 'P200220', 100006, '于雪丽', '少儿门诊医疗', '健康险', '线上直销', 6631.47, 371151.54, 1, '2023-05-31', '2023-06-01', '2024-05-28', '生效', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200221, 'P200221', 100024, '王强', '少儿门诊医疗', '健康险', '代理人', 1012.63, 24894.77, 1, '2024-01-11', '2024-01-12', '2025-01-11', '生效', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200222, 'P200222', 100058, '田平', '少儿门诊医疗', '健康险', '线上直销', 4576.37, 214942.38, 20, '2025-06-01', '2025-06-02', '2045-06-01', '退保', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200223, 'P200223', 100075, '朱子轩', '车损险尊享', '车险', '代理人', 7312.48, 869693.29, 1, '2025-07-15', '2025-07-16', '2026-07-15', '生效', '河北省', '华北');
-INSERT INTO `ins_policy` VALUES (200224, 'P200224', 100009, '刘思远艳', '成人意外伤害险', '意外险', '线上直销', 9275.38, 758162.80, 30, '2024-05-06', '2024-05-07', '2054-05-06', '退保', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200225, 'P200225', 100062, '邓伟', '成人意外伤害险', '意外险', '银保', 9220.35, 1047256.38, 30, '2023-04-18', '2023-04-19', '2053-04-18', '生效', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200226, 'P200226', 100010, '马浩然', '第三者责任险', '车险', '线上直销', 10597.56, 1100935.86, 1, '2026-05-22', '2026-05-23', '2027-05-22', '退保', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200227, 'P200227', 100008, '吕杰艳', '货运物流险', '财产险', '银保', 2468.61, 196693.46, 1, '2025-05-08', '2025-05-09', '2026-05-08', '生效', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200228, 'P200228', 100015, '田建华桂英', '第三者责任险', '车险', '代理人', 3597.00, 156143.27, 1, '2024-09-11', '2024-09-12', '2025-09-11', '已过期', '山东省', '华东');
-INSERT INTO `ins_policy` VALUES (200229, 'P200229', 100025, '许嘉怡', '金佑人生两全险', '寿险', '线上直销', 2123.12, 238826.58, 30, '2025-08-19', '2025-08-20', '2055-08-19', '退保', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200230, 'P200230', 100035, '曾玲玲', '重疾无忧A款', '健康险', '代理人', 14355.19, 361770.11, 1, '2026-01-05', '2026-01-06', '2027-01-05', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200231, 'P200231', 100078, '刘强嘉怡', '金佑人生两全险', '寿险', '线上直销', 17011.99, 1901267.79, 5, '2025-08-23', '2025-08-24', '2030-08-23', '生效', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200232, 'P200232', 100025, '袁超', '平安福终身寿险', '寿险', '代理人', 8339.78, 499409.01, 10, '2025-07-29', '2025-07-30', '2035-07-28', '已过期', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200233, 'P200233', 100067, '董梓涵', '重疾无忧A款', '健康险', '代理人', 10659.35, 937540.44, 1, '2024-10-11', '2024-10-12', '2025-10-11', '生效', '陕西省', '西北');
-INSERT INTO `ins_policy` VALUES (200234, 'P200234', 100059, '彭思远', '货运物流险', '财产险', '经纪', 15371.33, 688323.25, 1, '2026-01-08', '2026-01-09', '2027-01-08', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200235, 'P200235', 100040, '冯婷', '平安福终身寿险', '寿险', '代理人', 10926.10, 1018250.11, 20, '2025-09-04', '2025-09-05', '2045-09-04', '已过期', '陕西省', '西北');
-INSERT INTO `ins_policy` VALUES (200236, 'P200236', 100048, '陈娜', '综合意外险', '意外险', '银保', 10306.03, 1056420.39, 1, '2023-09-21', '2023-09-22', '2024-09-21', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200237, 'P200237', 100004, '苏玲', '国寿福满一生', '寿险', '电销', 5088.92, 345185.42, 1, '2023-10-15', '2023-10-16', '2024-10-15', '生效', '河北省', '华北');
-INSERT INTO `ins_policy` VALUES (200238, 'P200238', 100038, '何强', '家庭财产综合险', '财产险', '经纪', 14292.05, 359513.05, 30, '2024-11-18', '2024-11-19', '2054-11-18', '生效', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200239, 'P200239', 100025, '周艳', '企业财产基本险', '财产险', '经纪', 2150.39, 86960.73, 1, '2025-03-14', '2025-03-15', '2026-03-14', '生效', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200240, 'P200240', 100027, '丁刚娜', '平安福终身寿险', '寿险', '银保', 11874.64, 594876.72, 1, '2023-02-16', '2023-02-17', '2024-02-16', '生效', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200241, 'P200241', 100058, '黄辉', '国寿福满一生', '寿险', '线上直销', 4175.45, 137063.09, 5, '2024-12-15', '2024-12-16', '2029-12-15', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200242, 'P200242', 100051, '丁超', '好医保长期医疗', '健康险', '银保', 3486.63, 297267.44, 20, '2024-07-24', '2024-07-25', '2044-07-24', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200243, 'P200243', 100029, '于思远', '雇主责任险', '财产险', '电销', 2797.26, 117990.69, 1, '2026-03-05', '2026-03-06', '2027-03-05', '生效', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200244, 'P200244', 100032, '郑磊洋', '综合意外险', '意外险', '代理人', 16657.51, 726913.68, 1, '2025-04-25', '2025-04-26', '2026-04-25', '生效', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200245, 'P200245', 100013, '丁鑫思远', '商业车险全保', '车险', '经纪', 6766.42, 171928.80, 10, '2023-05-26', '2023-05-27', '2033-05-26', '已过期', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200246, 'P200246', 100006, '孙强', '百万守护意外险', '意外险', '银保', 11301.50, 1300447.44, 20, '2025-03-28', '2025-03-29', '2045-03-28', '生效', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200247, 'P200247', 100012, '何鑫芳', '成人意外伤害险', '意外险', '代理人', 1306.83, 44918.54, 20, '2025-03-09', '2025-03-10', '2045-03-09', '生效', '北京市', '华北');
-INSERT INTO `ins_policy` VALUES (200248, 'P200248', 100070, '黄嘉怡艳', '家庭财产综合险', '财产险', '经纪', 16090.18, 419989.94, 1, '2024-09-09', '2024-09-10', '2025-09-09', '已过期', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200249, 'P200249', 100020, '徐丽', '第三者责任险', '车险', '线上直销', 8730.75, 843157.29, 5, '2023-05-09', '2023-05-10', '2028-05-09', '退保', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200250, 'P200250', 100065, '徐梓涵', '货运物流险', '财产险', '线上直销', 9484.89, 474191.52, 20, '2026-04-26', '2026-04-27', '2046-04-26', '生效', '海南省', '华南');
-INSERT INTO `ins_policy` VALUES (200251, 'P200251', 100015, '叶娟雪', '国寿福满一生', '寿险', '代理人', 17063.41, 489848.13, 1, '2024-10-22', '2024-10-23', '2025-10-22', '生效', '山东省', '华东');
-INSERT INTO `ins_policy` VALUES (200252, 'P200252', 100039, '田玲丽', '百万守护意外险', '意外险', '代理人', 2722.93, 75285.64, 20, '2025-02-03', '2025-02-04', '2045-02-03', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200253, 'P200253', 100068, '徐丽宇', '商业车险全保', '车险', '线上直销', 9756.88, 477607.27, 10, '2024-04-09', '2024-04-10', '2034-04-09', '生效', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200254, 'P200254', 100079, '胡娜', '第三者责任险', '车险', '经纪', 7893.68, 803231.24, 10, '2023-12-23', '2023-12-24', '2033-12-23', '生效', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200255, 'P200255', 100077, '唐浩然超', '金佑人生两全险', '寿险', '经纪', 8578.04, 304631.02, 1, '2024-10-30', '2024-10-31', '2025-10-28', '生效', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200256, 'P200256', 100007, '何欣怡', 'e生保百万医疗', '健康险', '线上直销', 6143.54, 322877.65, 5, '2025-03-30', '2025-03-31', '2030-03-28', '退保', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200257, 'P200257', 100025, '董辉思远', '货运物流险', '财产险', '线上直销', 2166.14, 206015.08, 10, '2024-06-20', '2024-06-21', '2034-06-20', '生效', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200258, 'P200258', 100079, '朱嘉怡', '交通意外险', '意外险', '代理人', 11115.22, 619017.66, 20, '2024-02-20', '2024-02-21', '2044-02-20', '生效', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200259, 'P200259', 100052, '马平思远', 'e生保百万医疗', '健康险', '电销', 7254.86, 224123.02, 30, '2023-04-21', '2023-04-22', '2053-04-21', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200260, 'P200260', 100063, '张梓涵', '重疾无忧A款', '健康险', '代理人', 15131.15, 497754.51, 30, '2023-05-18', '2023-05-19', '2053-05-18', '生效', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200261, 'P200261', 100042, '杨玲', '第三者责任险', '车险', '线上直销', 13874.04, 599878.76, 10, '2024-09-13', '2024-09-14', '2034-09-13', '生效', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200262, 'P200262', 100067, '林明', '百万守护意外险', '意外险', '经纪', 13116.79, 1042261.85, 30, '2025-12-25', '2025-12-26', '2055-12-25', '退保', '陕西省', '西北');
-INSERT INTO `ins_policy` VALUES (200263, 'P200263', 100024, '韩洋', '平安福终身寿险', '寿险', '银保', 1906.33, 84762.79, 5, '2023-08-08', '2023-08-09', '2028-08-08', '生效', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200264, 'P200264', 100029, '袁军', '交通意外险', '意外险', '代理人', 1287.52, 50588.72, 5, '2025-06-14', '2025-06-15', '2030-06-14', '已过期', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200265, 'P200265', 100008, '余超', '少儿门诊医疗', '健康险', '银保', 12226.39, 536188.88, 10, '2024-11-30', '2024-12-01', '2034-11-28', '生效', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200266, 'P200266', 100037, '肖丽', '家庭财产综合险', '财产险', '经纪', 14881.32, 1401161.03, 20, '2023-04-07', '2023-04-08', '2043-04-07', '生效', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200267, 'P200267', 100026, '袁婷', '成人意外伤害险', '意外险', '线上直销', 1356.95, 131901.73, 20, '2024-01-15', '2024-01-16', '2044-01-15', '生效', '福建省', '华南');
-INSERT INTO `ins_policy` VALUES (200268, 'P200268', 100008, '吕子轩雪', '企业财产基本险', '财产险', '经纪', 15859.41, 1592580.83, 1, '2024-11-19', '2024-11-20', '2025-11-19', '已过期', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200269, 'P200269', 100048, '魏欣怡平', '交强险', '车险', '电销', 12406.46, 1102394.06, 20, '2026-01-31', '2026-02-01', '2046-01-28', '生效', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200270, 'P200270', 100018, '林霞思远', '平安福终身寿险', '寿险', '线上直销', 8371.41, 401938.66, 5, '2023-05-01', '2023-05-02', '2028-05-01', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200271, 'P200271', 100066, '徐霞娟', '成人意外伤害险', '意外险', '线上直销', 5059.20, 394149.12, 30, '2024-03-04', '2024-03-05', '2054-03-04', '生效', '陕西省', '西北');
-INSERT INTO `ins_policy` VALUES (200272, 'P200272', 100069, '郑芳', 'e生保百万医疗', '健康险', '电销', 8848.45, 296820.72, 30, '2026-04-30', '2026-05-01', '2056-04-28', '生效', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200273, 'P200273', 100023, '周军', '雇主责任险', '财产险', '代理人', 729.01, 43398.01, 20, '2024-04-11', '2024-04-12', '2044-04-11', '退保', '河北省', '华北');
-INSERT INTO `ins_policy` VALUES (200274, 'P200274', 100027, '宋欣怡', '百万守护意外险', '意外险', '银保', 10104.99, 551910.35, 20, '2024-03-09', '2024-03-10', '2044-03-09', '已过期', '重庆市', '西南');
-INSERT INTO `ins_policy` VALUES (200275, 'P200275', 100002, '肖平', '重疾无忧A款', '健康险', '电销', 5945.85, 145654.97, 1, '2024-07-10', '2024-07-11', '2025-07-10', '生效', '甘肃省', '西北');
-INSERT INTO `ins_policy` VALUES (200276, 'P200276', 100018, '田娜', '百万守护意外险', '意外险', '代理人', 4567.79, 149076.71, 10, '2024-01-24', '2024-01-25', '2034-01-24', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200277, 'P200277', 100011, '董强', '国寿福满一生', '寿险', '经纪', 2372.83, 102749.79, 20, '2023-11-11', '2023-11-12', '2043-11-11', '已过期', '浙江省', '华东');
-INSERT INTO `ins_policy` VALUES (200278, 'P200278', 100003, '蔡霞', '企业财产基本险', '财产险', '线上直销', 17151.63, 421755.75, 1, '2025-08-16', '2025-08-17', '2026-08-16', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200279, 'P200279', 100038, '肖芳', '企业财产基本险', '财产险', '经纪', 15289.37, 1554355.96, 5, '2024-12-04', '2024-12-05', '2029-12-04', '已过期', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200280, 'P200280', 100072, '罗伟', '雇主责任险', '财产险', '经纪', 2600.00, 222093.07, 10, '2023-10-21', '2023-10-22', '2033-10-21', '生效', '云南省', '西南');
-INSERT INTO `ins_policy` VALUES (200281, 'P200281', 100014, '宋敏洋', '货运物流险', '财产险', '线上直销', 8163.27, 237050.19, 5, '2023-04-23', '2023-04-24', '2028-04-23', '生效', '湖南省', '华中');
-INSERT INTO `ins_policy` VALUES (200282, 'P200282', 100051, '唐浩然', '家庭财产综合险', '财产险', '代理人', 1838.17, 89009.93, 5, '2024-12-19', '2024-12-20', '2029-12-19', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200283, 'P200283', 100033, '程涛', '交通意外险', '意外险', '电销', 8016.86, 632387.25, 1, '2026-03-18', '2026-03-19', '2027-03-18', '退保', '上海市', '华东');
-INSERT INTO `ins_policy` VALUES (200284, 'P200284', 100004, '董涛勇', 'e生保百万医疗', '健康险', '代理人', 4798.73, 310711.76, 20, '2023-08-05', '2023-08-06', '2043-08-05', '生效', '河北省', '华北');
-INSERT INTO `ins_policy` VALUES (200285, 'P200285', 100055, '韩浩然', '少儿门诊医疗', '健康险', '银保', 3187.88, 124269.30, 20, '2023-09-11', '2023-09-12', '2043-09-11', '生效', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200286, 'P200286', 100076, '曹思远', '交强险', '车险', '经纪', 10095.00, 858783.37, 1, '2025-08-07', '2025-08-08', '2026-08-07', '退保', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200287, 'P200287', 100041, '郑静', '商业车险全保', '车险', '银保', 6499.72, 363116.50, 30, '2025-12-20', '2025-12-21', '2055-12-20', '生效', '山西省', '华北');
-INSERT INTO `ins_policy` VALUES (200288, 'P200288', 100018, '王艳', '家庭财产综合险', '财产险', '银保', 13358.79, 612356.87, 30, '2024-12-28', '2024-12-29', '2054-12-28', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200289, 'P200289', 100046, '苏嘉怡', '增额终身寿2026', '寿险', '经纪', 3266.28, 144114.04, 10, '2026-04-20', '2026-04-21', '2036-04-20', '生效', '天津市', '华北');
-INSERT INTO `ins_policy` VALUES (200290, 'P200290', 100003, '梁磊', '少儿门诊医疗', '健康险', '银保', 17768.79, 385975.90, 30, '2025-01-20', '2025-01-21', '2055-01-20', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200291, 'P200291', 100007, '程子轩', '企业财产基本险', '财产险', '线上直销', 11554.43, 1298203.11, 10, '2023-06-16', '2023-06-17', '2033-06-16', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200292, 'P200292', 100012, '沈勇静', '货运物流险', '财产险', '代理人', 11396.32, 740054.99, 20, '2023-09-11', '2023-09-12', '2043-09-11', '生效', '北京市', '华北');
-INSERT INTO `ins_policy` VALUES (200293, 'P200293', 100010, '邓磊思远', '重疾无忧A款', '健康险', '电销', 8717.94, 808813.33, 1, '2023-01-27', '2023-01-28', '2024-01-27', '生效', '江苏省', '华东');
-INSERT INTO `ins_policy` VALUES (200294, 'P200294', 100031, '卢子轩', '百万守护意外险', '意外险', '银保', 5170.94, 339147.94, 1, '2026-05-06', '2026-05-07', '2027-05-06', '生效', '四川省', '西南');
-INSERT INTO `ins_policy` VALUES (200295, 'P200295', 100019, '韩超', '好医保长期医疗', '健康险', '经纪', 10518.55, 333444.87, 30, '2024-11-02', '2024-11-03', '2054-11-02', '生效', '北京市', '华北');
-INSERT INTO `ins_policy` VALUES (200296, 'P200296', 100005, '杜勇梓涵', '平安福终身寿险', '寿险', '经纪', 5290.39, 422514.05, 30, '2025-01-22', '2025-01-23', '2055-01-22', '退保', '山东省', '华东');
-INSERT INTO `ins_policy` VALUES (200297, 'P200297', 100024, '高芳', '增额终身寿2026', '寿险', '电销', 2260.20, 199843.67, 5, '2024-10-22', '2024-10-23', '2029-10-22', '已过期', '湖北省', '华中');
-INSERT INTO `ins_policy` VALUES (200298, 'P200298', 100016, '张明', '雇主责任险', '财产险', '代理人', 10143.79, 787636.98, 20, '2025-06-29', '2025-06-30', '2045-06-28', '生效', '广东省', '华南');
-INSERT INTO `ins_policy` VALUES (200299, 'P200299', 100045, '赵娟娜', '重疾无忧A款', '健康险', '经纪', 1421.13, 42498.47, 1, '2026-01-28', '2026-01-29', '2027-01-28', '已过期', '河南省', '华中');
-INSERT INTO `ins_policy` VALUES (200300, 'P200300', 100080, '孙杰', '增额终身寿2026', '寿险', '经纪', 3405.68, 326207.68, 5, '2025-09-19', '2025-09-20', '2030-09-19', '已过期', '山西省', '华北');
-
--- ----------------------------
--- Table structure for jeecg_order_customer
--- ----------------------------
-DROP TABLE IF EXISTS `jeecg_order_customer`;
-CREATE TABLE `jeecg_order_customer`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '客户名',
-  `sex` varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别',
-  `idcard` varchar(18) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '身份证号码',
-  `idcard_pic` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '身份证扫描件',
-  `telphone` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电话1',
-  `order_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '外键',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jeecg_order_customer
--- ----------------------------
-INSERT INTO `jeecg_order_customer` VALUES ('1256527640480821249', 'scott', '2', NULL, NULL, NULL, 'b190737bd04cca8360e6f87c9ef9ec4e', 'admin', '2020-05-02 18:15:09', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('1256527640531152898', 'x秦风', '1', NULL, NULL, NULL, 'b190737bd04cca8360e6f87c9ef9ec4e', 'admin', '2020-05-02 18:15:09', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('1256527874216800257', '小王1', '1', '', NULL, '', '9a57c850e4f68cf94ef7d8585dbaf7e6', 'admin', '2020-05-02 18:17:37', 'admin', '2022-09-22 10:56:25');
-INSERT INTO `jeecg_order_customer` VALUES ('15538561502720', '3333', '1', '', NULL, '', '0d4a2e67b538ee1bc881e5ed34f670f0', 'jeecg-boot', '2019-03-29 18:42:55', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('15538561512681', '3332333', '2', '', NULL, '', '0d4a2e67b538ee1bc881e5ed34f670f0', 'jeecg-boot', '2019-03-29 18:42:55', 'admin', '2019-03-29 18:43:12');
-INSERT INTO `jeecg_order_customer` VALUES ('15538561550142', '4442', '2', '', NULL, '', '0d4a2e67b538ee1bc881e5ed34f670f0', 'jeecg-boot', '2019-03-29 18:42:55', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('15541168497342', '444', '', '', '', '', 'f71f7f8930b5b6b1703d9948d189982b', 'admin', '2019-04-01 19:08:45', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('15541168499553', '5555', '', '', '', '', 'f71f7f8930b5b6b1703d9948d189982b', 'admin', '2019-04-01 19:08:45', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('1572781641947635713', '1212', '1', '1212', NULL, '12', '4cba137333127e8e31df7ad168cc3732', 'admin', '2022-09-22 10:55:39', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('1572781834508132354', '22', '2', '', NULL, '', '9a57c850e4f68cf94ef7d8585dbaf7e6', 'admin', '2022-09-22 10:56:25', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('18dc5eb1068ccdfe90e358951ca1a3d6', 'dr2', '', '', '', '', '8ab1186410a65118c4d746eb085d3bed', 'admin', '2019-04-04 17:25:33', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('195d280490fe88ca1475512ddcaf2af9', '12', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('217a2bf83709775d2cd85bf598392327', '2', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('22bc052ae53ed09913b946abba93fa89', '1', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('23bafeae88126c3bf3322a29a04f0d5e', 'x秦风', NULL, NULL, NULL, NULL, '163e2efcbc6d7d54eb3f8a137da8a75a', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('25c4a552c6843f36fad6303bfa99a382', '1', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('2d32144e2bee63264f3f16215c258381', '33333', '2', NULL, NULL, NULL, 'd908bfee3377e946e59220c4a4eb414a', 'admin', '2019-04-01 16:27:03', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('2d43170d6327f941bd1a017999495e25', '1', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('2e5f62a8b6e0a0ce19b52a6feae23d48', '3', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('34a1c5cf6cee360ed610ed0bed70e0f9', '导入秦风', NULL, NULL, NULL, NULL, 'a2cce75872cc8fcc47f78de9ffd378c2', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('3c87400f8109b4cf43c5598f0d40e34d', '2', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('40964bcbbecb38e5ac15e6d08cf3cd43', '233', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('41e3dee0b0b6e6530eccb7fbb22fd7a3', '4555', '1', '370285198602058823', NULL, '18611788674', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('4808ae8344c7679a4a2f461db5dc3a70', '44', '1', '370285198602058823', NULL, '18611788674', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('4b6cef12f195fad94d57279b2241770d', 'dr12', '', '', '', '', '8ab1186410a65118c4d746eb085d3bed', 'admin', '2019-04-04 17:25:33', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('524e695283f8e8c256cc24f39d6d8542', '小王', '2', '370285198604033222', NULL, '18611788674', 'eb13ab35d2946a2b0cfe3452bca1e73f', 'admin', '2019-02-25 16:29:41', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('57c2a8367db34016114cbc9fa368dba0', '2', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('5df36a1608b8c7ac99ad9bc408fe54bf', '4', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('6c6fd2716c2dcd044ed03c2c95d261f8', '李四', '2', '370285198602058833', '', '18611788676', 'f71f7f8930b5b6b1703d9948d189982b', 'admin', '2019-04-01 19:08:45', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('742d008214dee0afff2145555692973e', '秦风', '1', '370285198602058822', NULL, '18611788676', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('7469c3e5d371767ff90a739d297689b5', '导入秦风', '2', NULL, NULL, NULL, '3a867ebf2cebce9bae3f79676d8d86f3', 'jeecg-boot', '2019-03-29 18:43:59', 'admin', '2019-04-08 17:35:02');
-INSERT INTO `jeecg_order_customer` VALUES ('7a96e2c7b24847d4a29940dbc0eda6e5', 'drscott', NULL, NULL, NULL, NULL, 'e73434dad84ebdce2d4e0c2a2f06d8ea', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('7f5a40818e225ee18bda6da7932ac5f9', '2', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('8011575abfd7c8085e71ff66df1124b9', '1', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('8404f31d7196221a573c9bd6c8f15003', '小张', '1', '370285198602058211', NULL, '18611788676', 'eb13ab35d2946a2b0cfe3452bca1e73f', 'admin', '2019-02-25 16:29:41', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('859020e10a2f721f201cdbff78cf7b9f', 'scott', NULL, NULL, NULL, NULL, '163e2efcbc6d7d54eb3f8a137da8a75a', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('8cc3c4d26e3060975df3a2adb781eeb4', 'dr33', NULL, NULL, NULL, NULL, 'b2feb454e43c46b2038768899061e464', 'jeecg-boot', '2019-04-04 17:23:09', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('8d1725c23a6a50685ff0dedfd437030d', '4', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('933cae3a79f60a93922d59aace5346ce', '小王', NULL, '370285198604033222', NULL, '18611788674', '6a719071a29927a14f19482f8693d69a', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('9bdb5400b709ba4eaf3444de475880d7', 'dr22', NULL, NULL, NULL, NULL, '22c17790dcd04b296c4a2a089f71895f', 'jeecg-boot', '2019-04-04 17:23:09', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('9f87677f70e5f864679314389443a3eb', '33', '2', '370285198602058823', NULL, '18611788674', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('a2c2b7101f75c02deb328ba777137897', '44', '2', '370285198602058823', NULL, '18611788674', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('ab4d002dc552c326147e318c87d3bed4', '小红1', '1', '370285198604033222', NULL, '18611755848', '9a57c850e4f68cf94ef7d8585dbaf7e6', 'admin', '2020-05-02 18:17:37', 'admin', '2022-09-22 10:56:25');
-INSERT INTO `jeecg_order_customer` VALUES ('ad116f722a438e5f23095a0b5fcc8e89', 'dr秦风', NULL, NULL, NULL, NULL, 'e73434dad84ebdce2d4e0c2a2f06d8ea', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('b1ba147b75f5eaa48212586097fc3fd1', '2', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('b43bf432c251f0e6b206e403b8ec29bc', 'lisi', NULL, NULL, NULL, NULL, 'f8889aaef6d1bccffd98d2889c0aafb5', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('bcdd300a7d44c45a66bdaac14903c801', '33', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('beb983293e47e2dc1a9b3d649aa3eb34', 'ddd3', NULL, NULL, NULL, NULL, 'd908bfee3377e946e59220c4a4eb414a', 'admin', '2019-04-01 16:27:03', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('c219808196406f1b8c7f1062589de4b5', '44', '1', '370285198602058823', NULL, '18611788674', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('c8ed061d4b27c0c7a64e100f2b1c8ab5', '张经理', '2', '370285198602058823', NULL, '18611788674', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('cc5de4af7f06cd6d250965ebe92a0395', '1', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('cf8817bd703bf7c7c77a2118edc26cc7', '1', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('d72b26fae42e71270fce2097a88da58a', '导入scott', NULL, 'www', NULL, NULL, '3a867ebf2cebce9bae3f79676d8d86f3', 'jeecg-boot', '2019-03-29 18:43:59', 'admin', '2019-04-08 17:35:05');
-INSERT INTO `jeecg_order_customer` VALUES ('dbdc60a6ac1a8c43f24afee384039b68', 'xiaowang', NULL, NULL, NULL, NULL, 'f8889aaef6d1bccffd98d2889c0aafb5', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('dc5883b50466de94d900919ed96d97af', '33', '1', '370285198602058823', NULL, '18611788674', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('deeb73e553ad8dc0a0b3cfd5a338de8e', '3333', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('e2570278bf189ac05df3673231326f47', '1', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('e39cb23bb950b2bdedfc284686c6128a', '1', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('e46fe9111a9100844af582a18a2aa402', '1', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('ee7af0acb9beb9bf8d8b3819a8a7fdc3', '2', NULL, NULL, NULL, NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('f5d2605e844192d9e548f9bd240ac908', '小张', NULL, '370285198602058211', NULL, '18611788676', '6a719071a29927a14f19482f8693d69a', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_customer` VALUES ('f6db6547382126613a3e46e7cd58a5f2', '导入scott', NULL, NULL, NULL, NULL, 'a2cce75872cc8fcc47f78de9ffd378c2', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-
--- ----------------------------
--- Table structure for jeecg_order_main
--- ----------------------------
-DROP TABLE IF EXISTS `jeecg_order_main`;
-CREATE TABLE `jeecg_order_main`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
-  `order_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '订单号',
-  `ctype` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '订单类型',
-  `order_date` datetime NULL DEFAULT NULL COMMENT '订单日期',
-  `order_money` double(10, 3) NULL DEFAULT NULL COMMENT '订单金额',
-  `content` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '订单备注',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `bpm_status` varchar(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程状态',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jeecg_order_main
--- ----------------------------
-INSERT INTO `jeecg_order_main` VALUES ('163e2efcbc6d7d54eb3f8a137da8a75a', 'B100', NULL, NULL, 3000.000, NULL, 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL, NULL);
-INSERT INTO `jeecg_order_main` VALUES ('3a867ebf2cebce9bae3f79676d8d86f3', '导入B100', '2222', NULL, 3000.000, NULL, 'jeecg-boot', '2019-03-29 18:43:59', 'admin', '2019-04-08 17:35:13', NULL);
-INSERT INTO `jeecg_order_main` VALUES ('4cba137333127e8e31df7ad168cc3732', '青岛订单A0001', '2', '2019-04-03 10:56:07', NULL, NULL, 'admin', '2019-04-03 10:56:11', 'admin', '2022-09-22 10:55:39', NULL);
-INSERT INTO `jeecg_order_main` VALUES ('54e739bef5b67569c963c38da52581ec', 'NC911', '1', '2019-02-18 09:58:51', 40.000, NULL, 'admin', '2019-02-18 09:58:47', 'admin', '2019-02-18 09:58:59', NULL);
-INSERT INTO `jeecg_order_main` VALUES ('6a719071a29927a14f19482f8693d69a', 'c100', NULL, NULL, 5000.000, NULL, 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL, NULL);
-INSERT INTO `jeecg_order_main` VALUES ('8ab1186410a65118c4d746eb085d3bed', '导入400', '1', '2019-02-18 09:58:51', 40.000, NULL, 'admin', '2019-02-18 09:58:47', 'admin', '2019-02-18 09:58:59', NULL);
-INSERT INTO `jeecg_order_main` VALUES ('9a57c850e4f68cf94ef7d8585dbaf7e6', 'halou001', '1', '2019-04-04 17:30:32', 500.000, NULL, 'admin', '2019-04-04 17:30:41', 'admin', '2022-09-22 10:56:25', NULL);
-INSERT INTO `jeecg_order_main` VALUES ('a2cce75872cc8fcc47f78de9ffd378c2', '导入B100', NULL, NULL, 3000.000, NULL, 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL, NULL);
-INSERT INTO `jeecg_order_main` VALUES ('b190737bd04cca8360e6f87c9ef9ec4e', 'B0018888', '1', NULL, NULL, NULL, 'admin', '2019-02-15 18:39:29', 'admin', '2020-05-02 18:15:09', NULL);
-INSERT INTO `jeecg_order_main` VALUES ('d908bfee3377e946e59220c4a4eb414a', 'SSSS001', NULL, NULL, 599.000, NULL, 'admin', '2019-04-01 15:43:03', 'admin', '2019-04-01 16:26:52', NULL);
-INSERT INTO `jeecg_order_main` VALUES ('e73434dad84ebdce2d4e0c2a2f06d8ea', '导入200', NULL, NULL, 3000.000, NULL, 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL, NULL);
-INSERT INTO `jeecg_order_main` VALUES ('eb13ab35d2946a2b0cfe3452bca1e73f', 'BJ9980', '1', NULL, 90.000, NULL, 'admin', '2019-02-16 17:36:42', 'admin', '2019-02-16 17:46:16', NULL);
-INSERT INTO `jeecg_order_main` VALUES ('f71f7f8930b5b6b1703d9948d189982b', 'BY911', NULL, '2019-04-06 19:08:39', NULL, NULL, 'admin', '2019-04-01 16:36:02', 'admin', '2019-04-01 16:36:08', NULL);
-INSERT INTO `jeecg_order_main` VALUES ('f8889aaef6d1bccffd98d2889c0aafb5', 'A100', NULL, '2018-10-10 00:00:00', 6000.000, NULL, 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL, NULL);
-
--- ----------------------------
--- Table structure for jeecg_order_ticket
--- ----------------------------
-DROP TABLE IF EXISTS `jeecg_order_ticket`;
-CREATE TABLE `jeecg_order_ticket`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
-  `ticket_code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '航班号',
-  `tickect_date` datetime NULL DEFAULT NULL COMMENT '航班时间',
-  `order_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '外键',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jeecg_order_ticket
--- ----------------------------
-INSERT INTO `jeecg_order_ticket` VALUES ('0f0e3a40a215958f807eea08a6e1ac0a', '88', NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('0fa3bd0bbcf53650c0bb3c0cac6d8cb7', 'ffff', '2019-02-21 00:00:00', 'eb13ab35d2946a2b0cfe3452bca1e73f', 'admin', '2019-02-25 16:29:41', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('1256527640543735810', '222', '2019-02-23 00:00:00', 'b190737bd04cca8360e6f87c9ef9ec4e', 'admin', '2020-05-02 18:15:09', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('1256527640560513025', '111', '2019-02-01 00:00:00', 'b190737bd04cca8360e6f87c9ef9ec4e', 'admin', '2020-05-02 18:15:09', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('14221afb4f5f749c1deef26ac56fdac3', '33', '2019-03-09 00:00:00', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('15538561502730', '222', NULL, '0d4a2e67b538ee1bc881e5ed34f670f0', 'jeecg-boot', '2019-03-29 18:42:55', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('15538561526461', '2244', '2019-03-29 00:00:00', '0d4a2e67b538ee1bc881e5ed34f670f0', 'jeecg-boot', '2019-03-29 18:42:55', 'admin', '2019-03-29 18:43:26');
-INSERT INTO `jeecg_order_ticket` VALUES ('15541168478913', 'hhhhh', NULL, 'f71f7f8930b5b6b1703d9948d189982b', 'admin', '2019-04-01 19:08:45', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('1572781834508132353', '232', '2022-10-01 00:00:00', '9a57c850e4f68cf94ef7d8585dbaf7e6', 'admin', '2022-09-22 10:56:25', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('18905bc89ee3851805aab38ed3b505ec', '44', NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('1f809cbd26f4e574697e1c10de575d72', 'A100', NULL, 'e73434dad84ebdce2d4e0c2a2f06d8ea', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('21051adb51529bdaa8798b5a3dd7f7f7', 'C10029', '2019-02-20 00:00:00', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('269576e766b917f8b6509a2bb0c4d4bd', 'A100', NULL, '163e2efcbc6d7d54eb3f8a137da8a75a', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('2d473ffc79e5b38a17919e15f8b7078e', '66', '2019-03-29 00:00:00', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('3655b66fca5fef9c6aac6d70182ffda2', 'AA123', '2019-04-01 00:00:00', 'd908bfee3377e946e59220c4a4eb414a', 'admin', '2019-04-01 16:27:03', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('365d5919155473ade45840fd626c51a9', 'dddd', '2019-04-04 17:25:29', '8ab1186410a65118c4d746eb085d3bed', 'admin', '2019-04-04 17:25:33', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('4889a782e78706ab4306a925cfb163a5', 'C34', '2019-04-01 00:00:00', 'd908bfee3377e946e59220c4a4eb414a', 'admin', '2019-04-01 16:35:00', 'admin', '2019-04-01 16:35:07');
-INSERT INTO `jeecg_order_ticket` VALUES ('48d385796382cf87fa4bdf13b42d9a28', '导入A100', NULL, '3a867ebf2cebce9bae3f79676d8d86f3', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('541faed56efbeb4be9df581bd8264d3a', '88', NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('57a27a7dfd6a48e7d981f300c181b355', '6', '2019-03-30 00:00:00', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('5ce4dc439c874266e42e6c0ff8dc8b5c', '导入A100', NULL, 'a2cce75872cc8fcc47f78de9ffd378c2', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('645a06152998a576c051474157625c41', '88', '2019-04-04 17:25:31', '8ab1186410a65118c4d746eb085d3bed', 'admin', '2019-04-04 17:25:33', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('6e3562f2571ea9e96b2d24497b5f5eec', '55', '2019-03-23 00:00:00', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('8fd2b389151568738b1cc4d8e27a6110', '导入A100', NULL, 'a2cce75872cc8fcc47f78de9ffd378c2', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('93f1a84053e546f59137432ff5564cac', '55', NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('969ddc5d2e198d50903686917f996470', 'A10029', '2019-04-01 00:00:00', 'f71f7f8930b5b6b1703d9948d189982b', 'admin', '2019-04-01 19:08:45', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('96e7303a8d22a5c384e08d7bcf7ac2bf', 'A100', NULL, 'e73434dad84ebdce2d4e0c2a2f06d8ea', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('9e8a3336f6c63f558f2b68ce2e1e666e', '深圳1001', '2020-05-02 00:00:00', '9a57c850e4f68cf94ef7d8585dbaf7e6', 'admin', '2020-05-02 18:17:37', 'admin', '2022-09-22 10:56:25');
-INSERT INTO `jeecg_order_ticket` VALUES ('a28db02c810c65660015095cb81ed434', 'A100', NULL, 'f8889aaef6d1bccffd98d2889c0aafb5', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('b217bb0e4ec6a45b6cbf6db880060c0f', 'A100', NULL, '6a719071a29927a14f19482f8693d69a', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('ba708df70bb2652ed1051a394cfa0bb3', '333', NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('beabbfcb195d39bedeeafe8318794562', 'A1345', '2019-04-01 00:00:00', 'd908bfee3377e946e59220c4a4eb414a', 'admin', '2019-04-01 16:27:04', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('bf450223cb505f89078a311ef7b6ed16', '777', '2019-03-30 00:00:00', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('c06165b6603e3e1335db187b3c841eef', '北京2001', '2020-05-23 00:00:00', '9a57c850e4f68cf94ef7d8585dbaf7e6', 'admin', '2020-05-02 18:17:37', 'admin', '2022-09-22 10:56:25');
-INSERT INTO `jeecg_order_ticket` VALUES ('c113136abc26ace3a6da4e41d7dc1c7e', '44', '2019-03-15 00:00:00', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('c1abdc2e30aeb25de13ad6ee3488ac24', '77', '2019-03-22 00:00:00', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('c23751a7deb44f553ce50a94948c042a', '33', '2019-03-09 00:00:00', '8ab1186410a65118c4d746eb085d3bed', 'admin', '2019-04-04 17:25:33', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('c64547666b634b3d6a0feedcf05f25ce', 'C10019', '2019-04-01 00:00:00', 'f71f7f8930b5b6b1703d9948d189982b', 'admin', '2019-04-01 19:08:45', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('c8b8d3217f37da78dddf711a1f7da485', 'A100', NULL, '163e2efcbc6d7d54eb3f8a137da8a75a', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('cab691c1c1ff7a6dfd7248421917fd3c', 'A100', NULL, 'f8889aaef6d1bccffd98d2889c0aafb5', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('cca10a9a850b456d9b72be87da7b0883', '77', NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('d2fbba11f4814d9b1d3cb1a3f342234a', 'C10019', '2019-02-18 00:00:00', '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('dbdb07a16826808e4276e84b2aa4731a', '导入A100', NULL, '3a867ebf2cebce9bae3f79676d8d86f3', 'jeecg-boot', '2019-03-29 18:43:59', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('e7075639c37513afc0bbc4bf7b5d98b9', '88', NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('fa759dc104d0371f8aa28665b323dab6', '888', NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-INSERT INTO `jeecg_order_ticket` VALUES ('ff197da84a9a3af53878eddc91afbb2e', '33', NULL, '54e739bef5b67569c963c38da52581ec', 'admin', '2019-03-15 16:50:15', NULL, NULL);
-
--- ----------------------------
 -- Table structure for jimu_dict
 -- ----------------------------
 DROP TABLE IF EXISTS `jimu_dict`;
 CREATE TABLE `jimu_dict`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `dict_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典名称',
-  `dict_code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典编码',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `del_flag` int(1) NULL DEFAULT NULL COMMENT '删除状态',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `dict_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '字典名称',
+  `dict_code` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '字典编码',
+  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `del_flag` int NULL DEFAULT NULL COMMENT '删除状态',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `type` int(1) UNSIGNED ZEROFILL NULL DEFAULT 0 COMMENT '字典类型0为string,1为number',
-  `tenant_id` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '多租户标识',
+  `tenant_id` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '多租户标识',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_jd_dict_code`(`dict_code`) USING BTREE,
-  INDEX `idx_jd_tenant_id`(`tenant_id`) USING BTREE,
-  INDEX `idx_jd_create_by`(`create_by`) USING BTREE,
-  INDEX `idx_jd_dict_code_tenant_id`(`dict_code`, `tenant_id`) USING BTREE,
-  INDEX `idx_jd_dict_code_create_by`(`dict_code`, `create_by`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_jd_dict_code`(`dict_code` ASC) USING BTREE,
+  INDEX `idx_jd_tenant_id`(`tenant_id` ASC) USING BTREE,
+  INDEX `idx_jd_create_by`(`create_by` ASC) USING BTREE,
+  INDEX `idx_jd_dict_code_tenant_id`(`dict_code` ASC, `tenant_id` ASC) USING BTREE,
+  INDEX `idx_jd_dict_code_create_by`(`dict_code` ASC, `create_by` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of jimu_dict
@@ -1623,23 +1064,23 @@ INSERT INTO `jimu_dict` VALUES ('fc6cd58fde2e8481db10d3a1e68ce70c', '用户状�
 -- ----------------------------
 DROP TABLE IF EXISTS `jimu_dict_item`;
 CREATE TABLE `jimu_dict_item`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `dict_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典id',
-  `item_text` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典项文本',
-  `item_value` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典项值',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `sort_order` int(10) NULL DEFAULT NULL COMMENT '排序',
-  `status` int(11) NULL DEFAULT NULL COMMENT '状态（1启用 0不启用）',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `dict_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字典id',
+  `item_text` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '字典项文本',
+  `item_value` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '字典项值',
+  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `sort_order` int NULL DEFAULT NULL COMMENT '排序',
+  `status` int NULL DEFAULT NULL COMMENT '状态（1启用 0不启用）',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   `create_time` datetime NULL DEFAULT NULL,
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_sdi_role_dict_id`(`dict_id`) USING BTREE,
-  INDEX `idx_sdi_role_sort_order`(`sort_order`) USING BTREE,
-  INDEX `idx_sdi_status`(`status`) USING BTREE,
-  INDEX `idx_sdi_dict_val`(`dict_id`, `item_value`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_sdi_role_dict_id`(`dict_id` ASC) USING BTREE,
+  INDEX `idx_sdi_role_sort_order`(`sort_order` ASC) USING BTREE,
+  INDEX `idx_sdi_status`(`status` ASC) USING BTREE,
+  INDEX `idx_sdi_dict_val`(`dict_id` ASC, `item_value` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of jimu_dict_item
@@ -1846,36 +1287,36 @@ INSERT INTO `jimu_dict_item` VALUES ('fe50b23ae5e68434def76f67cef35d2d', '78bda1
 -- ----------------------------
 DROP TABLE IF EXISTS `jimu_report`;
 CREATE TABLE `jimu_report`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
-  `code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '编码',
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '名称',
-  `note` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '说明',
-  `status` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '状态',
-  `type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '类型',
-  `json_str` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'json字符串',
-  `api_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求地址',
-  `thumb` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '缩略图',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键',
+  `code` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '编码',
+  `name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '名称',
+  `note` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '说明',
+  `status` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '状态',
+  `type` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '类型',
+  `json_str` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT 'json字符串',
+  `api_url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '请求地址',
+  `thumb` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '缩略图',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) NULL DEFAULT NULL COMMENT '删除标识0-正常,1-已删除',
-  `api_method` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求方法0-get,1-post',
-  `api_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求编码',
+  `api_method` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '请求方法0-get,1-post',
+  `api_code` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '请求编码',
   `template` tinyint(1) NULL DEFAULT NULL COMMENT '是否是模板 0不是,1是',
-  `view_count` bigint(15) NULL DEFAULT 0 COMMENT '浏览次数',
-  `css_str` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'css增强',
-  `js_str` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'js增强',
-  `py_str` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'py增强',
-  `tenant_id` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '多租户标识',
-  `update_count` int(11) NULL DEFAULT 0 COMMENT '乐观锁版本',
+  `view_count` bigint NULL DEFAULT 0 COMMENT '浏览次数',
+  `css_str` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT 'css增强',
+  `js_str` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT 'js增强',
+  `py_str` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT 'py增强',
+  `tenant_id` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '多租户标识',
+  `update_count` int NULL DEFAULT 0 COMMENT '乐观锁版本',
   `submit_form` tinyint(1) NULL DEFAULT NULL COMMENT '是否填报报表 0不是,1是',
-  `is_multi_sheet` tinyint(4) NULL DEFAULT NULL COMMENT '是否多sheet报表 1是 0否',
+  `is_multi_sheet` tinyint NULL DEFAULT NULL COMMENT '是否多sheet报表 1是 0否',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uniq_jmreport_code`(`code`) USING BTREE,
-  INDEX `uniq_jmreport_createby`(`create_by`) USING BTREE,
-  INDEX `uniq_jmreport_delflag`(`del_flag`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '在线excel设计器' ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `uniq_jmreport_code`(`code` ASC) USING BTREE,
+  INDEX `uniq_jmreport_createby`(`create_by` ASC) USING BTREE,
+  INDEX `uniq_jmreport_delflag`(`del_flag` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '在线excel设计器' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of jimu_report
@@ -1925,15 +1366,15 @@ CREATE TABLE `jimu_report_category`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '分类名称',
   `parent_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '父级id',
-  `iz_leaf` int(1) NULL DEFAULT NULL COMMENT '是否为叶子节点(0 否 1是)',
+  `iz_leaf` int NULL DEFAULT NULL COMMENT '是否为叶子节点(0 否 1是)',
   `source_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '来源类型( report 积木报表 screen 大屏  drag 仪表盘)',
-  `del_flag` int(1) NULL DEFAULT NULL COMMENT '删除标识(0 正常 1 已删除)',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `del_flag` int NULL DEFAULT NULL COMMENT '删除标识(0 正常 1 已删除)',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
   `tenant_id` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '租户id',
-  `sort_no` int(11) NULL DEFAULT NULL COMMENT '排序',
+  `sort_no` int NULL DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '分类' ROW_FORMAT = DYNAMIC;
 
@@ -1965,12 +1406,12 @@ CREATE TABLE `jimu_report_data_source`  (
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
   `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `connect_times` int(11) NULL DEFAULT 0 COMMENT '连接失败次数',
-  `tenant_id` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '多租户标识',
+  `connect_times` int NULL DEFAULT 0 COMMENT '连接失败次数',
+  `tenant_id` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '多租户标识',
   `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '类型(report:报表;drag:仪表盘)',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_jmdatasource_report_id`(`report_id`) USING BTREE,
-  INDEX `idx_jmdatasource_code`(`code`) USING BTREE
+  INDEX `idx_jmdatasource_report_id`(`report_id` ASC) USING BTREE,
+  INDEX `idx_jmdatasource_code`(`code` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -1986,37 +1427,37 @@ INSERT INTO `jimu_report_data_source` VALUES ('8f90daf47d15d35ca6cf420748b8b9ba'
 -- ----------------------------
 DROP TABLE IF EXISTS `jimu_report_db`;
 CREATE TABLE `jimu_report_db`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'id',
-  `jimu_report_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '主键字段',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'id',
+  `jimu_report_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '主键字段',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `db_code` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据集编码',
-  `db_ch_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据集名字',
-  `db_type` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据源类型',
-  `db_table_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据库表名',
-  `db_dyn_sql` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '动态查询SQL',
-  `db_key` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据源KEY',
-  `tb_db_key` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '填报数据源',
-  `tb_db_table_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '填报数据表',
-  `java_type` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'java类数据集  类型（spring:springkey,class:java类名）',
-  `java_value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'java类数据源  数值（bean key/java类名）',
-  `api_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求地址',
-  `api_method` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求方法0-get,1-post',
-  `is_list` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '是否是列表0否1是 默认0',
-  `is_page` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否作为分页,0:不分页，1:分页',
-  `db_source` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据源',
-  `db_source_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据库类型 MYSQL ORACLE SQLSERVER',
-  `json_data` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'json数据，直接解析json内容',
-  `api_convert` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'api转换器',
-  `iz_shared_source` int(1) NULL DEFAULT NULL COMMENT '是否为共享数据源(0 否 1 是)',
-  `jimu_shared_source_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '指向共享数据集的id',
+  `db_code` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '数据集编码',
+  `db_ch_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '数据集名字',
+  `db_type` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '数据源类型',
+  `db_table_name` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '数据库表名',
+  `db_dyn_sql` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '动态查询SQL',
+  `db_key` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '数据源KEY',
+  `tb_db_key` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '填报数据源',
+  `tb_db_table_name` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '填报数据表',
+  `java_type` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'java类数据集  类型（spring:springkey,class:java类名）',
+  `java_value` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'java类数据源  数值（bean key/java类名）',
+  `api_url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '请求地址',
+  `api_method` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '请求方法0-get,1-post',
+  `is_list` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '是否是列表0否1是 默认0',
+  `is_page` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否作为分页,0:不分页，1:分页',
+  `db_source` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '数据源',
+  `db_source_type` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '数据库类型 MYSQL ORACLE SQLSERVER',
+  `json_data` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT 'json数据，直接解析json内容',
+  `api_convert` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'api转换器',
+  `iz_shared_source` int NULL DEFAULT NULL COMMENT '是否为共享数据源(0 否 1 是)',
+  `jimu_shared_source_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '指向共享数据集的id',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_jmreportdb_db_key`(`db_key`) USING BTREE,
-  INDEX `idx_jimu_report_id`(`jimu_report_id`) USING BTREE,
-  INDEX `idx_db_source_id`(`db_source`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_jmreportdb_db_key`(`db_key` ASC) USING BTREE,
+  INDEX `idx_jimu_report_id`(`jimu_report_id` ASC) USING BTREE,
+  INDEX `idx_db_source_id`(`db_source` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of jimu_report_db
@@ -2086,28 +1527,28 @@ INSERT INTO `jimu_report_db` VALUES ('fb70a91730f087f8023afd88d24f9697', '1cd9d5
 -- ----------------------------
 DROP TABLE IF EXISTS `jimu_report_db_field`;
 CREATE TABLE `jimu_report_db_field`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'id',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'id',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `jimu_report_db_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据源ID',
-  `field_name` varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段名',
-  `field_name_physics` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '物理字段名（文件数据集使用，存的是excel的字段标题）',
-  `field_text` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段文本',
-  `widget_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '控件类型',
-  `widget_width` int(10) NULL DEFAULT NULL COMMENT '控件宽度',
-  `order_num` int(3) NULL DEFAULT NULL COMMENT '排序',
-  `search_flag` int(3) NULL DEFAULT 0 COMMENT '查询标识0否1是 默认0',
-  `search_mode` int(3) NULL DEFAULT NULL COMMENT '查询模式1简单2范围',
-  `dict_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典编码支持从表中取数据',
-  `search_value` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询默认值',
-  `search_format` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询时间格式化表达式',
-  `ext_json` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '参数配置',
+  `jimu_report_db_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '数据源ID',
+  `field_name` varchar(80) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字段名',
+  `field_name_physics` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '物理字段名（文件数据集使用，存的是excel的字段标题）',
+  `field_text` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字段文本',
+  `widget_type` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '控件类型',
+  `widget_width` int NULL DEFAULT NULL COMMENT '控件宽度',
+  `order_num` int NULL DEFAULT NULL COMMENT '排序',
+  `search_flag` int NULL DEFAULT 0 COMMENT '查询标识0否1是 默认0',
+  `search_mode` int NULL DEFAULT NULL COMMENT '查询模式1简单2范围',
+  `dict_code` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字典编码支持从表中取数据',
+  `search_value` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询默认值',
+  `search_format` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询时间格式化表达式',
+  `ext_json` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '参数配置',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_jrdf_jimu_report_db_id`(`jimu_report_db_id`) USING BTREE,
-  INDEX `idx_dbfield_order_num`(`order_num`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_jrdf_jimu_report_db_id`(`jimu_report_db_id` ASC) USING BTREE,
+  INDEX `idx_dbfield_order_num`(`order_num` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of jimu_report_db_field
@@ -2651,25 +2092,25 @@ INSERT INTO `jimu_report_db_field` VALUES ('ffb5fbe81d2cf48ca45a815c676fd9eb', N
 -- ----------------------------
 DROP TABLE IF EXISTS `jimu_report_db_param`;
 CREATE TABLE `jimu_report_db_param`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `jimu_report_head_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '动态报表ID',
-  `param_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '参数字段',
-  `param_txt` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数文本',
-  `param_value` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数默认值',
-  `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `jimu_report_head_id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '动态报表ID',
+  `param_name` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '参数字段',
+  `param_txt` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '参数文本',
+  `param_value` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '参数默认值',
+  `order_num` int NULL DEFAULT NULL COMMENT '排序',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `search_flag` int(1) NULL DEFAULT NULL COMMENT '查询标识0否1是 默认0',
-  `widget_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询控件类型',
-  `search_mode` int(1) NULL DEFAULT NULL COMMENT '查询模式1简单2范围',
-  `dict_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典',
-  `search_format` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询时间格式化表达式',
-  `ext_json` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '参数配置',
+  `search_flag` int NULL DEFAULT NULL COMMENT '查询标识0否1是 默认0',
+  `widget_type` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询控件类型',
+  `search_mode` int NULL DEFAULT NULL COMMENT '查询模式1简单2范围',
+  `dict_code` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字典',
+  `search_format` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询时间格式化表达式',
+  `ext_json` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '参数配置',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_jrdp_jimu_report_head_id`(`jimu_report_head_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_jrdp_jimu_report_head_id`(`jimu_report_head_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of jimu_report_db_param
@@ -2710,12 +2151,12 @@ CREATE TABLE `jimu_report_export_job`  (
   `last_run_time` datetime NULL DEFAULT NULL COMMENT '最后执行时间',
   `receiver_email` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '接收通知的邮件',
   `file_sync_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '文件同步路径',
-  `status` int(11) NULL DEFAULT NULL COMMENT '状态(0:停止;1:启动)',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `status` int NULL DEFAULT NULL COMMENT '状态(0:停止;1:启动)',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `tenant_id` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '多租户标识',
+  `tenant_id` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '多租户标识',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '积木报表导出计划表' ROW_FORMAT = DYNAMIC;
 
@@ -2728,17 +2169,17 @@ CREATE TABLE `jimu_report_export_job`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `jimu_report_export_log`;
 CREATE TABLE `jimu_report_export_log`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `batch_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '批次编号',
   `export_channel` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '导出渠道',
   `export_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '导出类型',
   `report_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '报表id',
   `download_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '下载路径',
   `status` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '状态',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `tenant_id` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '多租户标识',
+  `tenant_id` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '多租户标识',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '积木报表自动导出记录表' ROW_FORMAT = DYNAMIC;
 
@@ -2758,13 +2199,13 @@ CREATE TABLE `jimu_report_ext_data`  (
   `tags` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标签，多个用逗号分隔',
   `data_value` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '实际存储内容',
   `metadata` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '元数据，用于存储补充信息',
-  `status` tinyint(4) NULL DEFAULT 1 COMMENT '状态标识：1正常 0禁用',
+  `status` tinyint NULL DEFAULT 1 COMMENT '状态标识：1正常 0禁用',
   `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_biz`(`biz_type`) USING BTREE
+  INDEX `idx_biz`(`biz_type` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '通用扩展数据表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2779,12 +2220,12 @@ CREATE TABLE `jimu_report_icon_lib`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片名称',
   `type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片类型',
-  `image_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片地址',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `image_url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '图片地址',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `tenant_id` int(11) NULL DEFAULT NULL COMMENT '租户id',
+  `tenant_id` int NULL DEFAULT NULL COMMENT '租户id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '积木图库表' ROW_FORMAT = DYNAMIC;
 
@@ -3020,7 +2461,7 @@ CREATE TABLE `jimu_report_link`  (
   `expression` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '表达式',
   `requirement` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '条件',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `uniq_link_reportid`(`report_id`) USING BTREE
+  INDEX `uniq_link_reportid`(`report_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '超链接配置表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -3035,19 +2476,19 @@ INSERT INTO `jimu_report_link` VALUES ('929546942631428096', '928540173805338624
 -- ----------------------------
 DROP TABLE IF EXISTS `jimu_report_map`;
 CREATE TABLE `jimu_report_map`  (
-  `id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
-  `label` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '地图名称',
-  `name` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '地图编码',
-  `data` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '地图数据',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键',
+  `label` varchar(125) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '地图名称',
+  `name` varchar(125) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '地图编码',
+  `data` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '地图数据',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `del_flag` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '0表示未删除,1表示删除',
-  `sys_org_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属部门',
+  `del_flag` varchar(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '0表示未删除,1表示删除',
+  `sys_org_code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '所属部门',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uniq_jmreport_map_name`(`name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '地图配置表' ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `uniq_jmreport_map_name`(`name` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '地图配置表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of jimu_report_map
@@ -3069,9 +2510,9 @@ CREATE TABLE `jimu_report_share`  (
   `preview_lock_status` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '是否为密码锁(0 否,1是)',
   `share_token` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '分享token',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uniq_report_id`(`report_id`) USING BTREE,
-  UNIQUE INDEX `uniq_jrs_report_id`(`report_id`) USING BTREE COMMENT '报表id唯一索引',
-  INDEX `idx_jrs_share_token`(`share_token`) USING BTREE
+  UNIQUE INDEX `uniq_report_id`(`report_id` ASC) USING BTREE,
+  UNIQUE INDEX `uniq_jrs_report_id`(`report_id` ASC) USING BTREE COMMENT '报表id唯一索引',
+  INDEX `idx_jrs_share_token`(`share_token` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '积木报表预览权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -3087,15 +2528,15 @@ CREATE TABLE `jimu_report_sheet`  (
   `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键（Sheet ID）',
   `report_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '报表ID',
   `sheet_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Sheet名称',
-  `sheet_order` int(11) NOT NULL COMMENT '排序（可以为负数，负数表示在默认sheet前面）',
+  `sheet_order` int NOT NULL COMMENT '排序（可以为负数，负数表示在默认sheet前面）',
   `json_str` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '该sheet的完整jsonStr',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_report_id`(`report_id`) USING BTREE,
-  INDEX `idx_sheet_order`(`report_id`, `sheet_order`) USING BTREE
+  INDEX `idx_report_id`(`report_id` ASC) USING BTREE,
+  INDEX `idx_sheet_order`(`report_id` ASC, `sheet_order` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '报表Sheet表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -3108,18 +2549,18 @@ INSERT INTO `jimu_report_sheet` VALUES ('1202488862770757632', '1110348597759606
 -- ----------------------------
 DROP TABLE IF EXISTS `joa_demo`;
 CREATE TABLE `joa_demo`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ID',
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请假人',
-  `days` int(11) NULL DEFAULT NULL COMMENT '请假天数',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'ID',
+  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '请假人',
+  `days` int NULL DEFAULT NULL COMMENT '请假天数',
   `begin_date` datetime NULL DEFAULT NULL COMMENT '开始时间',
   `end_date` datetime NULL DEFAULT NULL COMMENT '请假结束时间',
-  `reason` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请假原因',
-  `bpm_status` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '流程状态',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人id',
+  `reason` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '请假原因',
+  `bpm_status` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '1' COMMENT '流程状态',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人id'
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '流程测试' ROW_FORMAT = DYNAMIC;
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人id'
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '流程测试' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of joa_demo
@@ -3162,9 +2603,9 @@ CREATE TABLE `onl_auth_data`  (
   `rule_column` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规则列',
   `rule_operator` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规则条件 大于小于like',
   `rule_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规则值',
-  `status` int(1) NULL DEFAULT NULL COMMENT '1有效 0无效',
+  `status` int NULL DEFAULT NULL COMMENT '1有效 0无效',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   PRIMARY KEY (`id`) USING BTREE
@@ -3182,17 +2623,17 @@ CREATE TABLE `onl_auth_page`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT ' 主键',
   `cgform_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'online表id',
   `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '字段名/按钮编码',
-  `type` int(1) NULL DEFAULT NULL COMMENT '1字段 2按钮',
-  `control` int(1) NULL DEFAULT NULL COMMENT '3可编辑 5可见(仅支持两种状态值3,5)',
-  `page` int(1) NULL DEFAULT NULL COMMENT '3列表 5表单(仅支持两种状态值3,5)',
-  `status` int(1) NULL DEFAULT NULL COMMENT '1有效 0无效',
+  `type` int NULL DEFAULT NULL COMMENT '1字段 2按钮',
+  `control` int NULL DEFAULT NULL COMMENT '3可编辑 5可见(仅支持两种状态值3,5)',
+  `page` int NULL DEFAULT NULL COMMENT '3列表 5表单(仅支持两种状态值3,5)',
+  `status` int NULL DEFAULT NULL COMMENT '1有效 0无效',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_onl_auth_page_code`(`code`) USING BTREE,
-  INDEX `idx_onl_auth_page_cgform_id`(`cgform_id`) USING BTREE
+  INDEX `idx_onl_auth_page_code`(`code` ASC) USING BTREE,
+  INDEX `idx_onl_auth_page_cgform_id`(`cgform_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -3210,7 +2651,7 @@ CREATE TABLE `onl_auth_relation`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色id',
   `auth_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '权限id',
-  `type` int(1) NULL DEFAULT NULL COMMENT '1字段 2按钮 3数据权限',
+  `type` int NULL DEFAULT NULL COMMENT '1字段 2按钮 3数据权限',
   `cgform_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'online表单ID',
   `auth_mode` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '授权方式role角色，depart部门，user人',
   PRIMARY KEY (`id`) USING BTREE
@@ -3225,23 +2666,23 @@ CREATE TABLE `onl_auth_relation`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_cgform_button`;
 CREATE TABLE `onl_cgform_button`  (
-  `ID` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID',
-  `BUTTON_CODE` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '按钮编码',
-  `BUTTON_ICON` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '按钮图标',
-  `BUTTON_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '按钮名称',
-  `BUTTON_STATUS` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '按钮状态',
-  `BUTTON_STYLE` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '按钮样式',
-  `EXP` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表达式',
-  `CGFORM_HEAD_ID` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表单ID',
-  `OPT_TYPE` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '按钮类型',
-  `ORDER_NUM` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `OPT_POSITION` varchar(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '按钮位置1侧面 2底部',
+  `ID` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键ID',
+  `BUTTON_CODE` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '按钮编码',
+  `BUTTON_ICON` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '按钮图标',
+  `BUTTON_NAME` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '按钮名称',
+  `BUTTON_STATUS` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '按钮状态',
+  `BUTTON_STYLE` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '按钮样式',
+  `EXP` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '表达式',
+  `CGFORM_HEAD_ID` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '表单ID',
+  `OPT_TYPE` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '按钮类型',
+  `ORDER_NUM` int NULL DEFAULT NULL COMMENT '排序',
+  `OPT_POSITION` varchar(3) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '按钮位置1侧面 2底部',
   PRIMARY KEY (`ID`) USING BTREE,
-  INDEX `idx_ocb_CGFORM_HEAD_ID`(`CGFORM_HEAD_ID`) USING BTREE,
-  INDEX `idx_ocb_BUTTON_CODE`(`BUTTON_CODE`) USING BTREE,
-  INDEX `idx_ocb_BUTTON_STATUS`(`BUTTON_STATUS`) USING BTREE,
-  INDEX `idx_ocb_ORDER_NUM`(`ORDER_NUM`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'Online表单自定义按钮' ROW_FORMAT = DYNAMIC;
+  INDEX `idx_ocb_CGFORM_HEAD_ID`(`CGFORM_HEAD_ID` ASC) USING BTREE,
+  INDEX `idx_ocb_BUTTON_CODE`(`BUTTON_CODE` ASC) USING BTREE,
+  INDEX `idx_ocb_BUTTON_STATUS`(`BUTTON_STATUS` ASC) USING BTREE,
+  INDEX `idx_ocb_ORDER_NUM`(`ORDER_NUM` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = 'Online表单自定义按钮' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_cgform_button
@@ -3262,18 +2703,18 @@ INSERT INTO `onl_cgform_button` VALUES ('ebcc48ef0bde4433a6faf940a5e170c1', 'but
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_cgform_enhance_java`;
 CREATE TABLE `onl_cgform_enhance_java`  (
-  `ID` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `BUTTON_CODE` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '按钮编码',
-  `CG_JAVA_TYPE` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '类型',
-  `CG_JAVA_VALUE` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '数值',
-  `CGFORM_HEAD_ID` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '表单ID',
-  `ACTIVE_STATUS` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '生效状态',
-  `EVENT` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'end' COMMENT '事件状态(end:结束，start:开始)',
+  `ID` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `BUTTON_CODE` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '按钮编码',
+  `CG_JAVA_TYPE` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '类型',
+  `CG_JAVA_VALUE` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '数值',
+  `CGFORM_HEAD_ID` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '表单ID',
+  `ACTIVE_STATUS` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '1' COMMENT '生效状态',
+  `EVENT` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT 'end' COMMENT '事件状态(end:结束，start:开始)',
   PRIMARY KEY (`ID`) USING BTREE,
-  INDEX `idx_ejava_cgform_head_id`(`CGFORM_HEAD_ID`) USING BTREE,
-  INDEX `idx_ocej_BUTTON_CODE`(`BUTTON_CODE`) USING BTREE,
-  INDEX `idx_ocej_ACTIVE_STATUS`(`ACTIVE_STATUS`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_ejava_cgform_head_id`(`CGFORM_HEAD_ID` ASC) USING BTREE,
+  INDEX `idx_ocej_BUTTON_CODE`(`BUTTON_CODE` ASC) USING BTREE,
+  INDEX `idx_ocej_ACTIVE_STATUS`(`ACTIVE_STATUS` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_cgform_enhance_java
@@ -3284,15 +2725,15 @@ CREATE TABLE `onl_cgform_enhance_java`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_cgform_enhance_js`;
 CREATE TABLE `onl_cgform_enhance_js`  (
-  `ID` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID',
-  `CG_JS` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'JS增强内容',
-  `CG_JS_TYPE` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '类型',
-  `CONTENT` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `CGFORM_HEAD_ID` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表单ID',
+  `ID` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键ID',
+  `CG_JS` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT 'JS增强内容',
+  `CG_JS_TYPE` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '类型',
+  `CONTENT` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `CGFORM_HEAD_ID` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '表单ID',
   PRIMARY KEY (`ID`) USING BTREE,
-  INDEX `idx_ejs_cgform_head_id`(`CGFORM_HEAD_ID`) USING BTREE,
-  INDEX `idx_ejs_cg_js_type`(`CG_JS_TYPE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_ejs_cgform_head_id`(`CGFORM_HEAD_ID` ASC) USING BTREE,
+  INDEX `idx_ejs_cg_js_type`(`CG_JS_TYPE` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_cgform_enhance_js
@@ -3324,16 +2765,16 @@ INSERT INTO `onl_cgform_enhance_js` VALUES ('fd711738f58d5481ca0ce9bc3a415223', 
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_cgform_enhance_sql`;
 CREATE TABLE `onl_cgform_enhance_sql`  (
-  `ID` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID',
-  `BUTTON_CODE` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '按钮编码',
-  `CGB_SQL` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'SQL内容',
-  `CGB_SQL_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'Sql名称',
-  `CONTENT` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `db_source` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'SQL增强执行的数据源：为空=跟随表单数据源，master=主库/默认数据源，其它=动态数据源编码（关联sys_data_source.code）',
-  `CGFORM_HEAD_ID` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表单ID',
+  `ID` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键ID',
+  `BUTTON_CODE` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '按钮编码',
+  `CGB_SQL` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT 'SQL内容',
+  `CGB_SQL_NAME` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'Sql名称',
+  `CONTENT` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `db_source` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'SQL增强执行的数据源：为空=跟随表单数据源，master=主库/默认数据源，其它=动态数据源编码（关联sys_data_source.code）',
+  `CGFORM_HEAD_ID` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '表单ID',
   PRIMARY KEY (`ID`) USING BTREE,
-  INDEX `idx_oces_CGFORM_HEAD_ID`(`CGFORM_HEAD_ID`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_oces_CGFORM_HEAD_ID`(`CGFORM_HEAD_ID` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_cgform_enhance_sql
@@ -3348,72 +2789,78 @@ INSERT INTO `onl_cgform_enhance_sql` VALUES ('edfab059050b19328ac81e6833b5ebc2',
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_cgform_field`;
 CREATE TABLE `onl_cgform_field`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID',
-  `cgform_head_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '表ID',
-  `db_field_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字段名字',
-  `db_field_txt` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段备注',
-  `db_field_name_old` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '原字段名',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键ID',
+  `cgform_head_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '表ID',
+  `db_field_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '字段名字',
+  `db_field_txt` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字段备注',
+  `db_field_name_old` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '原字段名',
   `db_is_key` tinyint(1) NULL DEFAULT NULL COMMENT '是否主键 0否 1是',
   `db_is_null` tinyint(1) NULL DEFAULT NULL COMMENT '是否允许为空0否 1是',
   `db_is_persist` tinyint(1) NULL DEFAULT NULL COMMENT '是否需要同步数据库字段， 1是0否',
-  `db_type` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '数据库字段类型',
-  `db_length` int(11) NOT NULL COMMENT '数据库字段长度',
-  `db_point_length` int(11) NULL DEFAULT NULL COMMENT '小数点',
-  `db_default_val` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表字段默认值',
-  `dict_field` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典code',
-  `dict_table` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典表',
-  `dict_text` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典Text',
-  `field_show_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表单控件类型',
-  `field_href` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '跳转URL',
-  `field_length` int(11) NULL DEFAULT NULL COMMENT '表单控件长度',
-  `field_valid_type` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表单字段校验规则',
-  `field_must_input` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段是否必填',
-  `field_extend_json` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '扩展参数JSON',
-  `field_default_value` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '控件默认值，不同的表达式展示不同的结果。\r\n1. 纯字符串直接赋给默认值；\r\n2. #{普通变量}；\r\n3. {{ 动态JS表达式 }}；\r\n4. ${填值规则编码}；\r\n填值规则表达式只允许存在一个，且不能和其他规则混用。',
+  `db_type` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '数据库字段类型',
+  `db_length` int NOT NULL COMMENT '数据库字段长度',
+  `db_point_length` int NULL DEFAULT NULL COMMENT '小数点',
+  `db_default_val` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '表字段默认值',
+  `dict_field` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字典code',
+  `dict_table` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字典表',
+  `dict_text` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字典Text',
+  `field_show_type` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '表单控件类型',
+  `field_href` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '跳转URL',
+  `field_length` int NULL DEFAULT NULL COMMENT '表单控件长度',
+  `field_valid_type` varchar(300) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '表单字段校验规则',
+  `field_must_input` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字段是否必填',
+  `field_extend_json` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '扩展参数JSON',
+  `field_default_value` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '控件默认值，不同的表达式展示不同的结果。\r\n1. 纯字符串直接赋给默认值；\r\n2. #{普通变量}；\r\n3. {{ 动态JS表达式 }}；\r\n4. ${填值规则编码}；\r\n填值规则表达式只允许存在一个，且不能和其他规则混用。',
   `is_query` tinyint(1) NULL DEFAULT NULL COMMENT '是否查询条件0否 1是',
   `is_show_form` tinyint(1) NULL DEFAULT NULL COMMENT '表单是否显示0否 1是',
   `is_show_list` tinyint(1) NULL DEFAULT NULL COMMENT '列表是否显示0否 1是',
   `is_read_only` tinyint(1) NULL DEFAULT 0 COMMENT '是否是只读（1是 0否）',
-  `query_mode` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询模式',
-  `main_table` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '外键主表名',
-  `main_field` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '外键主键字段',
-  `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `query_mode` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询模式',
+  `main_table` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '外键主表名',
+  `main_field` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '外键主键字段',
+  `order_num` int NULL DEFAULT NULL COMMENT '排序',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `create_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `converter` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '自定义值转换器',
-  `query_def_val` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询默认值',
-  `query_dict_text` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询配置字典text',
-  `query_dict_field` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询配置字典code',
-  `query_dict_table` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询配置字典table',
-  `query_show_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询显示控件',
-  `query_config_flag` varchar(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否启用查询配置1是0否',
-  `query_valid_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询字段校验类型',
-  `query_must_input` varchar(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询字段是否必填1是0否',
-  `sort_flag` varchar(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否支持排序1是0否',
+  `create_by` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `converter` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '自定义值转换器',
+  `query_def_val` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询默认值',
+  `query_dict_text` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询配置字典text',
+  `query_dict_field` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询配置字典code',
+  `query_dict_table` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询配置字典table',
+  `query_show_type` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询显示控件',
+  `query_config_flag` varchar(3) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否启用查询配置1是0否',
+  `query_valid_type` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询字段校验类型',
+  `query_must_input` varchar(3) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询字段是否必填1是0否',
+  `sort_flag` varchar(3) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否支持排序1是0否',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_ocf_cgform_head_id`(`cgform_head_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_ocf_cgform_head_id`(`cgform_head_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_cgform_field
 -- ----------------------------
 INSERT INTO `onl_cgform_field` VALUES ('0021c969dc23a9150d6f70a13b52e73e', '402860816aa5921f016aa5921f480000', 'begin_date', '开始时间', 'begin_date', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 4, 'admin', '2019-05-11 15:31:54', '2019-05-11 14:26:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('00553eb55ace7bd4fab925c94ab75c74', '2c9bf081a1585aaa01a1585adddc0003', 'value', '指标数值', 'value', 0, 1, 1, 'BigDecimal', 30, 8, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 5, NULL, NULL, '2026-10-20 16:08:33', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('011ddab07f440f2fb7ab548a4d6fb54f', '05a3a30dada7411c9109306aa4117068', 'sheng', '地区', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'pca', '', 120, '', '0', '', '', 0, 1, 0, 0, 'single', '', '', 10, 'admin', '2026-08-20 23:18:39', '2024-06-12 11:21:08', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('01f90a7b178b538306aca0472dc47512', '2c978081a12e8ea901a12e8eace90003', 'deleted', '逻辑删除', 'deleted', 0, 1, 1, 'int', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 5, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('020c1622c3df0aef30185f57874f6959', '79091e8277c744158530321513119c68', 'bpm_status', '流程状态', NULL, 0, 1, 1, 'string', 32, 0, '1', 'bpm_status', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 1, 0, 'single', '', '', 8, 'admin', '2019-05-11 15:29:47', '2019-05-11 15:29:26', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('02b20e692456403e2fed1a89a06833b4', '402860816bff91c0016bff91d2810005', 'phone', '联系方式', 'phone', 0, 1, 1, 'string', 20, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 8, 'admin', '2019-07-19 18:05:55', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('03668009f0ad92b20abb1a377197ee47', 'deea5a8ec619460c9245ba85dbc59e80', 'order_fk_id', '订单外键ID', NULL, 0, 0, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', 'test_order_main', 'id', 10, 'admin', '2020-05-03 01:01:18', '2019-04-20 11:42:53', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('03709092184fdf4a66b0cdb4dd10a159', '402860816bff91c0016bffa220a9000b', 'bpm_status', '流程状态', NULL, 0, 1, 1, 'string', 32, 0, '1', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 46, 'admin', '2019-07-22 16:15:32', '2019-07-19 15:34:44', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('03988419d751a330c2b0f0519a531880', '997ee931515a4620bc30a9c1246429a9', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2026-04-28 16:47:09', '2020-05-03 00:56:56', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('03b8df72d962a260581adfd00a80a777', '2c978081a12e8ea901a12e8eaadc0001', 'base_period', '基期', 'base_period', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 14, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('03c105d2706c8286416833684de67406', '79091e8277c744158530321513119c68', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2019-05-11 15:29:47', '2019-05-11 15:27:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('03fd5ab69f331ff760c3f7d86b4a93f8', '4028318169e81b970169e81b97650000', 'log_content', '日志内容', 'log_content', 0, 1, 1, 'string', 1000, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 3, NULL, NULL, '2019-04-04 19:28:36', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('045eb432c418b2b103b1e1b8e8a8a75d', 'fb7125a344a649b990c12949945cb6c1', 'age', '年龄', NULL, 0, 1, 1, 'int', 32, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', NULL, NULL, NULL, '2019-03-26 19:24:11', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('047b280c758fe2d501c0794fa256056b', '2c9bf081a1585aaa01a1585adddc0003', 'id', '自增主键，单条观测记录唯一id', 'id', 1, 0, 1, 'long', 19, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 1, 'single', NULL, NULL, -1, NULL, NULL, '2026-10-20 16:08:33', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('04e4185a503e6aaaa31c243829ff4ac7', 'd35109c3632c4952a19ecc094943dd71', 'birthday', '生日', NULL, 0, 1, 1, 'Datetime', 32, 0, '', '', '', '', 'date', '', 120, '', '0', '', '', 1, 1, 1, 0, 'single', '', '', 9, 'admin', '2023-09-16 21:25:25', '2019-03-15 14:24:35', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('04ff134cb4aae845059e10b3b85f1451', '7ea60a25fa27470e9080d6a921aabbd1', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, NULL, NULL, '2019-04-17 00:22:21', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('051dd70c504c97a028daab2af261ea35', '1acb6f81a1d9439da6cc4e868617b565', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2019-06-10 14:47:14', '2019-04-23 22:58:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('052dcc6f34976b66754fd99415bd22ce', '79091e8277c744158530321513119c68', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2019-05-11 15:29:47', '2019-05-11 15:27:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('053d6eadb2f877fa93d7320e406cf647', '2c978081a12e8ea901a12e918c9f000a', 'country_name_cn', '国家中文名(翻译字段)', 'country_name_cn', 0, 1, 1, 'string', 200, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 4, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('054db05394e83b318f097a60bc044134', '402860816bff91c0016bffa220a9000b', 'residence_address', '户籍地址', 'residence_address', 0, 1, 1, 'string', 200, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 28, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('05e7e6163c672d4f3f6de308f93982d0', '2c978081a12e8ea901a12e918c9f000a', 'update_by', '更新人', 'update_by', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 39, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('05ed6a78a2e9d0c82bfa2c55898570b8', '997ee931515a4620bc30a9c1246429a9', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 1, 'single', '', '', 0, 'admin', '2026-04-28 16:47:09', '2020-05-03 00:56:56', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('0604945c206e867644e9a44b4c9b20c6', 'fb19fb067cd841f9ae93d4eb3b883dc0', '2', '4', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 5, NULL, NULL, '2019-03-23 11:39:48', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('0617de6d735b37a3f80f2f35ad5d1511', '4028839a6de2ebd3016de2ebd3870000', 'size_type', '尺码类型', 'size_type', 0, 1, 1, 'string', 2, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 13, NULL, NULL, '2019-10-19 15:29:30', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -3423,16 +2870,20 @@ INSERT INTO `onl_cgform_field` VALUES ('06be12d850f7cb3261111e35c2622f5c', 'b493
 INSERT INTO `onl_cgform_field` VALUES ('06f1cfff58395ff62526b894f6182641', 'e67d26b610dd414c884c4dbb24e71ce3', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2019-04-24 11:03:32', '2019-04-24 11:02:57', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('07a307972076a392ffc61b11437f89dd', '402860816bff91c0016bff91c0cb0000', 'create_time', '创建时间', 'create_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 13, 'admin', '2019-07-19 18:09:01', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('07f4776fd641389a8c98a85713990dce', '402860816bff91c0016bff91c0cb0000', 'update_by', '更新人', 'update_by', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 14, 'admin', '2019-07-19 18:09:01', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('081f4e8e2ca3e660446d9a7af81ab868', '2c978081a12e8ea901a12e8eace90003', 'create_time', '创建时间', 'create_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'datetime', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 6, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('08a3353c11efd5f062c3076d0554b5c5', '402881e6760269a20176026d25650002', 'salary_money', '工资', 'salary_money', 0, 1, 1, 'BigDecimal', 10, 3, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 5, NULL, NULL, '2020-11-26 10:41:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('08f002095da7c1886c86648fcec38ca9', '56efb74326e74064b60933f6f8af30ea', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 6, 'admin', '2020-07-10 16:53:27', '2020-05-08 23:45:32', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('09450359eb90b40d224ec43588a62f9e', '402860816bff91c0016bff91c0cb0000', 'user_id', '用户ID', 'user_id', 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 3, 'admin', '2019-07-19 18:09:01', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('0a1208184216d9f5defa41d08040a8fd', 'a2ca0c7297a8491ca849fc1a06c9efbf', 'sex', 'sex', NULL, 0, 1, 1, 'string', 32, 0, '', 'sex', '', '', 'list', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 8, 'admin', '2021-01-24 14:39:35', '2021-01-24 14:38:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('0a4cdcb7e54f614ab952024f6c72bb6d', 'beee191324fd40c1afec4fda18bd9d47', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2019-04-13 13:41:13', '2019-04-13 13:40:56', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('0a7f077b50071212b6f710cc557bc96a', '2c978081a12e8ea901a12e8ea9d80000', 'series_code', '指标代码', 'series_code', 0, 0, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 2, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('0aad6fa0bf0965a6be1df8aa6005afb4', 'feea98637c2144caae7c5d56a815a245', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 6, NULL, NULL, '2021-10-27 10:24:24', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('0acfc27e493c204f72d42b6dc00a2ded', '53a3e82b54b946c2b904f605875a275c', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2022-10-25 11:10:48', '2020-05-07 22:49:47', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('0ad4f70dfb7f56cbcaf6a58c40417b7c', '2c978081a12e8ea901a12e8eac0d0002', 'footnote_text_cn', '脚注内容中文(翻译字段)', 'footnote_text_cn', 0, 1, 1, 'Text', 0, 0, NULL, NULL, NULL, NULL, 'textarea', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 6, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('0ad547ea9cab1e0f2b185ab3dc963fe6', '402881fd812267500181226787d90001', 'sheng', '地区', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'pca', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 11, NULL, NULL, '2024-06-12 11:21:08', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('0adc06d9b497684bcbb5a781e044517c', '1acb6f81a1d9439da6cc4e868617b565', 'supplier', '供应商', NULL, 0, 1, 1, 'string', 32, 0, '', 'air_china_ supplier', '', '', 'list', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 15, 'admin', '2019-06-10 14:47:14', '2019-04-24 16:52:00', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('0ae4bc5d4921aa240d814e018ddb7779', '56efb74326e74064b60933f6f8af30ea', 'money', '订单总额', NULL, 0, 1, 1, 'double', 10, 3, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 9, 'admin', '2020-07-10 16:53:27', '2020-05-08 23:45:32', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('0b379604fb1cb1cb32cf678a2f07ec9d', '2c978081a12e8ea901a12e8eac0d0002', 'update_time', '更新时间', 'update_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'datetime', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 11, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('0b3e833ac4aae3a13ec2f8ae460708f8', '4028839a6de2ebd3016de2ebd3870000', 'no', '预算表序号', 'no', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 8, NULL, NULL, '2019-10-19 15:29:30', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('0ba1bf74e2a6a94a7a63010ec7230706', '402860816bff91c0016bffa220a9000b', 'update_time', '更新时间', 'update_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 42, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('0bd10d416252bdc6b169056d2a1a4a68', '402880e5721355dd01721355dd390000', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 3, NULL, NULL, '2020-05-14 21:18:14', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3440,8 +2891,11 @@ INSERT INTO `onl_cgform_field` VALUES ('0c34ebfe2e2a619d42db13f93d2a2d40', 'b81d
 INSERT INTO `onl_cgform_field` VALUES ('0cba94f0497d4d3d829fc573f58eff9f', '402860816bff91c0016bffa220a9000b', 'graduation_time', '毕业时间', 'graduation_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 16, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('0d00c51a4ddad2598a587fadc968a8b2', '402860816bff91c0016bff91cfea0004', 'sys_org_code', '组织机构编码', 'sys_org_code', 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 13, 'admin', '2019-07-19 18:05:13', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('0d1b1fde3a27bf78aed05edbaf9e922d', '402881fd812267500181226787d90001', 'year', '年', NULL, 0, 1, 1, 'Date', 0, 0, '', '', '', '', 'date', '', 120, '', '0', '{\"labelLength\":6,\"picker\":\"year\"}', '', 0, 1, 1, 0, 'single', '', '', 12, NULL, NULL, '2024-06-12 11:21:08', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('0d53b9d3931a96e2f4db5db400428cf4', '2c9bf081a1585aaa01a1585acaf20002', 'scale', '量级，Billions/Units等', 'scale', 0, 1, 1, 'string', 40, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 6, NULL, NULL, '2026-10-20 16:08:28', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('0ddd0c0afc967a9ab6050401ca62a4be', 'e67d26b610dd414c884c4dbb24e71ce3', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2019-04-24 11:03:32', '2019-04-24 11:02:57', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('0e157503e648653836a602f5bbad4e83', '402881e6760269a201760269a2af0000', 'files', '文件', NULL, 0, 1, 1, 'string', 1000, 0, '', '', '', '', 'file', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', NULL, NULL, 15, NULL, NULL, '2020-11-26 10:37:26', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('0e209c3aad4b1c669c6bcbfcecb72ad6', '2c978081a12e8ea901a12e8eaadc0001', 'unit_cn', '计量单位中文(翻译字段)', 'unit_cn', 0, 1, 1, 'string', 200, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 12, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('0e476d333b515fc81ee47f7bebd764bb', '2c978081a12e8ea901a12e8eac0d0002', 'id', '主键', 'id', 1, 0, 1, 'string', 36, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 1, 'single', NULL, NULL, -1, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('0e5fb96c3f5a37c758eb7f5d1322694f', '402880e5721355dd01721355dd390000', 'good_name', '商品名字', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', NULL, NULL, 7, NULL, NULL, '2020-05-14 21:18:14', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('0fb6fa76c5c78a1e957dbb411e110738', '402860816bff91c0016bff91d8830007', 'politically_status', '政治面貌', 'politically_status', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 7, 'admin', '2019-07-19 18:04:41', '2019-07-17 18:54:37', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('0fd6b83f09ea78d32094aabbdf639a36', '553a4172fde446419cb602dc70f9ee67', 'wenjian', '文件', NULL, 0, 1, 1, 'string', 250, 0, NULL, '', '', '', 'file', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 16, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3451,6 +2905,7 @@ INSERT INTO `onl_cgform_field` VALUES ('10b78ee7954f230117689a226c44c0db', '4028
 INSERT INTO `onl_cgform_field` VALUES ('10cfb512423f929b6a488f5e50923199', '402881fd812267500181226750e90000', 'contents', '商品简介', NULL, 0, 1, 1, 'Text', 0, 0, '', '', '', '', 'umeditor', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', NULL, NULL, 10, NULL, NULL, '2022-06-02 11:13:25', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('1130f1e252533529bb1167b896dffe32', 'deea5a8ec619460c9245ba85dbc59e80', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2020-05-03 01:01:18', '2019-04-20 11:41:19', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('117fc4ba649d6690a3ac482ad5e4ad38', '56870166aba54ebfacb20ba6c770bd73', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2025-11-27 18:19:45', '2019-04-20 11:38:39', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('118968b5dfbf03f64b8ed83244e5ca05', '2c9bf081a1585aaa01a1585acaf20002', 'indicator_cn', '指标中文翻译', 'indicator_cn', 0, 0, 1, 'string', 500, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 4, NULL, NULL, '2026-10-20 16:08:28', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('12aa08f8e948e2b60b40a7b6429c866b', '56efb74326e74064b60933f6f8af30ea', 'order_code', '订单编码', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '${shop_order_num}', 0, 1, 1, 1, 'single', '', '', 7, 'admin', '2020-07-10 16:53:27', '2020-05-08 23:45:32', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('13246645b7650491b70205d99703ca06', '402860816aa5921f016aa5dedcb90009', 'bpm_status', '流程状态', 'bpm_status', 0, 1, 1, 'string', 32, 0, '1', 'bpm_status', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 1, 0, 'group', '', '', 8, 'admin', '2019-05-11 15:56:47', '2019-05-11 15:50:08', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('135dd0ee50712722db65b8762bd487ea', '8994f2817b5a45d9890aa04497a317c5', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 4, NULL, NULL, '2019-03-23 11:39:16', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -3467,12 +2922,16 @@ INSERT INTO `onl_cgform_field` VALUES ('16963d4264b4abcb46beb21c66459350', '41de
 INSERT INTO `onl_cgform_field` VALUES ('179c290e383009810fb738f07bd5af8d', '402860816bff91c0016bff91d2810005', 'id', 'id', 'id', 1, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'group', '', '', 1, 'admin', '2019-07-19 18:05:55', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('17cbda69da9dd3632625a0647c259070', '73162c3b8161413e8ecdca7eb288d0c9', 'wl_name', '物料名字', NULL, 0, 1, 1, 'string', 200, 0, '', '', '', '', 'text', '', 120, NULL, '1', '', '', 0, 1, 1, 0, 'single', '', '', 7, 'admin', '2019-07-01 14:23:32', '2019-06-10 15:18:34', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('182d038554a6ee7ddfd07763aaa10686', '53a3e82b54b946c2b904f605875a275c', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2022-10-25 11:10:48', '2020-05-07 22:49:47', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('1842e6d146dd0da3813a386eaa1d1025', '2c978081a12e8ea901a12e918c9f000a', 'na_reference_year', '国民账户参考年', 'na_reference_year', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 16, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('18fefb2257901f05508f8ec13ada78a3', 'e5464aa8fa7b47c580e91593cf9b46dc', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2019-04-24 17:09:48', '2019-04-24 11:05:10', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('191705159cea35e8cbacb326f172be94', 'd35109c3632c4952a19ecc094943dd71', 'search_sel', '搜索下拉', NULL, 0, 1, 1, 'string', 100, 0, '', 'role_code', 'sys_role', 'role_name', 'sel_search', '', 120, '', '0', '', '', 1, 1, 1, 0, 'single', '', '', 17, 'admin', '2023-09-16 21:25:25', '2020-11-26 18:02:20', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('1929408d113a2ad46a9db4a84ed426cb', '2c978081a12e8ea901a12e918c9f000a', 'currency_unit', '货币单位', 'currency_unit', 0, 1, 1, 'string', 100, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 8, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('193c3c062cc6ee210970dbe327412e67', '553a4172fde446419cb602dc70f9ee67', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, '', '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 1, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('1973ef1d3728fbff2db6a352e001f5f7', 'fb7125a344a649b990c12949945cb6c1', 'name', '用户名', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 5, 'admin', '2019-03-26 19:24:11', '2019-03-26 19:01:52', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('19a9bf071cf3aa3b2ef94344d2300616', '402881e6760269a20176026d25650002', 'create_by', '创建人', 'create_by', 0, 1, 1, 'string', 32, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 12, NULL, NULL, '2020-11-26 10:41:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('19b00d60eb0498ac001a1c6ba1c89afb', '2c978081a12e8ea901a12e918c9f000a', 'long_name', '全称(英文)', 'long_name', 0, 1, 1, 'string', 500, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 6, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('1ab5be1f937f393b3e5cc214ef1b855c', '7ea60a25fa27470e9080d6a921aabbd1', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, NULL, NULL, '2019-04-17 00:22:21', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('1ae4350d2b807b646a7ac0334e65320f', '2c978081a12e8ea901a12e918c9f000a', 'table_name', '表名', 'table_name', 0, 1, 1, 'string', 200, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 5, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('1b071c02de2830f9fe82a542b31cce7f', '3b5e18da618247539481816995b6bf9f', 'age', '年龄', NULL, 0, 1, 1, 'int', 10, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 8, 'admin', '2020-07-11 11:27:29', '2020-07-11 11:27:17', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('1b6c7b95028bed9ff656d65557dd2bdf', '402860816bff91c0016bffa220a9000b', 'user_id', '用户id', 'user_id', 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 3, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('1c2f307e315bac77a6d3f02e88387a43', 'deea5a8ec619460c9245ba85dbc59e80', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2020-05-03 01:01:18', '2019-04-20 11:41:19', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3492,10 +2951,12 @@ INSERT INTO `onl_cgform_field` VALUES ('209ddb923d8dab9f454d56d82c0cc725', '3d44
 INSERT INTO `onl_cgform_field` VALUES ('20ff34fb0466089cb633d73d5a6f08d6', 'd35109c3632c4952a19ecc094943dd71', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2023-09-16 21:25:25', '2019-03-15 14:24:35', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('2113a4ec7b88b4820dcbbdf96e46bbb7', 'fbc35f067da94a70adb622ddba259352', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, NULL, NULL, '2019-07-03 19:44:23', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('2150e48b2cb6072d2d8ecd79a7daf7cc', '402860816bff91c0016bff91ca7e0002', 'create_time', '创建时间', 'create_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 10, 'admin', '2019-07-19 18:07:13', '2019-07-17 18:54:33', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('218c213d837795391c57fe8fb3406bfc', '2c978081a12e8ea901a12e8eaadc0001', 'indicator_name', '指标名称(英文)', 'indicator_name', 0, 1, 1, 'string', 500, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 5, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('2323239efb5a40b73034411868dfc41d', 'fb19fb067cd841f9ae93d4eb3b883dc0', 'update_by', '更新人登录名称', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 3, NULL, NULL, '2019-03-23 11:39:48', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('23f42061ed218bdbc1262913c071e1cd', 'e5464aa8fa7b47c580e91593cf9b46dc', 'iz_valid', '启动状态', NULL, 0, 1, 1, 'int', 2, 0, '', 'air_china_valid', '', '', 'list', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 12, 'admin', '2019-04-24 17:09:49', '2019-04-24 14:09:06', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('242cc59b23965a92161eca69ffdbf018', 'd35109c3632c4952a19ecc094943dd71', 'age', '年龄', NULL, 0, 1, 1, 'int', 32, 0, '', '', '', '', 'text', 'http://www.baidu.com', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, 'admin', '2023-09-16 21:25:25', '2019-03-15 14:24:35', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('25d91ca4cdc3919c7557d23caf7ed6de', 'f9fb8bee1a64472889d077c757b9acc7', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2021-08-17 13:58:15', '2021-08-17 13:57:48', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('25eac6226faeccf33d6c094b47b05b1f', '2c978081a12e8ea901a12e8eac0d0002', 'footnote_text', '脚注内容(英文)', 'footnote_text', 0, 1, 1, 'Text', 0, 0, NULL, NULL, NULL, NULL, 'textarea', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 5, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('2640235b9638547f1776b930bd8c12b4', '997ee931515a4620bc30a9c1246429a9', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2026-04-28 16:47:09', '2020-05-03 00:56:56', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('265702edb8872e322fe72d3640e34ac5', '402860816bff91c0016bff91cfea0004', 'from_time', '开始日期', 'from_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 3, 'admin', '2019-07-19 18:05:13', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('26be1b96f3c5d1f25254cc8ab60a268a', '5517e93b148a42a7b82d5f3f94542dcf', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 1, 'single', '', '', 0, NULL, NULL, '2022-07-19 19:36:53', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
@@ -3511,6 +2972,8 @@ INSERT INTO `onl_cgform_field` VALUES ('293f6bc9a0f557a32bbdf45669404f35', 'feea
 INSERT INTO `onl_cgform_field` VALUES ('29e4abea55d9fa7dbbd0c8dbbb2b3756', '402860816bff91c0016bff91cda80003', 'update_time', '更新时间', 'update_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 12, 'admin', '2019-07-19 18:06:36', '2019-07-17 18:54:34', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('2aef31179964d0a5a945df7bddff00ae', '53a3e82b54b946c2b904f605875a275c', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2022-10-25 11:10:48', '2020-05-07 22:49:47', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('2c9be627e7cab7f5a2ae9c7ca7ce94a2', 'cb2d8534a2f544bc9c618dd49da66336', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2020-02-24 17:22:42', '2020-02-24 15:15:14', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('2cbd4f51df0869b263ee310d292acc3d', '2c978081a12e8ea901a12e8eaadc0001', 'long_definition_cn', '长定义中文(翻译字段)', 'long_definition_cn', 0, 1, 1, 'Text', 0, 0, NULL, NULL, NULL, NULL, 'textarea', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 10, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('2d2d079eafadb5741cf099edda083e25', '2c978081a12e8ea901a12e918c9f000a', 'special_notes', '特别说明', 'special_notes', 0, 1, 1, 'string', 2000, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 9, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('2d53a66f0b72d820b86ff445e2181d76', 'beee191324fd40c1afec4fda18bd9d47', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2019-04-13 13:41:13', '2019-04-13 13:40:56', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('2dfc4c81926f678c5f8d5ffd27858201', 'e2faf977fdaf4b25a524f58c2441a51c', 'account', '用户编码', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, 'admin', '2019-06-10 17:27:00', '2019-04-24 17:12:11', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('2e0374878fb3d5be3b0b3f868a97fb59', '09fd28e4b7184c1a9668496a5c496450', 'sex', '客户性别', NULL, 0, 1, 1, 'string', 1, 0, '', 'sex', '', '', 'list', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 8, 'admin', '2022-05-07 19:05:56', '2020-05-08 23:51:49', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
@@ -3520,14 +2983,19 @@ INSERT INTO `onl_cgform_field` VALUES ('2e9f4340f5cc919f83d50db558cf5598', '41de
 INSERT INTO `onl_cgform_field` VALUES ('2ee58d8e4844dfe1fa6b1b841ae0b312', '402860816bff91c0016bff91d2810005', 'politically_status', '政治面貌', 'politically_status', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 7, 'admin', '2019-07-19 18:05:55', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('2f111722eb3a994450e67e3211fd69a8', '402860816bff91c0016bff91ca7e0002', 'id', 'id', 'id', 1, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'group', '', '', 1, 'admin', '2019-07-19 18:07:13', '2019-07-17 18:54:33', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('2f13bd36aadfe10fb79c57d727279981', 'feea98637c2144caae7c5d56a815a245', 'aaa', 'aa', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, NULL, NULL, '2021-10-27 10:24:24', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('2f879ca593c9699a72eff2d7bf720028', '2c978081a12e8ea901a12e8eaadc0001', 'development_relevance', '发展相关性', 'development_relevance', 0, 1, 1, 'Text', 0, 0, NULL, NULL, NULL, NULL, 'textarea', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 23, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('30143cc3de69c413828f9fba20662026', '402860816bff91c0016bffa220a9000b', 'healthy', '健康状况', 'healthy', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 12, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('306e3fb9c87ca6442cefbd61f498f1f7', '402881e6760269a201760269a2af0000', 'dep_sel', '选择部门', NULL, 0, 1, 1, 'string', 200, 0, '', '', '', '', 'sel_depart', '', 120, NULL, '0', '', '#{sysOrgCode}', 0, 1, 1, 0, 'single', NULL, NULL, 19, NULL, NULL, '2020-11-26 10:37:26', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('3087aa8f38c787e066a886d950a9edfa', '05a3a30dada7411c9109306aa4117068', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2026-08-20 23:18:38', '2020-05-06 11:34:31', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('30ee3cab4a09aaa02c2331cbad153415', '2c978081a12e8ea901a12e8eaadc0001', 'source', '数据来源机构(英文)', 'source', 0, 1, 1, 'string', 500, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 20, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('310c86bfd1e67500774c208d601acdc3', '56870166aba54ebfacb20ba6c770bd73', 'xiala', '下拉多选', NULL, 0, 1, 1, 'string', 32, 0, '', 'sex', '', '', 'list_multi', '', 120, '', '0', '', '', 1, 1, 1, 0, 'single', '', '', 8, 'admin', '2025-11-27 18:19:46', '2020-11-30 21:08:26', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('31193dc8ceacf979e4042e784ea8278a', '402880e570a5d7000170a5d700f50000', 'order_fk_id', '订单外键ID', NULL, 0, 0, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 10, NULL, NULL, '2020-03-04 21:58:16', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('31fd90306c3942f09cb79deabbf2f541', '402860816bff91c0016bff91d2810005', 'employee_id', '员工ID', 'employee_id', 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', 'oa_employee_info', 'id', 2, 'admin', '2019-07-19 18:05:55', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('336495117e3a31351fed6963b950dddb', '402860816bff91c0016bffa220a9000b', 'inside_transfer', '内部工作调动情况', 'inside_transfer', 0, 1, 1, 'string', 255, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 37, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('33a5b314daa343f57b2a0a51ddaa8a78', '2c978081a12e8ea901a12e8eadcc0004', 'update_by', '更新人', 'update_by', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 9, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('3403104c440494fcf316dd44802034d4', '2c978081a12e8ea901a12e918c9f000a', 'create_time', '创建时间', 'create_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'datetime', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 37, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('34138092d743d4232341a920efd2699e', '402880eb71d52dc30171d52dc3a10000', 'name', '名称', NULL, 0, 1, 1, 'string', 200, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '#{sysUserName}', 0, 1, 1, 0, 'single', NULL, NULL, 3, NULL, NULL, '2020-05-02 19:37:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('343ca8cfa6c52a9effe3a472772e3341', '2c978081a12e8ea901a12e918c9f000a', 'country_code', '世行国家/经济体代码(ISO3, 如 CHN/WLD)', 'country_code', 0, 0, 1, 'string', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 2, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('345c8b48e1e128e77c4c6e2b36512804', '402860816aa5921f016aa5dedcb90009', 'create_by', '创建人', 'create_by', 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'group', '', '', 2, 'admin', '2019-05-11 15:56:47', '2019-05-11 15:50:08', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('34625a911b39e0596690c1a15f784448', '402880e570a5d7000170a5d700f50000', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 5, NULL, NULL, '2020-03-04 21:58:16', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('3489a6451bbbcabc0f39ca04b0dd62f2', '8d66ea41c7cc4ef9ab3aab9055657fc9', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 6, NULL, NULL, '2020-05-07 22:46:32', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3537,6 +3005,7 @@ INSERT INTO `onl_cgform_field` VALUES ('351faaeb2dd8105e9c66f678211c9d4f', 'dbf4
 INSERT INTO `onl_cgform_field` VALUES ('35417ba3993afe3405e1e0b9abbd7e1b', '402880e5721355dd01721355dd390000', 'num', '数量', NULL, 0, 1, 1, 'int', 10, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', NULL, NULL, 9, NULL, NULL, '2020-05-14 21:18:14', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('354b2ce39c5e8ec3f0bbb01bf8ff0fb7', '32f75e4043ef4070919dbd4337186a3d', 'content', '描述', NULL, 0, 1, 1, 'string', 300, 0, '', '', '', '', 'textarea', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 9, 'admin', '2019-04-11 10:15:31', '2019-03-28 15:24:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('35ca1c8aa1501bc8a79c880928841f18', '402860816aa5921f016aa5921f480000', 'update_by', '修改人id', 'update_by', 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'group', '', '', 11, 'admin', '2019-05-11 15:31:55', '2019-05-11 14:26:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('35d49b6d339c410186f8893afb261e63', '2c978081a12e8ea901a12e8eadcc0004', 'country_code', '国家代码(ISO3, 关联wdi_country)', 'country_code', 0, 0, 1, 'string', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 2, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('3635793767371c6db9f76b4b79f9d321', '402860816bff91c0016bff91d8830007', 'create_time', '创建时间', 'create_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 11, 'admin', '2019-07-19 18:04:41', '2019-07-17 18:54:37', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('36de6b200a489f1fedc8cdbebfa264ee', '553a4172fde446419cb602dc70f9ee67', 'bmxz', '部门选择', NULL, 0, 1, 1, 'string', 100, 0, NULL, '', '', '', 'sel_depart', '', 120, '', '0', '', '', 1, 1, 1, 0, 'single', '', '', 24, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('370a6eebc2d732eaf121fe0830d853a6', 'e5464aa8fa7b47c580e91593cf9b46dc', 'wl_code', '物料编码', NULL, 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 7, 'admin', '2019-04-24 17:09:49', '2019-04-24 11:05:10', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -3545,14 +3014,19 @@ INSERT INTO `onl_cgform_field` VALUES ('37462a4d78968d0e432d746423603b81', '3d44
 INSERT INTO `onl_cgform_field` VALUES ('375957774c7d424ce9a58d84d4c4387f', '553a4172fde446419cb602dc70f9ee67', 'yhxz', '用户选择', NULL, 0, 1, 1, 'string', 100, 0, NULL, '', '', '', 'sel_user', '', 120, '', '0', '', '', 1, 1, 1, 0, 'single', '', '', 25, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('37e2548874f09ef7d08642a30bc918fa', 'fbc35f067da94a70adb622ddba259352', 'group_name', '小组名', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, NULL, NULL, '2019-07-03 19:44:23', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('3816bb487c6665a5f2ae7a4dbcbc9095', 'd35109c3632c4952a19ecc094943dd71', 'sel_table', '下拉字典表', NULL, 0, 1, 1, 'string', 32, 0, '', 'username', 'sys_user where username like \'a%\'', 'realname', 'sel_search', '', 120, '', '0', '{\"labelLength\":5}', '', 1, 1, 1, 0, 'single', '', '', 18, 'admin', '2023-09-16 21:25:25', '2021-07-01 12:29:11', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('384db7335d35eb88d2c68c04f38bcc82', '2c978081a12e8ea901a12e8eaadc0001', 'create_by', '创建人', 'create_by', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 30, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('38844d4203bb572f5341cf1adee78004', '2c978081a12e8ea901a12e8eaadc0001', 'deleted', '逻辑删除', 'deleted', 0, 1, 1, 'int', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 28, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('38e84ba1426a1221b3a512255ff3c8d4', '2c978081a12e8ea901a12e8eaadc0001', 'sys_org_code', '部门编码', 'sys_org_code', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 33, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('391e7cbd9f29743b11bb555c50547b1f', '32f75e4043ef4070919dbd4337186a3d', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2019-04-11 10:15:32', '2019-03-27 15:54:49', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('393227a51251906a91f4e05a095eb1ba', '553a4172fde446419cb602dc70f9ee67', 'markdown', 'markdown', NULL, 0, 1, 1, 'Blob', 0, 0, NULL, '', '', '', 'markdown', '', 120, '', '0', '', '', 0, 1, 0, 0, 'single', '', '', 27, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('396c36fa5320975851d06772d10ea7b1', 'cb2d8534a2f544bc9c618dd49da66336', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2020-02-24 17:22:42', '2020-02-24 15:15:14', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('39b18b9b779b2953a8cd5bfbdc38c9e7', '2c978081a12e8ea901a12e8eaadc0001', 'aggregation_method', '加总方法', 'aggregation_method', 0, 1, 1, 'string', 500, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 16, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('3aa6c41ffd2cd6321f91f60e6c6b7191', '402881fd812267500181226787d90001', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 2, 'admin', '2022-06-02 11:13:48', '2022-06-02 11:13:39', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('3acd1b022fd8cb6b99534161fa3d6a24', 'd35109c3632c4952a19ecc094943dd71', 'ceck', 'checkbox', NULL, 0, 1, 1, 'string', 32, 0, '', 'sex', '', '', 'checkbox', '', 120, '', '0', '', '', 1, 1, 1, 0, 'single', '', '', 15, 'admin', '2023-09-16 21:25:25', '2020-11-26 18:02:20', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('3b439859f98e30e34d25e983eb22e408', '402860816bff91c0016bff91c7010001', 'award_time', '获奖时间', 'award_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 3, 'admin', '2019-07-19 18:07:47', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('3b67be0187044a0d023fc2c4c7eceabc', '402881e6760269a20176026d25650002', 'bonus_money', '奖金', 'bonus_money', 0, 1, 1, 'double', 10, 2, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 6, NULL, NULL, '2020-11-26 10:41:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('3bf44e68de518f3ddf72b87671d0ff90', '8994f2817b5a45d9890aa04497a317c5', 'update_by', '更新人登录名称', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 3, NULL, NULL, '2019-03-23 11:39:16', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('3c2bf10a9896be4e2295ca00eab5fbd0', '2c978081a12e8ea901a12e918c9f000a', 'latest_water_withdrawal_data', '最近取水量数据年份', 'latest_water_withdrawal_data', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 35, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('3c74df163f36d1ac61af6811d2569d6c', 'f9fb8bee1a64472889d077c757b9acc7', 'ds', 'ds', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 10, 'admin', '2021-08-17 13:58:15', '2021-08-17 13:57:48', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('3cd2061ea15ce9eeb4b7cf2e544ccb6b', 'd35109c3632c4952a19ecc094943dd71', 'file_kk', '附件', NULL, 0, 1, 1, 'string', 500, 0, '', '', '', '', 'file', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 12, 'admin', '2023-09-16 21:25:25', '2019-06-10 20:06:57', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('3cfd4d60c7d8409ae716a579bcb0910d', '402860816bff91c0016bff91c0cb0000', 'sys_org_code', '组织机构编码', 'sys_org_code', 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 16, 'admin', '2019-07-19 18:09:01', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -3572,6 +3046,7 @@ INSERT INTO `onl_cgform_field` VALUES ('4164314d6a51d100169a29872b7504d8', '4028
 INSERT INTO `onl_cgform_field` VALUES ('41b80b89de0ceb609eb016dacf106ef8', '553a4172fde446419cb602dc70f9ee67', 'shq', '省市区', NULL, 0, 1, 1, 'string', 100, 0, NULL, '', '', '', 'pca', '', 120, '', '0', '', '', 1, 1, 1, 0, 'single', '', '', 28, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('41d4215c01b0d26871f2cb83d3e532ae', '402860816bff91c0016bff91c0cb0000', 'bpm_status', '流程状态', NULL, 0, 1, 1, 'string', 32, 0, '1', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 17, 'admin', '2019-07-19 18:09:01', '2019-07-19 15:35:23', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('422a44a15fa39fd57c3c23eb601f7c03', '56870166aba54ebfacb20ba6c770bd73', 'descc', '描述', NULL, 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, 'admin', '2025-11-27 18:19:46', '2019-04-20 11:38:39', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('424baff3a43455ddd5bdc4b1c0abab0a', '2c978081a12e8ea901a12e918c9f000a', 'na_base_year', '国民账户基年', 'na_base_year', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 15, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('42cccfa014c9e131a0a1b23f563d3688', '402860816bff91c0016bffa220a9000b', 'sex', '性别', 'sex', 0, 1, 1, 'string', 20, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 6, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('4312f618c83e07db82e468b81a1eaa45', '402860816bff91c0016bffa220a9000b', 'photo', '照片', 'photo', 0, 1, 1, 'string', 255, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 20, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('4355aaad8679a1adf8578b20310e93c1', 'a2ca0c7297a8491ca849fc1a06c9efbf', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2021-01-24 14:39:35', '2021-01-24 14:38:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3591,11 +3066,14 @@ INSERT INTO `onl_cgform_field` VALUES ('4851697fdf63709d2bc7451b7415f4af', '32f7
 INSERT INTO `onl_cgform_field` VALUES ('485a8ddce2c033f88af674ec98b68e32', '402860816bff91c0016bffa220a9000b', 'create_time', '创建时间', 'create_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 40, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('4863e3b3e632a254ad3b2ec873767bcb', 'b493c5fd4fa64a3a84e74ee171763e37', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, NULL, NULL, '2021-06-07 18:13:37', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('492a462b212fc34b0ee70e872684ed7e', '7ea60a25fa27470e9080d6a921aabbd1', 'name', '用户名', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 6, NULL, NULL, '2019-04-17 00:22:21', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('4947d195bb0f68e2d811c56228d4d790', '2c978081a12e8ea901a12e8eaadc0001', 'indicator_name_cn', '指标名称中文(翻译字段)', 'indicator_name_cn', 0, 1, 1, 'string', 500, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 6, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('499a5dac033a01ce58009e4c5b786697', 'e9faf717024b4aae95cff224ae9b6d97', 'age', '员工年龄', NULL, 0, 1, 1, 'int', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, 'admin', '2019-07-03 18:23:49', '2019-07-03 18:22:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('49cd3dbd4f7f7cf0d19b1ee1045cfa69', 'e67d26b610dd414c884c4dbb24e71ce3', 'post_code', '岗位编码', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 6, 'admin', '2019-04-24 11:03:32', '2019-04-24 11:02:57', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('4ad94222c025b56fb0833a88a1514aeb', '86bf17839a904636b7ed96201b2fa6ea', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 1, 'single', '', '', 1, 'admin', '2020-05-14 21:18:49', '2020-05-08 23:48:31', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('4b1d4d7a1c1f7d5b99ae6c6a6d91b403', 'a2ca0c7297a8491ca849fc1a06c9efbf', 'dated', '生日', NULL, 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 10, 'admin', '2021-01-24 14:39:35', '2021-01-24 14:38:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('4b49bed6e13f3a3e90f9a2d5b677bee0', '2c978081a12e8ea901a12e8eaadc0001', 'series_code', '指标代码(如 SP.POP.TOTL)', 'series_code', 0, 0, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 2, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('4ba7c553ca4babcec75273c531cd65e1', '402860816bff91c0016bff91cfea0004', 'workplace', '工作单位', 'workplace', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 5, 'admin', '2019-07-19 18:05:13', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('4bab9c741b7f0403e61112982e73b037', '2c978081a12e8ea901a12e918c9f000a', 'update_time', '更新时间', 'update_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'datetime', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 40, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('4c17487e6944555ec05781cd085add08', '553a4172fde446419cb602dc70f9ee67', 'create_time', '创建时间', NULL, 0, 1, 1, 'Datetime', 50, 0, NULL, NULL, NULL, NULL, 'datetime', NULL, 120, 'n6-16', '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 2, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('4c2cba9fc950333421c4193576b8384d', '32f75e4043ef4070919dbd4337186a3d', 'salary', '工资', NULL, 0, 1, 1, 'double', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 10, 'admin', '2019-04-11 10:15:32', '2019-03-28 15:24:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('4c570c5cf05590348e12621ca62773cf', '402860816aa5921f016aa5921f480000', 'name', '请假人', 'name', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 2, 'admin', '2019-05-11 15:31:54', '2019-05-11 14:26:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -3603,6 +3081,7 @@ INSERT INTO `onl_cgform_field` VALUES ('4cacfa054e96791ab938b5c8f8e02cd1', '27fc
 INSERT INTO `onl_cgform_field` VALUES ('4d0b04cbb7db89b5468f32edafb610bc', '402881fd812267500181226750e90000', 'good_type_id', '商品分类', NULL, 0, 1, 1, 'string', 32, 0, '', '0', 'ces_shop_type', 'id,pid,name,has_child', 'sel_tree', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', NULL, NULL, 11, NULL, NULL, '2022-06-02 11:13:25', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('4dc3f7e772564de45773a8379adc4335', '3b5e18da618247539481816995b6bf9f', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2020-07-11 11:27:29', '2020-07-11 11:27:17', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('4e3760f9068aee4318123d85fbf2ebf9', '53a3e82b54b946c2b904f605875a275c', 'good_type_id', '商品分类', NULL, 0, 1, 1, 'string', 32, 0, '', '0', 'ces_shop_type', 'id,pid,name,has_child', 'sel_tree', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 10, 'admin', '2022-10-25 11:10:49', '2020-05-07 22:51:42', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('4f4555507432cba782156c9e51a20086', '2c978081a12e8ea901a12e8eaadc0001', 'general_comments', '一般性注释', 'general_comments', 0, 1, 1, 'Text', 0, 0, NULL, NULL, NULL, NULL, 'textarea', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 19, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('4f718d95ad9de33eac18fd0663e4c1f1', '32f75e4043ef4070919dbd4337186a3d', 'birthday', '生日', NULL, 0, 1, 1, 'Datetime', 32, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 1, 1, 1, 0, 'single', '', '', 8, 'admin', '2019-04-11 10:15:32', '2019-03-27 15:54:49', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('4f7cba71de7afe6efbd024f5f9935521', '402860816bff91c0016bff91cda80003', 'to_time', '截止时间', 'to_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 4, 'admin', '2019-07-19 18:06:36', '2019-07-17 18:54:34', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('4faa7848b92f05bcb3cf03de34af9ff2', 'cb2d8534a2f544bc9c618dd49da66336', 'ddd', 'dd', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 9, 'admin', '2020-02-24 17:22:42', '2020-02-24 15:15:14', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -3615,17 +3094,24 @@ INSERT INTO `onl_cgform_field` VALUES ('519f68557b953fc2d38400182b187366', '4028
 INSERT INTO `onl_cgform_field` VALUES ('52241dbe405db36d2960765e061c117c', '553a4172fde446419cb602dc70f9ee67', 'yuanjia', 'double类型', NULL, 0, 1, 1, 'double', 6, 2, NULL, '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 33, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('5237e186de11017ee52d3c344f450b3b', 'f9fb8bee1a64472889d077c757b9acc7', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2021-08-17 13:58:15', '2021-08-17 13:57:48', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('524d75f1e4fed1167c80477658290ddf', '402881fd812267500181226787d90001', 'age', '年龄', NULL, 0, 1, 1, 'int', 10, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 1, 1, 1, 0, 'group', NULL, NULL, 7, 'admin', '2022-06-02 11:13:48', '2022-06-02 11:13:39', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '1');
+INSERT INTO `onl_cgform_field` VALUES ('5292bc3f5582718a58f51fc24dfb211d', '2c978081a12e8ea901a12e8ea9d80000', 'description', '年份覆盖说明', 'description', 0, 1, 1, 'string', 1000, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 4, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('52975c3f03325de8233d3459b2230b09', 'f9fb8bee1a64472889d077c757b9acc7', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 1, 'single', '', '', 1, 'admin', '2021-08-17 13:58:15', '2021-08-17 13:57:48', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('52ee861bc1b62cd8e4f10632b3d9d1b2', '79091e8277c744158530321513119c68', 'name', '顺序会签标题', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 6, 'admin', '2019-05-11 15:29:47', '2019-05-11 15:27:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('533b1c60ce47f1fd95f9e54ad4222842', '2c978081a12e8ea901a12e918c9f000a', 'external_debt_report_status', '外债报告状态', 'external_debt_report_status', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 24, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('538a111422657d495b324d6cac237502', '2c978081a12e8ea901a12e918c9f000a', 'income_group_cn', '收入分组中文(翻译字段)', 'income_group_cn', 0, 1, 1, 'string', 100, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 13, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('549c116515d63ca448a953c0924d65d6', '2c978081a12e8ea901a12e8eace90003', 'description', '覆盖说明', 'description', 0, 1, 1, 'string', 1000, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 4, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('5531fb261c77e9d12f7cca1af528f70a', '05a3a30dada7411c9109306aa4117068', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2026-08-20 23:18:38', '2020-05-06 11:34:31', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('553a250fb89de39e4ba9f8450fd72ade', '05a3a30dada7411c9109306aa4117068', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2026-08-20 23:18:38', '2020-05-06 11:34:31', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('555f9d43db20204128d76e22226ca36e', '402881e6760269a201760269a2af0000', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 2, NULL, NULL, '2020-11-26 10:37:26', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('5562a7242e4978f02e6d3a08d5828bbf', '53a3e82b54b946c2b904f605875a275c', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2022-10-25 11:10:48', '2020-05-07 22:49:47', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('5562ad3165b1399f97a48f5f06d7fa06', '3b5e18da618247539481816995b6bf9f', 'ccc', 'cc', NULL, 0, 1, 1, 'string', 1000, 0, '', '', '', '', 'umeditor', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 10, 'admin', '2020-07-11 11:27:29', '2020-07-11 11:27:17', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('55b9e3a37837bbd5a50580e2e21f0d91', '2c978081a12e8ea901a12e8eaadc0001', 'short_definition', '短定义(英文)', 'short_definition', 0, 1, 1, 'Text', 0, 0, NULL, NULL, NULL, NULL, 'textarea', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 7, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('55ee63fe34f0b666078e6af940bee222', 'feea98637c2144caae7c5d56a815a245', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, NULL, NULL, '2021-10-27 10:24:24', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('56380a0bff13006c1bcad7831a02e13e', '2c9bf081a1585aaa01a1585ac9d90001', 'topic_cn', 'topic中文翻译', 'topic_cn', 0, 0, 1, 'string', 120, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 3, NULL, NULL, '2026-10-20 16:08:28', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('566db879e54b175b20195ca284e76eec', '402881fd812267500181226750e90000', 'chuc_date', '出厂时间', NULL, 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', NULL, NULL, 9, NULL, NULL, '2022-06-02 11:13:25', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('56a7800e4e476812c74217c2aad781aa', '32feeb502544416c9bf41329c10a88f4', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2019-08-23 20:03:40', '2019-07-02 18:23:23', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('56cd0a76f922bf76d982b24a509e4782', '4028839a6de2ebd3016de2ebd3870000', 'create_time', '创建日期', 'create_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'date', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 3, NULL, NULL, '2019-10-19 15:29:30', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('56d7c46dcdb69a66f67a081e431ad089', '2c978081a12e8ea901a12e918c9f000a', 'latest_industrial_data', '最近工业数据年份', 'latest_industrial_data', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 33, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('56e247f12d62b49cd9bd537e3efecf16', '402860816bff91c0016bff91c0cb0000', 'create_by', '创建人', 'create_by', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 12, 'admin', '2019-07-19 18:09:01', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('57552a4f0b7b5c096ab8985ced57cc7d', 'cb2d8534a2f544bc9c618dd49da66336', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2020-02-24 17:22:42', '2020-02-24 15:15:14', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('581d8e8ce270b762458121b1dea0be9a', '8d66ea41c7cc4ef9ab3aab9055657fc9', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, NULL, NULL, '2020-05-07 22:46:32', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3641,22 +3127,30 @@ INSERT INTO `onl_cgform_field` VALUES ('5a655b208d6318ed02f236f15a319b5f', 'fbc3
 INSERT INTO `onl_cgform_field` VALUES ('5a6f88710c49bbe8e2e0ca58e149abad', '402860816bff91c0016bff91cda80003', 'create_by', '创建人', 'create_by', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 9, 'admin', '2019-07-19 18:06:36', '2019-07-17 18:54:34', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('5a7ce5af50f28d613d8beea7c866ae0c', '402881e6760269a20176026d25650002', 'update_by', '修改人', 'update_by', 0, 1, 1, 'string', 32, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 14, NULL, NULL, '2020-11-26 10:41:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('5ab702dbc37d6fd8d3a1093fda7223bf', '53a3e82b54b946c2b904f605875a275c', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2022-10-25 11:10:48', '2020-05-07 22:49:47', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('5aee286890b4c58ae1d45298aa3319e9', '2c9bf081a1585aaa01a1585aaad40000', 'is_aggregate', '0=单个国家 1=聚合经济体/区域分组', 'is_aggregate', 0, 1, 1, 'int', 3, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 5, NULL, NULL, '2026-10-20 16:08:20', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('5b17ba693745c258f6b66380ac851e5f', 'd35109c3632c4952a19ecc094943dd71', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 0, 'admin', '2023-09-16 21:25:25', '2019-03-15 14:24:35', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('5c25a6636c8d2c93d2859c7db6cb8281', '553a4172fde446419cb602dc70f9ee67', 'xldx', '字典下拉多选框', NULL, 0, 1, 1, 'string', 250, 0, NULL, 'urgent_level', '', '', 'list_multi', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 19, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('5c64d270eb4ee8ea6bf55c7e4257f162', '553a4172fde446419cb602dc70f9ee67', 'flzds', '分类字典树', NULL, 0, 1, 1, 'string', 100, 0, NULL, 'B02', '', '', 'cat_tree', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 23, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('5c76f5ecc774d7339eb0c2199c0052bc', '402860816bff91c0016bff91c0cb0000', 'biz_no', '编号', 'biz_no', 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 2, 'admin', '2019-07-19 18:09:01', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('5c8c8d573e01e4f40b5a7c451515e1d2', '32feeb502544416c9bf41329c10a88f4', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2019-08-23 20:03:40', '2019-07-02 18:23:23', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('5dfbea516ee2390d712eace5405c5219', '402860816bff91c0016bff91ca7e0002', 'create_by', '创建人', 'create_by', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 9, 'admin', '2019-07-19 18:07:13', '2019-07-17 18:54:33', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('5e2bfc630caf4fca61e67bc034248d80', '2c978081a12e8ea901a12e8eace90003', 'create_by', '创建人', 'create_by', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 7, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('5e4484b7348dc3e59a0c58bdc3828cc0', '27fc5f91274344afa7673a732b279939', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2019-07-01 16:28:20', '2019-07-01 16:26:42', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('5e4ac29ac2007ceabf93368330290a42', '402860816bff91c0016bff91d8830007', 'order_no', '序号', 'order_no', 0, 1, 1, 'int', 10, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 9, 'admin', '2019-07-19 18:04:41', '2019-07-17 18:54:37', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('5e729f9823b5cc96c50b0b7c0f07eb05', '402880e5721355dd01721355dd390000', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 2, NULL, NULL, '2020-05-14 21:18:14', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('5f13f7087caa0bbf47e5eba01d0d0443', '05a3a30dada7411c9109306aa4117068', 'contents', '请假原因', NULL, 0, 1, 1, 'string', 500, 0, '', '', '', '', 'umeditor', '', 120, '', '0', '', '', 0, 1, 0, 0, 'single', '', '', 11, 'admin', '2026-08-20 23:18:39', '2020-05-06 11:34:31', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('5ff5f20e297308d93800c72dd1d4330b', '2c978081a12e8ea901a12e918c9f000a', 'ppp_survey_year', 'PPP调查年份', 'ppp_survey_year', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 22, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('6054aafe9ff9f27b361fff3b223e8166', '2c978081a12e8ea901a12e8eac0d0002', 'sys_org_code', '部门编码', 'sys_org_code', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 12, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('60a66d5a56df9a3542afed1866358e2a', '2c978081a12e8ea901a12e918c9f000a', 'system_of_trade', '贸易体系', 'system_of_trade', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 25, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('60b3b452232904f5a1130348bc1eab53', '402881e6760269a20176026d25650002', 'sys_org_code', '所属部门编码', 'sys_org_code', 0, 1, 1, 'string', 64, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 16, NULL, NULL, '2020-11-26 10:41:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('60cf18e5571f91b6790596bb901da6a1', '2c978081a12e8ea901a12e8eadcc0004', 'update_time', '更新时间', 'update_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'datetime', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 10, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('60eed6c429cf7796c3f0a17faaed00da', 'b493c5fd4fa64a3a84e74ee171763e37', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, NULL, NULL, '2021-06-07 18:13:37', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('6130dbb6d36bab8ee9154e7ab58af34c', '402880e570a5d7000170a5d700f50000', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 1, NULL, NULL, '2020-03-04 21:58:16', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('617349b18dab429009ccd304fd7d459c', '4028839a6de2ebd3016de2ebd3870000', 'update_by', '更新人', 'update_by', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 4, NULL, NULL, '2019-10-19 15:29:30', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('61c7a0058c264dd746eb35e6f50fc15b', '402860816aa5921f016aa5dedcb90009', 'update_time', '更新日期', 'update_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'group', '', '', 5, 'admin', '2019-05-11 15:56:47', '2019-05-11 15:50:08', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('6232ade7e2a0c1e97e2c0945b32e61b6', '402860816bff91c0016bffa220a9000b', 'paying_social_insurance', '是否上社保', 'paying_social_insurance', 0, 1, 1, 'string', 20, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 32, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('6247d542662150ec99fe4cac6cfe869b', '2c978081a12e8ea901a12e8eaadc0001', 'long_definition', '长定义(英文)', 'long_definition', 0, 1, 1, 'Text', 0, 0, NULL, NULL, NULL, NULL, 'textarea', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 9, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('62f30bfea1c97a9878602b6fbd716063', '2c9bf081a1585aaa01a1585aaad40000', 'id', '自增主键', 'id', 1, 0, 1, 'long', 19, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 1, 'single', NULL, NULL, -1, NULL, NULL, '2026-10-20 16:08:20', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('631a606d35a74c2036a81f27dd16a1a6', 'feea98637c2144caae7c5d56a815a245', 'dd', 'dd', NULL, 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 8, NULL, NULL, '2021-10-27 10:24:24', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('635e09afc01aad757faacf1321465c23', 'b81de38db24047b497d476516f8a0865', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, NULL, NULL, '2020-02-24 14:56:08', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('641e74beb228275dc2ca38a977b76c47', '553a4172fde446419cb602dc70f9ee67', 'nyrsfm', '年月日时分秒', NULL, 0, 1, 1, 'Datetime', 0, 0, NULL, '', '', '', 'datetime', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 14, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
@@ -3670,6 +3164,7 @@ INSERT INTO `onl_cgform_field` VALUES ('671e62c685bc86bde3cef0e023418fb4', '05a3
 INSERT INTO `onl_cgform_field` VALUES ('686dea2621feadcd9b4c611df046adb4', '86bf17839a904636b7ed96201b2fa6ea', 'price', '价格', NULL, 0, 1, 1, 'double', 10, 3, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 8, 'admin', '2020-05-14 21:18:49', '2020-05-08 23:48:31', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('68769fa7e4696e3a28f4cecf63076b7b', '402860816bff91c0016bff91ca7e0002', 'order_no', '序号', 'order_no', 0, 1, 1, 'int', 10, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 8, 'admin', '2019-07-19 18:07:13', '2019-07-17 18:54:33', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('68861523516849eff46a0df045f1031b', '402881e6760269a201760269a2af0000', 'birthday', '时间', NULL, 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', NULL, NULL, 13, NULL, NULL, '2020-11-26 10:37:26', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('68b4837db6016df5173c7f580dfb2d90', '2c978081a12e8ea901a12e8ea9d80000', 'create_time', '创建时间', 'create_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'datetime', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 6, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('69666f21896136af16a6303aff440156', '402860816bff91c0016bffa220a9000b', 'nation', '民族', 'nation', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 11, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('69d11490788fecfc9fb7d74bf449ba86', '32f75e4043ef4070919dbd4337186a3d', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2019-04-11 10:15:32', '2019-03-27 15:54:49', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('6a30c2e6f01ddd24349da55a37025cc0', 'd35109c3632c4952a19ecc094943dd71', 'top_pic', '头像', NULL, 0, 1, 1, 'string', 500, 0, '', '', '', '', 'image', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 11, 'admin', '2023-09-16 21:25:25', '2019-06-10 20:06:56', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3680,16 +3175,19 @@ INSERT INTO `onl_cgform_field` VALUES ('6c35eb97737e9f86279939d264454a94', '86bf
 INSERT INTO `onl_cgform_field` VALUES ('6cfb5acbbb69782bf0c7043b53f595b2', '402860816bff91c0016bff91cda80003', 'update_by', '更新人', 'update_by', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 11, 'admin', '2019-07-19 18:06:36', '2019-07-17 18:54:34', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('6d03a7774a50c6e6f76dbc7a8269beba', '3b5e18da618247539481816995b6bf9f', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2020-07-11 11:27:29', '2020-07-11 11:27:17', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('6d4a4414b55ad5b6f31c8fb327dad834', '09fd28e4b7184c1a9668496a5c496450', 'address', '常用地址', NULL, 0, 1, 1, 'string', 300, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 11, 'admin', '2022-05-07 19:05:56', '2020-05-08 23:51:49', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('6de89a71f757e826c6712304d106be1c', '2c978081a12e8ea901a12e8eace90003', 'series_code', '指标代码', 'series_code', 0, 0, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 3, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('6dea0ed8104a84f25d84b39187249109', '41de7884bf9a42b7a2c5918f9f765dff', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2022-11-23 12:01:36', '2022-10-29 17:02:47', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('6ed8d9acef3cccd1b8fd659b3b538023', '53a3e82b54b946c2b904f605875a275c', 'price', '价格', NULL, 0, 1, 1, 'BigDecimal', 10, 5, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, 'admin', '2022-10-25 11:10:48', '2020-05-07 22:49:47', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('6edce6cf880cf68d4d7812076e274610', '402881fd812267500181226750e90000', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 5, NULL, NULL, '2022-06-02 11:13:25', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('6f38a07ea2b1065315a6b89a02af5bb4', '3b5e18da618247539481816995b6bf9f', 'name', '用户名', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, 'admin', '2020-07-11 11:27:29', '2020-07-11 11:27:17', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('6f47a2e4426e7d63c223803b1ecbe790', '553a4172fde446419cb602dc70f9ee67', 'update_time', '更新时间', NULL, 0, 1, 1, 'Datetime', 50, 0, NULL, NULL, NULL, NULL, 'datetime', NULL, 120, '', '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 4, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('6f73e96a659c200c083006b6fce1f043', '402860816bff91c0016bff91ca7e0002', 'cert_name', '证书名称', 'cert_name', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 4, 'admin', '2019-07-19 18:07:13', '2019-07-17 18:54:33', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('6fdff2b096c3b668bd80905560385519', '2c978081a12e8ea901a12e8eaadc0001', 'unit', '计量单位(英文)', 'unit', 0, 1, 1, 'string', 200, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 11, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('71197d255e05c9f6db67fd30380953c7', '402881e6760269a201760269a2af0000', 'sel_mut', '下拉多选', NULL, 0, 1, 1, 'string', 32, 0, '', 'sex', '', '', 'list_multi', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', NULL, NULL, 11, NULL, NULL, '2020-11-26 10:37:26', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('7154c75d754a5f88bef2b68829baf576', '4028318169e81b970169e81b97650000', 'operate_type', '操作类型', 'operate_type', 0, 1, 1, 'string', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 4, NULL, NULL, '2019-04-04 19:28:36', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('71afb00a1971125ecfa13b4dfa49665e', '402860816bff91c0016bff91cfea0004', 'order_no', '序号', 'order_no', 0, 1, 1, 'int', 10, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 8, 'admin', '2019-07-19 18:05:13', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('71d5b0675df5aba71688c9d7d75cccee', '4028318169e81b970169e81b97650000', 'log_type', '日志类型（1登录日志，2操作日志）', 'log_type', 0, 1, 1, 'string', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 2, NULL, NULL, '2019-04-04 19:28:36', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('71da57a55f15373da3fb6b789d8384c1', '2c978081a12e8ea901a12e918c9f000a', 'vital_registration_complete', '生命登记完整性', 'vital_registration_complete', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 31, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('71e9ab74dae687837365e50eed090591', '1acb6f81a1d9439da6cc4e868617b565', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2019-06-10 14:47:14', '2019-04-23 22:58:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('7280c56a210e6a47794fda855d0c6abb', 'fbc35f067da94a70adb622ddba259352', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, NULL, NULL, '2019-07-03 19:44:23', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('72e784af5c47bbbc0534b29bf656bd61', '4028839a6de2ebd3016de2ebd3870000', 'id', '主键', 'id', 1, 0, 1, 'string', 36, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'group', NULL, NULL, 1, NULL, NULL, '2019-10-19 15:29:30', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -3699,6 +3197,7 @@ INSERT INTO `onl_cgform_field` VALUES ('73dc6089556f3446e39d42df3dedb2db', '4028
 INSERT INTO `onl_cgform_field` VALUES ('742329ccdb185cf5d3e0b5b0c05dcffa', '402860816bff91c0016bffa220a9000b', 'interest', '兴趣爱好', 'interest', 0, 1, 1, 'string', 255, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 34, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('744444a7ada3bbb05c6b114b5ba0d477', '402860816aa5921f016aa5dedcb90009', 'id', 'id', 'id', 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'group', '', '', 1, 'admin', '2019-05-11 15:56:47', '2019-05-11 15:50:08', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('74af99545de724a4abd2022581a36026', 'fb7125a344a649b990c12949945cb6c1', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2019-03-26 19:24:11', '2019-03-26 19:01:52', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('74ef7b56e1ff50b3be6f999074c840b9', '2c978081a12e8ea901a12e918c9f000a', 'latest_agricultural_census', '最近农业普查年份', 'latest_agricultural_census', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 32, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('756b07656386dbd91245f7ffda32ae61', '402860816bff91c0016bff91d8830007', 'id', 'id', 'id', 1, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'group', '', '', 1, 'admin', '2019-07-19 18:04:41', '2019-07-17 18:54:37', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('75841fa7c75ebdc94655bd5e44fbc9f6', '402860816bff91c0016bffa220a9000b', 'native_place', '籍贯', 'native_place', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 10, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('75ba781c67711bed71bba1c3e3c68e11', '8994f2817b5a45d9890aa04497a317c5', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 0, NULL, NULL, '2019-03-23 11:39:16', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -3717,8 +3216,10 @@ INSERT INTO `onl_cgform_field` VALUES ('7b0947ec7b0aa030121df814bef8b91c', '4028
 INSERT INTO `onl_cgform_field` VALUES ('7b642d983ac06bfef91edde2c932dbe7', '1acb6f81a1d9439da6cc4e868617b565', 'xg_shangxian', '选购上限', NULL, 0, 1, 1, 'int', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 14, 'admin', '2019-06-10 14:47:14', '2019-04-23 22:58:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('7b6fe525c26b7085c13e32e94c90aff9', '553a4172fde446419cb602dc70f9ee67', 'province', '输入2到10位的字母', NULL, 0, 1, 1, 'string', 50, 0, NULL, '', '', '', 'text', '', 120, '^[a-z|A-Z]{2,10}$', '0', '', '', 0, 1, 1, 0, 'single', '', '', 36, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('7b849e57debfb889caea5e0fef09062b', 'beee191324fd40c1afec4fda18bd9d47', 'sex2', 'dd', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, 'admin', '2019-04-13 13:41:13', '2019-04-13 13:40:56', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('7b9cf27a6b20518261ea1ca2cba6e396', '2c978081a12e8ea901a12e8eaadc0001', 'periodicity', '数据频率(年/季/月)', 'periodicity', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 13, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('7beb639aa9ffda07edb5ce1e49c2287f', '402860816bff91c0016bff91d2810005', 'update_time', '更新时间', 'update_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 13, 'admin', '2019-07-19 18:05:55', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('7bf091da401b74d55b107fe9f930ea54', '4028839a6de2ebd3016de2ebd3870000', 'create_by', '创建人', 'create_by', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 2, NULL, NULL, '2019-10-19 15:29:30', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('7c0f66a28ce998f4d74e53220e9f371d', '2c978081a12e8ea901a12e918c9f000a', 'alternative_conversion_factor', '备选换算因子', 'alternative_conversion_factor', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 21, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('7c6aecc377816c69147f1193b17dfcc5', 'e9faf717024b4aae95cff224ae9b6d97', 'sex', '员工性别', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 8, 'admin', '2019-07-03 18:23:49', '2019-07-03 18:22:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('7c8c5f45cb994038a51febdb0112a995', '553a4172fde446419cb602dc70f9ee67', 'jycs', '唯一检验', NULL, 0, 1, 1, 'string', 50, 0, NULL, '', '', '', 'text', '', 120, 'only', '0', '', '', 0, 1, 1, 0, 'single', '', '', 35, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('7ca2ae42e686e917f766edd2570c5141', '553a4172fde446419cb602dc70f9ee67', 'shijian', '时间', NULL, 0, 1, 1, 'string', 50, 0, NULL, '', '', '', 'time', '', 120, '', '0', '', '', 1, 1, 1, 0, 'group', '', '', 15, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3727,6 +3228,7 @@ INSERT INTO `onl_cgform_field` VALUES ('7cce797000cec08416fb027d1a4013cb', '4028
 INSERT INTO `onl_cgform_field` VALUES ('7cdbe0d563e15f3fb1fb32d996fe4ba7', '3d447fa919b64f6883a834036c14aa67', 'area', '区', NULL, 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 3, 'admin', '2026-04-28 16:47:51', '2020-02-20 16:19:00', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('7d107728408c21ece332406a21f2d692', '402860816bff91c0016bff91cfea0004', 'update_by', '更新人', 'update_by', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 11, 'admin', '2019-07-19 18:05:13', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('7d27d79157dff60f847d98cbc4e66e81', 'b493c5fd4fa64a3a84e74ee171763e37', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, NULL, NULL, '2021-06-07 18:13:37', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('7decc6dd2daec6f2dccbf4159f5e81f9', '2c9bf081a1585aaa01a1585adddc0003', 'year', '年份', 'year', 0, 0, 1, 'int', 5, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 4, NULL, NULL, '2026-10-20 16:08:33', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('7e066f60680158d47b328ef519d80e49', 'beee191324fd40c1afec4fda18bd9d47', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2019-04-13 13:41:13', '2019-04-13 13:40:56', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('7e331396f6e544ae801690cf475e7615', '402881e6760269a201760269a2af0000', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 3, NULL, NULL, '2020-11-26 10:37:26', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('7e5013b8a3e970fdcef2b577829bfa83', '402881fd812267500181226750e90000', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 2, NULL, NULL, '2022-06-02 11:13:25', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3736,8 +3238,10 @@ INSERT INTO `onl_cgform_field` VALUES ('7fa8eafb28c52183514179454d62e5b3', '05a3
 INSERT INTO `onl_cgform_field` VALUES ('809a9fafe0b79c9997de32cb6e831c6f', '05a3a30dada7411c9109306aa4117068', 'birthday', '生日', NULL, 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 9, 'admin', '2026-08-20 23:18:39', '2020-05-06 11:34:31', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('8119d3de514092232935b038531828c5', '05a3a30dada7411c9109306aa4117068', 'sex', '性别', NULL, 0, 1, 1, 'string', 32, 0, '', 'sex', '', '', 'list', '', 120, '', '0', '', '', 1, 1, 1, 0, 'single', '', '', 8, 'admin', '2026-08-20 23:18:38', '2020-05-06 11:34:31', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('813a5ebf7335309c7edb3803f7e4b204', '402880e570a5d7000170a5d700f50000', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 2, NULL, NULL, '2020-03-04 21:58:16', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('8177f1744532e9f915592a5414364679', '2c978081a12e8ea901a12e8eadcc0004', 'deleted', '逻辑删除', 'deleted', 0, 1, 1, 'int', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 6, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('817cc5e277e88164dffd4caee1169276', '56efb74326e74064b60933f6f8af30ea', 'remark', '备注', NULL, 0, 1, 1, 'string', 500, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 10, 'admin', '2020-07-10 16:53:27', '2020-05-08 23:45:32', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('81ed9556c9fda1bbb46d94a53a6c90c7', '402860816bff91c0016bff91c0cb0000', 'depart_name', '部门名称', 'depart', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 7, 'admin', '2019-07-19 18:09:01', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('81f459d2b00ce72b3fe044e68e784741', '2c978081a12e8ea901a12e918c9f000a', 'latest_trade_data', '最近贸易数据年份', 'latest_trade_data', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 34, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('82ac28d632eb5d75ce4bfb68459c58bc', '553a4172fde446419cb602dc70f9ee67', 'zddtjxlss', '字典表带条件下拉搜索', NULL, 0, 1, 1, 'string', 255, 0, NULL, 'username', 'sys_user where username like \'%a%\'', 'realname', 'sel_search', '', 200, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 46, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('83764a3d17590f5a69047295803eaa07', 'feea98637c2144caae7c5d56a815a245', 'cc', 'cc', NULL, 0, 1, 1, 'double', 10, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 9, NULL, NULL, '2021-10-27 10:24:24', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('838622bc247b35606e95ddcc079f70f4', 'f9fb8bee1a64472889d077c757b9acc7', 'nn', 'nn', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, 'admin', '2021-08-17 13:58:15', '2021-08-17 13:57:48', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
@@ -3746,10 +3250,12 @@ INSERT INTO `onl_cgform_field` VALUES ('8419278effeb3a6531247fbfdb3b10e3', '4028
 INSERT INTO `onl_cgform_field` VALUES ('8422485e1cbf4455f9ded7d0af59379c', '402860816bff91c0016bff91cfea0004', 'to_time', '截止时间', 'to_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 4, 'admin', '2019-07-19 18:05:13', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('843c14e8c8709eb13014303671192ae4', '402881fd812267500181226787d90001', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 4, 'admin', '2022-06-02 11:13:48', '2022-06-02 11:13:39', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('844334fbd9dc9bd87682d7058ee65bcb', '553a4172fde446419cb602dc70f9ee67', 'mi_ma', '密码', NULL, 0, 1, 1, 'string', 32, 0, NULL, '', '', '', 'password', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 8, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('8459c945785dce68963dc9fc46c8ef05', '2c978081a12e8ea901a12e8eac0d0002', 'deleted', '逻辑删除', 'deleted', 0, 1, 1, 'int', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 7, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('845c70568d44a074f067d6d277950525', '402860816bff91c0016bffa220a9000b', 'entrytime', '入职时间', 'entrytime', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 23, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('845f20dcbcb3cae414387203a8c70f1d', '553a4172fde446419cb602dc70f9ee67', 'name', '用户名', NULL, 0, 1, 1, 'string', 50, 0, NULL, '', '', '', 'text', '', 120, '', '1', '', '', 1, 1, 1, 0, 'single', '', '', 7, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('8529ddaed8d5f3d9084e873203d55cac', '402860816bff91c0016bffa220a9000b', 'marital_status', '婚姻状况', 'marital_status', 0, 1, 1, 'string', 20, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 24, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('857a0daa9cd8a058f2f15fc7c5fb3571', '402860816bff91c0016bffa220a9000b', 'email', '邮箱', 'email', 0, 1, 1, 'string', 255, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 17, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('85e09f1ea4b166a6b5f7e92aeed4e3c5', '2c978081a12e8ea901a12e8eaadc0001', 'other_notes', '其他说明', 'other_notes', 0, 1, 1, 'Text', 0, 0, NULL, NULL, NULL, NULL, 'textarea', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 15, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('85e43fa87074845f86cf52606a23a57c', 'b81de38db24047b497d476516f8a0865', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, NULL, NULL, '2020-02-24 14:56:08', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('8652ca69a947fd4c961a3ac7c0fa252a', 'fb19fb067cd841f9ae93d4eb3b883dc0', 'create_by', '创建人登录名称', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 1, NULL, NULL, '2019-03-23 11:39:48', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('867b7947db161541ad7f4d0b2127d793', '553a4172fde446419cb602dc70f9ee67', 'tupian', '图片', NULL, 0, 1, 1, 'string', 250, 0, NULL, '', '', '', 'image', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 17, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3759,6 +3265,7 @@ INSERT INTO `onl_cgform_field` VALUES ('86e0f3a8f31c60698157f139ed993954', '4028
 INSERT INTO `onl_cgform_field` VALUES ('86f29e9919766e0d1128263608c016a0', '997ee931515a4620bc30a9c1246429a9', 'type_name', '商品分类', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 6, 'admin', '2026-04-28 16:47:09', '2020-05-03 00:56:56', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('873e2bb041b17bff77d3aca72900ea1b', '56870166aba54ebfacb20ba6c770bd73', 'order_code', '订单编码', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, '', '0', '', '${shop_order_num}', 1, 1, 1, 0, 'single', '', '', 5, 'admin', '2025-11-27 18:19:46', '2019-04-20 11:38:39', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('8756fbb5c23a0258e029e0cb3c0a045c', '402880e5721355dd01721355dd390000', 'price', '价格', NULL, 0, 1, 1, 'double', 10, 3, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', NULL, NULL, 8, NULL, NULL, '2020-05-14 21:18:14', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('876fa76e3921c3cbe601caad9105b835', '2c978081a12e8ea901a12e8eac0d0002', 'series_code', '指标代码', 'series_code', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 3, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('877391ae770a4ce2c95181ef410982ce', '4028318169e81b970169e81b97650000', 'request_param', '请求参数', 'request_param', 0, 1, 1, 'string', 255, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 10, NULL, NULL, '2019-04-04 19:28:36', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('87e82e3c723a6abb020122babdac6bd1', '8994f2817b5a45d9890aa04497a317c5', 'create_by', '创建人登录名称', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 1, NULL, NULL, '2019-03-23 11:39:16', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('87f7a2703c5850f0b063dd866d0e2917', '402860816bff91c0016bffa220a9000b', 'birthday', '出生日期', 'birthday', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 7, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -3773,6 +3280,10 @@ INSERT INTO `onl_cgform_field` VALUES ('8a2f97fde739720e86fbcd3ce311c037', '09fd
 INSERT INTO `onl_cgform_field` VALUES ('8a6440c447ca97b1ceac40fa8576044e', '3b5e18da618247539481816995b6bf9f', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 6, 'admin', '2020-07-11 11:27:29', '2020-07-11 11:27:17', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('8a9d6bbbe45fd3539a8cb3ba2cee470a', '402881e6760269a201760269a2af0000', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 5, NULL, NULL, '2020-11-26 10:37:26', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('8ac8a0c0087469a4e7579229ff17f273', 'e5464aa8fa7b47c580e91593cf9b46dc', 'jifen', '合计积分', NULL, 0, 1, 1, 'int', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 10, 'admin', '2019-04-24 17:09:49', '2019-04-24 11:05:10', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('8adb159cdaecb1324e5734fec3096887', '2c978081a12e8ea901a12e918c9f000a', 'region', '区域(英文)', 'region', 0, 1, 1, 'string', 100, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 10, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('8adf36113ddd18e7bfca1ecf08a1ca21', '2c9bf081a1585aaa01a1585ac9d90001', 'remark', '备注', 'remark', 0, 1, 1, 'string', 255, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 5, NULL, NULL, '2026-10-20 16:08:28', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('8aefe29524fe36f301897faaf2965a6a', '2c978081a12e8ea901a12e8ea9d80000', 'update_time', '更新时间', 'update_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'datetime', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 9, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('8b05783d49d25e1790ea4192f812ea94', '2c978081a12e8ea901a12e8eaadc0001', 'notes_from_original_source', '原始来源备注', 'notes_from_original_source', 0, 1, 1, 'Text', 0, 0, NULL, NULL, NULL, NULL, 'textarea', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 18, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('8b0d9ecfe8d44282b973cd56bd99f1a8', '553a4172fde446419cb602dc70f9ee67', 'xiala', '字典下拉', NULL, 0, 1, 1, 'string', 50, 0, NULL, 'sex', '', '', 'list', '', 120, '', '0', '', '', 1, 1, 1, 0, 'single', '', '', 9, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('8bd4deadc9e96c1a6d7abd77033105f6', 'e67d26b610dd414c884c4dbb24e71ce3', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2019-04-24 11:03:32', '2019-04-24 11:02:57', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('8c10f1728f8aa4f0a650af5a6856ccaa', 'f9fb8bee1a64472889d077c757b9acc7', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2021-08-17 13:58:15', '2021-08-17 13:57:48', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3780,6 +3291,8 @@ INSERT INTO `onl_cgform_field` VALUES ('8c1b6fff73650b8650947c2a29c63492', '4028
 INSERT INTO `onl_cgform_field` VALUES ('8c4f4e151639f85bdf4a53f988588dc9', '402881fd812267500181226787d90001', 'contents', '请假原因', NULL, 0, 1, 1, 'string', 500, 0, '', '', '', '', 'markdown', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', NULL, NULL, 10, 'admin', '2022-06-02 11:13:48', '2022-06-02 11:13:39', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('8c6518fec11fc4769ba4eb770c9e00f7', '4028839a6de2ebd3016de2ebd3870000', 'integral_val', '积分值', 'integral_val', 0, 1, 1, 'int', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 11, NULL, NULL, '2019-10-19 15:29:30', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('8ca56210938fbe649f840e505eb9fd41', '56870166aba54ebfacb20ba6c770bd73', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2025-11-27 18:19:45', '2019-04-20 11:38:39', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('8d03be579b2af489f13ae41da8542c3e', '2c978081a12e8ea901a12e8eaadc0001', 'update_by', '更新人', 'update_by', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 31, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('8e0bf2160a5b23234c97678589a664b3', '2c978081a12e8ea901a12e918c9f000a', 'region_cn', '区域中文(翻译字段)', 'region_cn', 0, 1, 1, 'string', 100, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 11, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('8e1212df6a94ed8f5102a327564e5af6', '8d66ea41c7cc4ef9ab3aab9055657fc9', 'name', '分类名字', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, NULL, NULL, '2020-05-07 22:46:32', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('8e131d4a438c907b3272474780be7603', '402880eb71d52dc30171d52dc3a10000', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 8, NULL, NULL, '2020-05-02 19:37:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('8e4012b263d899531aac5227db147bda', '41de7884bf9a42b7a2c5918f9f765dff', 'sex', '性别', NULL, 0, 1, 1, 'string', 32, 0, '', 'sex', '', '', 'radio', '', 200, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, 'admin', '2022-11-23 12:01:36', '2022-10-29 17:02:47', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
@@ -3787,6 +3300,7 @@ INSERT INTO `onl_cgform_field` VALUES ('8ea43fd1e4ce82becee61b2f1e2e843f', '32fe
 INSERT INTO `onl_cgform_field` VALUES ('8f1d302868640b72cef52171a023a203', 'e9faf717024b4aae95cff224ae9b6d97', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2019-07-03 18:23:49', '2019-07-03 18:22:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('8f3e6fb68179c690f748f3c541fb50f1', '7ea60a25fa27470e9080d6a921aabbd1', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, NULL, NULL, '2019-04-17 00:22:21', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('8f6810b315b5101bea9d3de4d2400edd', '553a4172fde446419cb602dc70f9ee67', 'zddtjdx', '字典表带条件单选', NULL, 0, 1, 1, 'string', 255, 0, NULL, 'username', 'sys_user where username like \'%a%\'', 'realname', 'radio', '', 200, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 43, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('8f91ceaaa78b2d821160e2c6d25a528b', '2c978081a12e8ea901a12e8eaadc0001', 'source_cn', '数据来源机构中文(翻译字段)', 'source_cn', 0, 1, 1, 'string', 500, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 21, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('8fc0be84bed1216635c69af918e097ff', '402860816aa5921f016aa5dedcb90009', 'name', '并行会签标题', 'name', 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 6, 'admin', '2019-05-11 15:56:47', '2019-05-11 15:50:08', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('903c33f7d18175a269b783cd4288216f', '402881e6760269a20176026d25650002', 'update_time', '修改时间', 'update_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'date', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 15, NULL, NULL, '2020-11-26 10:41:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('909b3de0c8a48a21ef8cf98eb4831689', '56efb74326e74064b60933f6f8af30ea', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2020-07-10 16:53:27', '2020-05-08 23:45:32', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3796,6 +3310,7 @@ INSERT INTO `onl_cgform_field` VALUES ('918b8d661e480624713ddcff1bdda4f4', '4028
 INSERT INTO `onl_cgform_field` VALUES ('91be98b96dea1528abc943f9f131fd16', '402880e570a5d7000170a5d700f50000', 'price', '价格', NULL, 0, 1, 1, 'double', 32, 0, '', '', '', '', 'text', '', 120, 'n', '0', '', '', 0, 1, 1, 0, 'single', NULL, NULL, 7, NULL, NULL, '2020-03-04 21:58:16', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('91f7cd9b59c0da033363f8a09b02ec96', '3d447fa919b64f6883a834036c14aa67', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2026-04-28 16:47:51', '2020-02-20 16:19:00', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('921cc5a92a79e1e21e9e631a1b7f3fbd', '8d66ea41c7cc4ef9ab3aab9055657fc9', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 1, 'single', '', '', 1, NULL, NULL, '2020-05-07 22:46:31', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('925571d26758b625d3a52fbac12824f2', '2c9bf081a1585aaa01a1585acaf20002', 'unit', '单位', 'unit', 0, 1, 1, 'string', 80, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 5, NULL, NULL, '2026-10-20 16:08:28', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('9370c9304af30b8d29defe0a5ada6e5b', '62e29cdb81ac44d1a2d8ff89851b853d', 'DC_DDSA', 'DD', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 6, NULL, NULL, '2019-05-11 14:01:14', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('9371f61d39c5d57ddb0a2db96b2e2412', '402860816bff91c0016bffa220a9000b', 'speciality', '专业', 'speciality', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 15, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('941ef1bddbf91fcd3a437a7a7dd347e7', 'feea98637c2144caae7c5d56a815a245', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, NULL, NULL, '2021-10-27 10:24:24', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3803,8 +3318,10 @@ INSERT INTO `onl_cgform_field` VALUES ('947174892512ea97fafde899d427ea7e', '4028
 INSERT INTO `onl_cgform_field` VALUES ('94b8bf435175cc545366e11992280757', '32f75e4043ef4070919dbd4337186a3d', 'age', '年龄', NULL, 0, 1, 1, 'int', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 1, 1, 1, 0, 'group', '', '', 7, 'admin', '2019-04-11 10:15:32', '2019-03-27 15:54:49', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('94e682cb802777fe4205536888f69353', '402860816bff91c0016bff91d2810005', 'create_by', '创建人', 'create_by', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 10, 'admin', '2019-07-19 18:05:55', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('957386b500be42a200d6a56d54345392', 'deea5a8ec619460c9245ba85dbc59e80', 'num', '数量', NULL, 0, 1, 1, 'int', 32, 0, '', '', '', '', 'text', '', 120, 'n', '0', '', '', 0, 1, 1, 0, 'single', '', '', 8, 'admin', '2020-05-03 01:01:18', '2019-04-20 11:41:19', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('9578e62f8b50bc71a48d6d8b0bce7239', '2c978081a12e8ea901a12e8eadcc0004', 'create_time', '创建时间', 'create_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'datetime', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 7, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('960d2847922b61dadeb3518ef55fb0c1', '1acb6f81a1d9439da6cc4e868617b565', 'wl_name', '物料名称', NULL, 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, 'admin', '2019-06-10 14:47:14', '2019-04-23 22:58:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('9665f02764774fdd77c19923d3ff3c3e', '4028318169e81b970169e81b97650000', 'cost_time', '耗时', 'cost_time', 0, 1, 1, 'string', 19, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 12, NULL, NULL, '2019-04-04 19:28:36', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('9669ce3106ce544a84e823ab8d90b46b', '2c978081a12e8ea901a12e8eaadc0001', 'limitations_exceptions', '局限与例外', 'limitations_exceptions', 0, 1, 1, 'Text', 0, 0, NULL, NULL, NULL, NULL, 'textarea', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 17, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('966a4988298d5cb0be47848735ce8cb7', '4028839a6de2ebd3016de2ebd3870000', 'xg_shangxian', '选购上限', 'xg_shangxian', 0, 1, 1, 'int', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 12, NULL, NULL, '2019-10-19 15:29:30', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('9698964a9e06edf12fc88df976080984', '09fd28e4b7184c1a9668496a5c496450', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2022-05-07 19:05:56', '2020-05-08 23:51:49', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('96c585a4f71e5c38ed25b9741366365b', '402860816bff91c0016bff91c7010001', 'sys_org_code', '组织机构编码', 'sys_org_code', 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 11, 'admin', '2019-07-19 18:07:47', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -3814,11 +3331,15 @@ INSERT INTO `onl_cgform_field` VALUES ('98e82cb1595609a3b42fa75c60ac1229', '4028
 INSERT INTO `onl_cgform_field` VALUES ('9914a0c84805e72c4b6075e36edb13f9', '402860816aa5921f016aa5921f480000', 'create_time', '创建时间', 'create_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'group', '', '', 9, 'admin', '2019-05-11 15:31:54', '2019-05-11 14:26:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('9920ecec9c9109fc6b93e86f8fdfa03b', '402860816bff91c0016bffa220a9000b', 'depart_name', '所在部门', 'depart_name', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 1, 1, 1, 0, 'group', '', '', 2, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('99b43bbb23237815ebb74b12b4d7ea2f', '62e29cdb81ac44d1a2d8ff89851b853d', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, NULL, NULL, '2019-05-11 14:01:14', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('99e0a83e0c341687d1a5174f773731f4', '2c9bf081a1585aaa01a1585acaf20002', 'indicator_code', 'WEO指标编码，如NGDP,PCPI', 'indicator_code', 0, 0, 1, 'string', 40, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 2, NULL, NULL, '2026-10-20 16:08:28', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('9a462d83210cad30f0e12b98e8a172a7', '3b5e18da618247539481816995b6bf9f', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2020-07-11 11:27:29', '2020-07-11 11:27:17', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('9a4dc8718000c30953a3923eb7db5096', '402880eb71d52dc30171d52dc3a10000', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 1, 'single', NULL, NULL, 1, NULL, NULL, '2020-05-02 19:37:59', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('9a579c506f75f75baf88352a5eb2c249', '1acb6f81a1d9439da6cc4e868617b565', 'bpm_status', '流程状态', NULL, 0, 1, 1, 'string', 2, 0, '1', 'bpm_status', '', '', 'list', '', 120, NULL, '0', '', '', 0, 0, 1, 0, 'single', '', '', 16, 'admin', '2019-06-10 14:47:14', '2019-05-07 16:54:43', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('9a9516645cbc8147b23333fea76aa2bb', 'b81de38db24047b497d476516f8a0865', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, NULL, NULL, '2020-02-24 14:56:08', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('9aa6738443d3d8a67cf50506199d15ad', 'cb2d8534a2f544bc9c618dd49da66336', 'aaae', 'aae', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 8, NULL, NULL, '2020-02-24 17:22:43', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('9aae09fd52e53875eaa5bd4d418950cf', '2c978081a12e8ea901a12e8eaadc0001', 'short_definition_cn', '短定义中文(翻译字段)', 'short_definition_cn', 0, 1, 1, 'Text', 0, 0, NULL, NULL, NULL, NULL, 'textarea', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 8, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('9ad6dde0a06d7fe6796aee81f90a945e', '2c978081a12e8ea901a12e8eaadc0001', 'id', '主键', 'id', 1, 0, 1, 'string', 36, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 1, 'single', NULL, NULL, -1, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('9b4374352ebdb53ae03f3384824ccb6a', '2c978081a12e8ea901a12e918c9f000a', 'source_of_income_expenditure_data', '收入支出数据来源', 'source_of_income_expenditure_data', 0, 1, 1, 'string', 200, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 30, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('9b66c6501baaef67b35bd41ba7a6a781', '402881fd812267500181226750e90000', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 1, 'single', NULL, NULL, 1, NULL, NULL, '2022-06-02 11:13:25', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('9bd056786694d67666f6924cc225b1a0', '3d447fa919b64f6883a834036c14aa67', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 0, 'admin', '2026-04-28 16:47:50', '2020-02-20 16:19:00', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('9c40fb4db8afed3c682c6b8a732fd69d', 'e2faf977fdaf4b25a524f58c2441a51c', 'post', '用户岗位', NULL, 0, 1, 1, 'string', 32, 0, '', 'post_code', 'air_china_post_materiel_main', 'post_name', 'sel_search', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 8, 'admin', '2019-06-10 17:27:00', '2019-04-24 17:12:11', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -3826,10 +3347,16 @@ INSERT INTO `onl_cgform_field` VALUES ('9cc60be30026301b9eafb8c310387f54', '4028
 INSERT INTO `onl_cgform_field` VALUES ('9d85bafa399f28a40e1de1eeef747223', '4028318169e81b970169e81b97650000', 'ip', 'IP', 'ip', 0, 1, 1, 'string', 100, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 7, NULL, NULL, '2019-04-04 19:28:36', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('9d88e0661ed4b0969b7f0608a714b14a', '402881e6760269a20176026d25650002', 'create_time', '创建时间', 'create_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'date', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 13, NULL, NULL, '2020-11-26 10:41:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('9d89ff1a019f41d80307652041490944', '32feeb502544416c9bf41329c10a88f4', 'name', '请假人', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, 'admin', '2019-08-23 20:03:40', '2019-07-02 18:23:23', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('9db401e3850e0f5457c5c4ab2e875f9b', '2c978081a12e8ea901a12e918c9f000a', 'sna_price_valuation', 'SNA价格核算方式', 'sna_price_valuation', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 17, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('9dbf1a9b70a5a84248d9d337c114bc03', '2c978081a12e8ea901a12e8eac0d0002', 'create_time', '创建时间', 'create_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'datetime', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 8, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('9e003fe608f2228c7b71ce04d8bd5993', '2c978081a12e8ea901a12e8eac0d0002', 'create_by', '创建人', 'create_by', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 9, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('9e50680eb4e79b3af352a5933d239dff', 'dbf4675875e14676a3f9a8b2b8941140', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, NULL, NULL, '2019-05-27 18:02:07', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('a01a7fe5660206e6f407ed98b6c732d6', '402860816bff91c0016bff91cfea0004', 'phone', '联系方式', 'phone', 0, 1, 1, 'string', 20, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 7, 'admin', '2019-07-19 18:05:13', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('a029ecf9b943773bdf30a490e9922e45', '553a4172fde446419cb602dc70f9ee67', 'zdbxldx', '字典表下拉多选', NULL, 0, 1, 1, 'string', 255, 0, NULL, 'id', 'sys_depart', 'depart_name', 'list_multi', '', 200, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 41, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('a047f542fc3f1eb833593dfffdee5d5d', '553a4172fde446419cb602dc70f9ee67', 'popback', 'popback', NULL, 0, 1, 1, 'string', 100, 0, NULL, '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 22, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('a0685892cbcfd4c335f9134d7e324487', '2c9bf081a1585aaa01a1585aaad40000', 'country_en', '国家英文名称', 'country_en', 0, 0, 1, 'string', 120, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 3, NULL, NULL, '2026-10-20 16:08:20', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('a075dd1d02ddf264f3ce62cba18b564c', '2c978081a12e8ea901a12e918c9f000a', 'lending_category', '贷款类别', 'lending_category', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 18, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('a0d993b553225dcbde5aad62700bb27d', '2c978081a12e8ea901a12e918c9f000a', 'short_name', '简称(英文)', 'short_name', 0, 1, 1, 'string', 200, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 3, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('a1a2d49b35c185df9f9e149b290aa277', '56efb74326e74064b60933f6f8af30ea', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2020-07-10 16:53:27', '2020-05-08 23:45:32', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('a1f5daba36f536e7acf6a939826183b0', 'fb19fb067cd841f9ae93d4eb3b883dc0', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 0, NULL, NULL, '2019-03-23 11:39:48', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('a232d608434d15fcecd8a3f31a9044b2', '86bf17839a904636b7ed96201b2fa6ea', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2020-05-14 21:18:49', '2020-05-08 23:48:31', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3837,6 +3364,7 @@ INSERT INTO `onl_cgform_field` VALUES ('a2baa3a18062f28e3d8a81178027f171', '4028
 INSERT INTO `onl_cgform_field` VALUES ('a3dea64c8009780e213d16c69704c030', '53a3e82b54b946c2b904f605875a275c', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 1, 'single', '', '', 0, 'admin', '2022-10-25 11:10:48', '2020-05-07 22:49:47', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('a45eba33810c485b9d8e6f70818a1dfa', '402860816aa5921f016aa5921f480000', 'bpm_status', '流程状态', 'bpm_status', 0, 1, 1, 'string', 50, 0, '1', 'bpm_status', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 1, 0, 'group', '', '', 7, 'admin', '2019-05-11 15:31:54', '2019-05-11 14:26:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('a4e83c528933fc7d3a4230d4141a5a20', '553a4172fde446419cb602dc70f9ee67', 'dhwb', '多行文本框', NULL, 0, 1, 1, 'string', 250, 0, NULL, '', '', '', 'textarea', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 18, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('a56cc3233556987e2046122ec1313010', '2c9bf081a1585aaa01a1585acaf20002', 'indicator_en', '指标英文全称', 'indicator_en', 0, 0, 1, 'string', 500, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 3, NULL, NULL, '2026-10-20 16:08:28', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('a6471d4fb3dbffef01dab1f7d452bb30', '27fc5f91274344afa7673a732b279939', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2019-07-01 16:28:20', '2019-07-01 16:26:42', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('a6722b498602d7d7b5177b16789d8cc1', 'e5464aa8fa7b47c580e91593cf9b46dc', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2019-04-24 17:09:48', '2019-04-24 11:05:10', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('a6c428d67bbad26f220794ddfc7c637d', 'b493c5fd4fa64a3a84e74ee171763e37', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 6, NULL, NULL, '2021-06-07 18:13:37', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3844,6 +3372,7 @@ INSERT INTO `onl_cgform_field` VALUES ('a7444c8c7be4fa4a0e18c65d9ea3de37', '553a
 INSERT INTO `onl_cgform_field` VALUES ('a76f561057ac9e43a8ca09e478a1eab8', '402860816bff91c0016bff91ca7e0002', 'update_time', '更新时间', 'update_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 12, 'admin', '2019-07-19 18:07:13', '2019-07-17 18:54:33', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('a7822f6e4cffb37fc0729cbd4cfd8655', '32f75e4043ef4070919dbd4337186a3d', 'name', '用户名', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 1, 1, 1, 0, 'single', '', '', 5, 'admin', '2019-04-11 10:15:32', '2019-03-27 15:54:49', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('a7b6ae09441ce36a14c7ce95f17a218e', '86bf17839a904636b7ed96201b2fa6ea', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2020-05-14 21:18:49', '2020-05-08 23:48:31', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('a7c6b6cbf15755fe3e4589ad1c137ce5', '2c9bf081a1585aaa01a1585ac9d90001', 'id', '自增主键', 'id', 1, 0, 1, 'long', 19, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 1, 'single', NULL, NULL, -1, NULL, NULL, '2026-10-20 16:08:28', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('a82ca42a76e9d2b8dae6d57dbb5edb54', 'deea5a8ec619460c9245ba85dbc59e80', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2020-05-03 01:01:18', '2019-04-20 11:41:19', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('a83acbadb64ad5ba87a384dd6eea3117', 'f9fb8bee1a64472889d077c757b9acc7', 'ddd', 'dd', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 8, 'admin', '2021-08-17 13:58:15', '2021-08-17 13:57:48', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('a90c0b002021ac3a4a1a96514d58224b', '05a3a30dada7411c9109306aa4117068', 'long_ids', '长类型', NULL, 0, 1, 1, 'long', 19, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 15, 'admin', '2026-08-20 23:18:39', '2025-11-27 11:36:01', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
@@ -3853,6 +3382,7 @@ INSERT INTO `onl_cgform_field` VALUES ('a9780eace237a15f26931dd6a9ec02e9', '7583
 INSERT INTO `onl_cgform_field` VALUES ('a97fec2610584bebe5fda2ba538e3881', '402881fd812267500181226750e90000', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 4, NULL, NULL, '2022-06-02 11:13:25', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('aa07931514727913413880b7a2b76dcb', 'd3ae1c692b9640e0a091f8c46e17bb01', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, NULL, NULL, '2019-07-24 14:47:30', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('aa4780601419c21dabb6c42fc511e71c', '402860816bff91c0016bffa220a9000b', 'have_children', '有无子女', 'have_children', 0, 1, 1, 'string', 20, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 25, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('aa612f728d53c71060b95bf8bf22295a', '2c978081a12e8ea901a12e918c9f000a', 'deleted', '逻辑删除', 'deleted', 0, 1, 1, 'int', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 36, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('aa687ad6911c7797951276271bf9a85b', '5517e93b148a42a7b82d5f3f94542dcf', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'datetime', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, NULL, NULL, '2022-07-19 19:36:53', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('ab10e0aa029ded2f4420a33420de225d', '1acb6f81a1d9439da6cc4e868617b565', 'wl_code', '物料编码', NULL, 0, 1, 1, 'string', 60, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 6, 'admin', '2019-06-10 14:47:14', '2019-04-23 22:58:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('ab1f880ba593f3757dac70e003945aa2', '402860816bff91c0016bff91c0cb0000', 'depart_id', '部门ID', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 6, 'admin', '2019-07-19 18:09:01', '2019-07-17 19:38:45', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -3878,6 +3408,7 @@ INSERT INTO `onl_cgform_field` VALUES ('b0a06bdbefd304d81a1838d8d94deda9', '4b55
 INSERT INTO `onl_cgform_field` VALUES ('b0a2c8d21782830ec6a2d16cc1231328', '402881e6760269a20176026d25650002', 'punch_time', '打卡时间', 'punch_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'date', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 4, NULL, NULL, '2020-11-26 10:41:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('b0b1cf271dd6b221a902da2d2f8f889a', 'e9faf717024b4aae95cff224ae9b6d97', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2019-07-03 18:23:49', '2019-07-03 18:22:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('b0dfd0f0c36ee46ef483c0c225956ac5', '402881e6760269a201760269a2af0000', 'checkbox', 'checkbox', NULL, 0, 1, 1, 'string', 32, 0, '', 'sex', '', '', 'checkbox', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', NULL, NULL, 10, NULL, NULL, '2020-11-26 10:37:26', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('b16fb4201ff486b860744d8144867210', '2c978081a12e8ea901a12e8eace90003', 'update_by', '更新人', 'update_by', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 8, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('b18f96f96d979daa7336e81086ea2bc1', 'cb2d8534a2f544bc9c618dd49da66336', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 6, 'admin', '2020-02-24 17:22:42', '2020-02-24 15:15:14', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('b1fc6e2ca671b19e57b08a4f57fc2454', 'fb7125a344a649b990c12949945cb6c1', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2019-03-26 19:24:11', '2019-03-26 19:01:52', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('b22694cf34ffb967b8717647816ad5df', 'e5464aa8fa7b47c580e91593cf9b46dc', 'fk_id', '外键', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', 'air_china_post_materiel_main', 'id', 15, 'admin', '2019-04-24 17:09:49', '2019-04-24 11:05:10', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -3889,10 +3420,12 @@ INSERT INTO `onl_cgform_field` VALUES ('b3fce33f7760070f26580ac84aa9599f', '41de
 INSERT INTO `onl_cgform_field` VALUES ('b47af4d937e55c6208939bac5378bfad', '62e29cdb81ac44d1a2d8ff89851b853d', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, NULL, NULL, '2019-05-11 14:01:14', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('b4e4fe6774e9d7b5f72d2056b47d18ac', '5517e93b148a42a7b82d5f3f94542dcf', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, NULL, NULL, '2022-07-19 19:36:53', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('b53203fc52d067bb4730dbcb7e496bd3', '56870166aba54ebfacb20ba6c770bd73', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 0, 'admin', '2025-11-27 18:19:45', '2019-04-20 11:38:39', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('b5746fcc6d438e0fb0fb7942f9b186d7', '2c978081a12e8ea901a12e8ea9d80000', 'deleted', '逻辑删除', 'deleted', 0, 1, 1, 'int', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 5, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('b5cfd3c9691a884430f3d9cd5ecb211f', 'e2faf977fdaf4b25a524f58c2441a51c', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2019-06-10 17:27:00', '2019-04-24 17:12:11', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('b67d877c34a5b67299f8b011b7fc2254', '41de7884bf9a42b7a2c5918f9f765dff', 'order_id', '订单id', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', 'test_order_main', 'id', 10, 'admin', '2022-11-23 12:01:36', '2022-10-29 17:02:47', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('b6874a05734cad8bd96ffd2f31f1ebca', '402860816bff91c0016bff91c7010001', 'create_by', '创建人', 'create_by', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 7, 'admin', '2019-07-19 18:07:47', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('b733fa73519603b22d401fabbf9e9781', '402860816bff91c0016bff91c0cb0000', 'hiredate', '入职时间', 'hiredate', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 5, 'admin', '2019-07-19 18:09:01', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('b78a014e3fa9e95f23c0731650c0cad8', '2c978081a12e8ea901a12e918c9f000a', 'system_of_national_accounts', '国民账户体系', 'system_of_national_accounts', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 20, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('b7938e4518f9062ce62702cf45986e06', 'e2faf977fdaf4b25a524f58c2441a51c', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2019-06-10 17:27:00', '2019-04-24 17:12:11', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('b7a1243aaa712e2c152c0c7a46f88683', '402860816bff91c0016bff91d8830007', 'age', '年龄', 'age', 0, 1, 1, 'int', 10, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 5, 'admin', '2019-07-19 18:04:41', '2019-07-17 18:54:37', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('b7b311cf4483bd10a93a40891cc39a77', '8d66ea41c7cc4ef9ab3aab9055657fc9', 'has_child', '是否有子节点', NULL, 0, 1, 1, 'string', 3, 0, '', 'yn', '', '', 'list', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 11, NULL, NULL, '2020-05-07 22:46:32', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
@@ -3904,16 +3437,23 @@ INSERT INTO `onl_cgform_field` VALUES ('b9fbace24688c9c9a8c9be72c1d014e7', '4028
 INSERT INTO `onl_cgform_field` VALUES ('ba17414716b12b51c85f9d1f6f1e5787', 'd35109c3632c4952a19ecc094943dd71', 'chegnshi', '城市', NULL, 0, 1, 1, 'string', 300, 0, '', '', '', '', 'pca', '', 120, '', '0', '', '', 1, 1, 1, 0, 'single', '', '', 13, 'admin', '2023-09-16 21:25:25', '2020-11-26 16:54:45', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('ba5f4b2affa94f36eda7f6f133db7ae3', '402860816bff91c0016bff91d2810005', 'workplace', '工作单位', 'workplace', 0, 1, 1, 'string', 255, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 6, 'admin', '2019-07-19 18:05:55', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('ba6f3e762d6e3ea1068a085ec2f7e501', '56efb74326e74064b60933f6f8af30ea', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2020-07-10 16:53:27', '2020-05-08 23:45:32', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('baa495408d95e082a2859103e6c3f1f5', '2c9bf081a1585aaa01a1585ac9d90001', 'topic_en', 'topic英文名称(官方)', 'topic_en', 0, 0, 1, 'string', 120, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 2, NULL, NULL, '2026-10-20 16:08:28', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('babc5936360d7fecf7317847ad8a98fc', '2c978081a12e8ea901a12e8eadcc0004', 'value', '指标数值(缺失为NULL)', 'value', 0, 1, 1, 'BigDecimal', 30, 10, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 5, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('bad02e68ea37bf387337516af84a1ddb', '73162c3b8161413e8ecdca7eb288d0c9', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2019-07-01 14:23:32', '2019-06-10 15:18:34', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('bad5b41784d35fde21ba61dd9c9a122a', '2c978081a12e8ea901a12e918c9f000a', 'income_group', '收入分组(英文)', 'income_group', 0, 1, 1, 'string', 100, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 12, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('bb44475e1d1738a19745bf9f3ebf9e40', '402860816bff91c0016bff91cfea0004', 'update_time', '更新时间', 'update_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 12, 'admin', '2019-07-19 18:05:13', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('bbbb38347b1a5340a1d293e455c632ce', 'fb19fb067cd841f9ae93d4eb3b883dc0', '3', '4', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 6, NULL, NULL, '2019-03-23 11:39:48', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('bc648624ad14c826bbc6e9b23a2b9858', '402860816bff91c0016bff91ca7e0002', 'employee_id', '员工ID', 'employee_id', 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', 'oa_employee_info', 'id', 2, 'admin', '2019-07-19 18:07:13', '2019-07-17 18:54:33', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('bc793fdbef9f6474425456c4eb9d197a', '402860816bff91c0016bff91cfea0004', 'witness', '证明人', 'references', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 6, 'admin', '2019-07-19 18:05:13', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('bc7b14269c121dbc2d82f9a55a4ed5fb', '2c978081a12e8ea901a12e8eadcc0004', 'year', '年份(1960-2025)', 'year', 0, 0, 1, 'int', 5, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 4, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('bc7df6f3cf49f670c36a3de25e25e715', '402860816bff91c0016bff91d2810005', 'order_no', '序号', 'order_no', 0, 1, 1, 'int', 10, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 9, 'admin', '2019-07-19 18:05:55', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('bcc1f7cfabd386311a3c21e588022338', '553a4172fde446419cb602dc70f9ee67', 'fwb', '富文本', NULL, 0, 1, 1, 'Text', 0, 0, NULL, '', '', '', 'umeditor', '', 120, '', '0', '', '', 0, 1, 0, 0, 'single', '', '', 26, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('bd39cb237049ac60218b3f4dd844f30c', '402860816bff91c0016bffa220a9000b', 'current_address', '现居住地', 'current_address', 0, 1, 1, 'string', 200, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 30, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('bd803e1a6fae9d7de6b41ca1f261ebc0', '2c978081a12e8ea901a12e8eaadc0001', 'create_time', '创建时间', 'create_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'datetime', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 29, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('bda847cd1f21db0eb0c6fc428aee00d5', '2c978081a12e8ea901a12e8eaadc0001', 'update_time', '更新时间', 'update_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'datetime', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 32, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('bde81809057b1a4c974fa0f090501fdd', '402860816aa5921f016aa5dedcb90009', 'update_by', '更新人', 'update_by', 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'group', '', '', 4, 'admin', '2019-05-11 15:56:47', '2019-05-11 15:50:08', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('bdea5b776a15897265c43e6ee44af2e1', '997ee931515a4620bc30a9c1246429a9', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2026-04-28 16:47:09', '2020-05-03 00:56:56', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('be0c7e71fda516069665d519667cb54d', '2c9bf081a1585aaa01a1585acaf20002', 'id', '自增主键', 'id', 1, 0, 1, 'long', 19, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 1, 'single', NULL, NULL, -1, NULL, NULL, '2026-10-20 16:08:28', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('be3f8c157d8a1b40e6f7b836552a8095', '8994f2817b5a45d9890aa04497a317c5', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 2, NULL, NULL, '2019-03-23 11:39:16', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('be5eeda7d51dace73d3818bd8467b53b', '402860816bff91c0016bff91c0cb0000', 'update_time', '更新时间', 'update_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 15, 'admin', '2019-07-19 18:09:01', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('be868eed386da3cfcf49ea9afcdadf11', 'd35109c3632c4952a19ecc094943dd71', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2023-09-16 21:25:25', '2019-03-15 14:24:35', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
@@ -3924,27 +3464,33 @@ INSERT INTO `onl_cgform_field` VALUES ('bf61aa04c5ca77ad54c764f8f8b2bdec', '4028
 INSERT INTO `onl_cgform_field` VALUES ('bfc2f19fae367f885adb8bd82a344391', '4028318169e81b970169e81b97650000', 'userid', '操作用户账号', 'userid', 0, 1, 1, 'string', 32, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 5, NULL, NULL, '2019-04-04 19:28:36', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('bff39a86bd05656ee156b685e5187211', 'a2ca0c7297a8491ca849fc1a06c9efbf', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2021-01-24 14:39:35', '2021-01-24 14:38:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('c047ed2cead5bab0307967435f370936', '53a3e82b54b946c2b904f605875a275c', 'chuc_date', '出厂时间', NULL, 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 8, 'admin', '2022-10-25 11:10:49', '2020-05-07 22:49:47', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('c053a8d390df3630af30e5b6d8deee44', '2c978081a12e8ea901a12e8eac0d0002', 'update_by', '更新人', 'update_by', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 10, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('c08da9dc0325c441d89ae7378bcbf599', '553a4172fde446419cb602dc70f9ee67', 'zdbduoxuan', '字典表多选', NULL, 0, 1, 1, 'string', 255, 0, NULL, 'id', 'sys_depart', 'depart_name', 'checkbox', '', 200, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 40, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('c0d66c95773774e7ac1f2a88df307e7a', '402860816aa5921f016aa5921f480000', 'reason', '请假原因', 'reason', 0, 1, 1, 'string', 500, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 6, 'admin', '2019-05-11 15:31:54', '2019-05-11 14:26:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('c21d4b861fe215801acc471d6e9ac872', '2c978081a12e8ea901a12e918c9f000a', 'latest_household_survey', '最近住户调查年份', 'latest_household_survey', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 29, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('c29216d975fee50af175bca8c664a475', 'e67d26b610dd414c884c4dbb24e71ce3', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2019-04-24 11:03:32', '2019-04-24 11:02:56', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('c311cca084580e5fd4b5a2e5b81c4cc5', '402881e6760269a20176026d25650002', 'email', '邮箱', 'email', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 10, NULL, NULL, '2020-11-26 10:41:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('c3d5f211ff18ff241fac97d31254173a', '402881fd812267500181226787d90001', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 3, 'admin', '2022-06-02 11:13:48', '2022-06-02 11:13:39', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('c43d87b6340c29c0c354aa9c579f387f', '32feeb502544416c9bf41329c10a88f4', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2019-08-23 20:03:40', '2019-07-02 18:23:23', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('c456753a9c83e55fa241c4ec72c00f86', '402880eb71d52dc30171d52dc3a10000', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 6, NULL, NULL, '2020-05-02 19:37:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('c4d71528f3f45661b1a87841b7256204', '402880e5721355dd01721355dd390000', 'order_main_id', '订单ID', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 11, NULL, NULL, '2020-05-14 21:18:14', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('c5149328363058fa5e703f0af4e26711', '2c9bf081a1585aaa01a1585adddc0003', 'indicator_code', '冗余存储指标编码，也可join t_weo_indicator', 'indicator_code', 0, 0, 1, 'string', 40, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 3, NULL, NULL, '2026-10-20 16:08:33', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('c52711856d2e81ad1074265833f44328', 'b81de38db24047b497d476516f8a0865', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 1, 'single', '', '', 1, NULL, NULL, '2020-02-24 14:56:07', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('c5349be1a77e5cbd9f0fbb4f2046fc9f', '2c978081a12e8ea901a12e8eadcc0004', 'id', '主键', 'id', 1, 0, 1, 'string', 36, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 1, 'single', NULL, NULL, -1, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('c596f7f9035c71f9d2d0206d14b0eee8', '402881e6760269a201760269a2af0000', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 4, NULL, NULL, '2020-11-26 10:37:26', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('c59f39e7b3bb877398f16796b2cd7962', '997ee931515a4620bc30a9c1246429a9', 'pid', '父级节点', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 0, 0, 'single', '', '', 8, 'admin', '2026-04-28 16:47:09', '2020-05-03 00:56:56', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('c5a61724b3b1fdfd0eb39c361f22bafd', '8d66ea41c7cc4ef9ab3aab9055657fc9', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, NULL, NULL, '2020-05-07 22:46:32', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('c5dd2fc34ae825ebfced2ec74948654c', '402860816aa5921f016aa5921f480000', 'end_date', '请假结束时间', 'end_date', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 5, 'admin', '2019-05-11 15:31:54', '2019-05-11 14:26:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('c5f6ea01a6523a60df153cc61dc92f4d', 'fbc35f067da94a70adb622ddba259352', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, NULL, NULL, '2019-07-03 19:44:23', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('c6024742fbc62f2fc39992e6b59ac13d', '05a3a30dada7411c9109306aa4117068', 'age', '年龄', NULL, 0, 1, 1, 'int', 10, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 1, 1, 1, 0, 'group', '', '', 6, 'admin', '2026-08-20 23:18:38', '2020-05-06 11:34:31', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '1');
+INSERT INTO `onl_cgform_field` VALUES ('c627ec757abf80fe4df167f3b4d0ddbc', '2c978081a12e8ea901a12e918c9f000a', 'create_by', '创建人', 'create_by', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 38, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('c6730e00df5efd77fedf181df29102de', '402860816bff91c0016bff91c7010001', 'update_by', '更新人', 'update_by', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 9, 'admin', '2019-07-19 18:07:47', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('c75a7cb0a21958aa7ca5442f66019669', 'e9faf717024b4aae95cff224ae9b6d97', 'depart', '所属部门', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 9, 'admin', '2019-07-03 18:23:49', '2019-07-03 18:22:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('c772ed9cbe2d1dc69e9ffa73d3487021', '4b556f0168f64976a3d20bfb932bc798', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, NULL, NULL, '2019-04-12 23:38:28', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('c7e0a5c6e23e99ac9af5d3fcc33323f7', 'b493c5fd4fa64a3a84e74ee171763e37', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, NULL, NULL, '2021-06-07 18:13:37', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('c7f1907e8e7aa373c6829263ca6322d0', 'a2ca0c7297a8491ca849fc1a06c9efbf', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 1, 'single', '', '', 1, 'admin', '2021-01-24 14:39:35', '2021-01-24 14:38:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('c8027cf4f2483042445c89ba86c4e51f', '402880e5721355dd01721355dd390000', 'zong_price', '单品总价', NULL, 0, 1, 1, 'double', 10, 3, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', NULL, NULL, 10, NULL, NULL, '2020-05-14 21:18:14', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('c8270e67b855519e91ab2df384ded8e6', '2c978081a12e8ea901a12e8eadcc0004', 'sys_org_code', '部门编码', 'sys_org_code', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 11, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('c91b697b1bcd2be943fc746e2660bc9e', '402860816bff91c0016bff91d2810005', 'real_name', '姓名', 'real_name', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 3, 'admin', '2019-07-19 18:05:55', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('c962b89c893e2b8cf1a12c678ba12962', '553a4172fde446419cb602dc70f9ee67', 'zdbdx', '字典表单选', NULL, 0, 1, 1, 'string', 255, 0, NULL, 'id', 'sys_depart', 'depart_name', 'radio', '', 200, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 39, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('c988bd2b6125c01ceb3579a207dd8784', '3d447fa919b64f6883a834036c14aa67', 'city', '市', NULL, 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 2, 'admin', '2026-04-28 16:47:51', '2020-02-20 16:19:00', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -3957,43 +3503,58 @@ INSERT INTO `onl_cgform_field` VALUES ('cb50a5991ca29e617aa32e49e92c01e7', '09fd
 INSERT INTO `onl_cgform_field` VALUES ('cb7da49a981a1b0acc5f7e8a0130bdcd', 'd35109c3632c4952a19ecc094943dd71', 'user_code', '用户编码', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 1, 1, 0, 0, 'single', '', '', 10, 'admin', '2023-09-16 21:25:25', '2019-05-11 16:26:37', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('cb871284e845e26e88242a96fac9c576', '402860816bff91c0016bff91c7010001', 'order_no', '序号', 'order_no', 0, 1, 1, 'int', 10, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 6, 'admin', '2019-07-19 18:07:47', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('cb883a4932f0fd3a80fcf27efd7d1f2d', 'f9fb8bee1a64472889d077c757b9acc7', 'sdf', 'sdf', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 11, 'admin', '2021-08-17 13:58:15', '2021-08-17 13:58:02', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('cc18a47c405e41a1c855944780a475bf', '2c978081a12e8ea901a12e8eace90003', 'sys_org_code', '部门编码', 'sys_org_code', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 10, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('cc1ddc1304d3eb5d9a189da0a509ccd0', '32f75e4043ef4070919dbd4337186a3d', 'create_by', '创建人登录名称', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2019-04-11 10:15:32', '2019-03-27 15:54:49', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('cc3656e41879220a49dd91984ad12e89', '2c978081a12e8ea901a12e8eaadc0001', 'topic_cn', '主题中文(翻译字段)', 'topic_cn', 0, 1, 1, 'string', 200, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 4, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('ccda49a8cea079c34f0034361d058c08', '09fd28e4b7184c1a9668496a5c496450', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2022-05-07 19:05:56', '2020-05-08 23:51:49', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('ccf2f331af46ddc411b8039dd187621b', '4028839a6de2ebd3016de2ebd3870000', 'price', '单价', 'price', 0, 1, 1, 'double', 10, 2, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 10, NULL, NULL, '2019-10-19 15:29:30', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('cee3c1dbf67b4a7d9626b8032897a4c7', '402860816bff91c0016bff91d8830007', 'employee_id', '员工ID', 'employee_id', 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', 'oa_employee_info', 'id', 2, 'admin', '2019-07-19 18:04:41', '2019-07-17 18:54:37', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('cefb82e2168ab7e3aa57a7e9c3ca950e', '09fd28e4b7184c1a9668496a5c496450', 'order_main_id', '订单ID', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', 'ces_order_main', 'id', 12, 'admin', '2022-05-07 19:05:57', '2020-05-08 23:51:49', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('cf4c5a4c06ae6bac701edfeedfcd16aa', 'd3ae1c692b9640e0a091f8c46e17bb01', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, NULL, NULL, '2019-07-24 14:47:30', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('cf4d0a8fb8b8e3e46cd5fd0a087078c4', '2c978081a12e8ea901a12e8eaadc0001', 'topic', '主题(英文)', 'topic', 0, 1, 1, 'string', 200, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 3, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('cfcee3e1ee61dd82b2e4cad9aeba45af', '2c978081a12e8ea901a12e8eaadc0001', 'license_type', '许可类型(如 CC BY 4.0)', 'license_type', 0, 1, 1, 'string', 100, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 27, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('cfe78defff08c9d8d13da75f552e1c53', '2c978081a12e8ea901a12e8eaadc0001', 'related_indicators', '关联指标', 'related_indicators', 0, 1, 1, 'string', 500, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 26, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('cfeb6491427aec2b4db9694af867da23', 'e9faf717024b4aae95cff224ae9b6d97', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2019-07-03 18:23:49', '2019-07-03 18:22:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d0559db07f05c870860f98313eb0f857', 'cb2d8534a2f544bc9c618dd49da66336', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2020-02-24 17:22:42', '2020-02-24 15:15:14', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d0d1be336726df9c41f2173f8886ba35', '997ee931515a4620bc30a9c1246429a9', 'has_child', '是否有子节点', NULL, 0, 1, 1, 'string', 3, 0, '', 'yn', '', '', 'list', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 9, 'admin', '2026-04-28 16:47:09', '2020-05-03 00:56:56', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('d14e47befe47925b1440d584f4ca56fc', '09fd28e4b7184c1a9668496a5c496450', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2022-05-07 19:05:56', '2020-05-08 23:51:49', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('d19ee4d57b3072c14b73d3a4a2c98b1d', '2c978081a12e8ea901a12e8ea9d80000', 'create_by', '创建人', 'create_by', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 7, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d2551b70dc96a45a73b304bf755a996f', '402860816bff91c0016bff91d8830007', 'workplace', '工作单位', 'workplace', 0, 1, 1, 'string', 255, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 6, 'admin', '2019-07-19 18:04:41', '2019-07-17 18:54:37', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('d26eb50740086cb84e357ee6af10cd2f', '2c978081a12e8ea901a12e918c9f000a', 'wb2_code', 'WB-2代码', 'wb2_code', 0, 1, 1, 'string', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 14, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d29dcdba14ea61808391fff2d927efea', '402860816bff91c0016bff91c0cb0000', 'work_summary', '工作总结', 'work_summary', 0, 1, 1, 'Text', 65535, 0, '', '', '', '', 'textarea', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 10, 'admin', '2019-07-19 18:09:01', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('d334a37da9247d20dc8e40caf2ff012b', '2c978081a12e8ea901a12e918c9f000a', 'government_accounting_concept', '政府会计口径', 'government_accounting_concept', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 26, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d3a701472d27ca8435d6a781a597038d', 'deea5a8ec619460c9245ba85dbc59e80', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2020-05-03 01:01:18', '2019-04-20 11:41:19', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('d3ba5f990e14f9a1a0bbf6aa4cfa26dc', '56efb74326e74064b60933f6f8af30ea', 'xd_date', '下单时间', NULL, 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 8, 'admin', '2020-07-10 16:53:27', '2020-05-08 23:45:32', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('d48bfd2a840f9b1d00bd3b5599dca0f0', '402860816bff91c0016bff91cda80003', 'post', '职务', 'post', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 7, 'admin', '2019-07-19 18:06:36', '2019-07-17 18:54:34', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d4d8cae3cd9ea93e378fc14303eee105', 'd35109c3632c4952a19ecc094943dd71', 'create_by', '创建人登录名称', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2023-09-16 21:25:25', '2019-03-15 14:24:35', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('d4dc20971fdfedb60ea07f3c07195a9d', '2c9bf081a1585aaa01a1585adddc0003', 'country_code', '冗余存储国家编码，也可join t_weo_country', 'country_code', 0, 0, 1, 'string', 12, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 2, NULL, NULL, '2026-10-20 16:08:33', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d4dea775487aef5a7aea41791d3a65db', 'e5464aa8fa7b47c580e91593cf9b46dc', 'cycle_time', '发放周期(年)', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 11, 'admin', '2019-04-24 17:09:49', '2019-04-24 14:09:06', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d525e93aca3f1ec6c20a7ab058724e82', '553a4172fde446419cb602dc70f9ee67', 'danxuan', '字典单选', NULL, 0, 1, 1, 'string', 50, 0, NULL, 'sex', '', '', 'radio', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 10, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('d52c79620e21128fb69b4e8628cf25cc', 'dbf4675875e14676a3f9a8b2b8941140', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 6, NULL, NULL, '2019-05-27 18:02:07', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d530ab1bc3c51e8249a506a25d1003c7', '79091e8277c744158530321513119c68', 'start_time', '会签发起时间', NULL, 0, 1, 1, 'Datetime', 32, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, 'admin', '2019-05-11 15:29:47', '2019-05-11 15:27:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d53e70411c206efecb8dcd00174e907c', '62e29cdb81ac44d1a2d8ff89851b853d', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, NULL, NULL, '2019-05-11 14:01:14', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('d57b8f0bda7dd03689892e1945870fec', '2c978081a12e8ea901a12e8ea9d80000', 'year', '年份', 'year', 0, 0, 1, 'int', 5, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 3, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d5df0a35352ee960053686e959e9084b', '1acb6f81a1d9439da6cc4e868617b565', 'wl_unit', '计量单位', NULL, 0, 1, 1, 'string', 100, 0, '', 'air_china_unit', '', '', 'list_multi', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 8, 'admin', '2019-06-10 14:47:14', '2019-04-23 22:58:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('d6747b45d7ea8053b326d282354c294b', '2c978081a12e8ea901a12e8eaadc0001', 'statistical_concept_methodology', '统计口径与方法', 'statistical_concept_methodology', 0, 1, 1, 'Text', 0, 0, NULL, NULL, NULL, NULL, 'textarea', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 22, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d6fad89f4f26d733291863c2dfbc5945', '27fc5f91274344afa7673a732b279939', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2019-07-01 16:28:20', '2019-07-01 16:26:42', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d7082454dac60103fdda3e00b6557d39', '402880eb71d52dc30171d52dc3a10000', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 9, NULL, NULL, '2020-05-02 19:37:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('d766ea5809e2ec9ff2cdbcb18f610ab3', '7ea60a25fa27470e9080d6a921aabbd1', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, NULL, NULL, '2019-04-17 00:22:21', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d7c3b107f004cbc99dfe1fe6c79894d8', '402860816bff91c0016bffa220a9000b', 'social_insurance_type', '参加社保类型', 'social_insurance_type', 0, 1, 1, 'string', 255, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 35, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d8234b56acea1a752271a6c911dd91a0', '7ea60a25fa27470e9080d6a921aabbd1', 'age', '年龄', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, NULL, NULL, '2019-04-17 00:22:21', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d86909d794b01ad7fbb5e61d28b6603b', '73162c3b8161413e8ecdca7eb288d0c9', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 6, 'admin', '2019-07-01 14:23:32', '2019-06-10 15:18:34', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('d8d848e6e19950299197f3b1da0e674a', '2c978081a12e8ea901a12e8eace90003', 'id', '主键', 'id', 1, 0, 1, 'string', 36, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 1, 'single', NULL, NULL, -1, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d949d9157831c2fb7ba9f175081fe036', '402860816bff91c0016bff91cda80003', 'school', '学校', 'school', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 5, 'admin', '2019-07-19 18:06:36', '2019-07-17 18:54:34', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d9d308feb95968dbb322c9bff0c18452', '32feeb502544416c9bf41329c10a88f4', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2019-08-23 20:03:40', '2019-07-02 18:23:23', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d9dde2f59bb148c6b7e95256acad8972', 'e67d26b610dd414c884c4dbb24e71ce3', 'post_name', '岗位名字', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, 'admin', '2019-04-24 11:03:32', '2019-04-24 11:02:57', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('d9e1ea7f448c5fbe7a4a7a5109a87138', '402881fd812267500181226750e90000', 'name', '商品名字', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', NULL, NULL, 7, NULL, NULL, '2022-06-02 11:13:25', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('d9f9ae6986cb85019a3a4030f62f4d1a', '402860816bff91c0016bff91cfea0004', 'employee_id', '员工ID', 'employee_id', 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', 'oa_employee_info', 'id', 2, 'admin', '2019-07-19 18:05:13', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('da397534e84567b4f94cca10b70b2d52', '553a4172fde446419cb602dc70f9ee67', 'zddtjxl', '字典表带条件下拉', NULL, 0, 1, 1, 'string', 255, 0, NULL, 'username', 'sys_user where username like \'%a%\'', 'realname', 'list', '', 200, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 42, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('db1043017f6c6beeb3059d63ddf638a1', '2c978081a12e8ea901a12e8eace90003', 'country_code', '国家代码', 'country_code', 0, 0, 1, 'string', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 2, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('db11e7fe2a76680e502007ad82fc08b9', '402881e6760269a20176026d25650002', 'name', '姓名', 'name', 0, 1, 1, 'string', 30, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 2, NULL, NULL, '2020-11-26 10:41:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('db1fb3e12385cb967b63420cfe97cde6', '402860816bff91c0016bff91cda80003', 'employee_id', '员工ID', 'employee_id', 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', 'oa_employee_info', 'id', 2, 'admin', '2019-07-19 18:06:36', '2019-07-17 18:54:34', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('db518071f3d42832d13a5132f82af9c2', '553a4172fde446419cb602dc70f9ee67', 'zddtjduox', '字典表带条件多选', NULL, 0, 1, 1, 'string', 255, 0, NULL, 'username', 'sys_user where username like \'%a%\'', 'realname', 'checkbox', '', 200, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 44, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('db63a8e129a1ece56b63f4fc6fdaffb2', '2c978081a12e8ea901a12e8eaadc0001', 'related_source_links', '相关来源链接', 'related_source_links', 0, 1, 1, 'Text', 0, 0, NULL, NULL, NULL, NULL, 'textarea', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 24, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('db939e55fa46385db88c89430ca9531a', '2c978081a12e8ea901a12e8eace90003', 'update_time', '更新时间', 'update_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'datetime', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 9, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('dbfc8f23823c4091f516635a464b3cc5', '402881e6760269a20176026d25650002', 'content', '个人简介', 'content', 0, 1, 1, 'string', 1000, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 11, NULL, NULL, '2020-11-26 10:41:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('dc2bec862a4f0d600751c632d246f0ed', '4028839a6de2ebd3016de2ebd3870000', 'update_time', '更新日期', 'update_time', 0, 1, 1, 'Datetime', 0, 0, NULL, NULL, NULL, NULL, 'date', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 5, NULL, NULL, '2019-10-19 15:29:30', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('dcce0f5c34c530e2903de9e16feb9dbf', '41de7884bf9a42b7a2c5918f9f765dff', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2022-11-23 12:01:36', '2022-10-29 17:02:47', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
@@ -4007,12 +3568,17 @@ INSERT INTO `onl_cgform_field` VALUES ('dec74e7fe09a525cda36efd37e6c4dca', '553a
 INSERT INTO `onl_cgform_field` VALUES ('dedb920a5e876e27eb144464209ebe1e', '27fc5f91274344afa7673a732b279939', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 6, 'admin', '2019-07-01 16:28:20', '2019-07-01 16:26:42', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('df489194c6008f3bd21b2c1c11fde337', 'fb19fb067cd841f9ae93d4eb3b883dc0', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 2, NULL, NULL, '2019-03-23 11:39:48', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('df4c5e8411c102f02a6fe6727e858d55', '997ee931515a4620bc30a9c1246429a9', 'pic', '分类图片', NULL, 0, 1, 1, 'string', 500, 0, '', '', '', '', 'image', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, 'admin', '2026-04-28 16:47:09', '2020-05-03 00:56:56', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('df4e819b7711de4c7938c08f10582b57', '2c9bf081a1585aaa01a1585ac9d90001', 'sort_order', '前端展示排序号', 'sort_order', 0, 1, 1, 'int', 3, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 4, NULL, NULL, '2026-10-20 16:08:28', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('dfc71222eb7027e6c5523d45c68c6f09', '2c978081a12e8ea901a12e918c9f000a', 'id', '主键', 'id', 1, 0, 1, 'string', 36, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 1, 'single', NULL, NULL, -1, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('dff586dae2bf4587a0b438cdbba0a5b9', 'b493c5fd4fa64a3a84e74ee171763e37', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 1, 'single', '', '', 1, NULL, NULL, '2021-06-07 18:13:37', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('e09b191e3c37f9c89ae2192c75220b89', 'b81de38db24047b497d476516f8a0865', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 6, NULL, NULL, '2020-02-24 14:56:08', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('e0c5d6e483897d5c4e7894dc66dd1aff', '32feeb502544416c9bf41329c10a88f4', 'bpm_status', '流程状态', NULL, 0, 1, 1, 'string', 2, 0, '', 'bpm_status', '', '', 'list', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 9, 'admin', '2019-08-23 20:03:40', '2019-07-02 18:23:58', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('e1b211ee95654c17d9225d551c54dfe1', '2c978081a12e8ea901a12e8eadcc0004', 'indicator_code', '指标代码(关联wdi_series)', 'indicator_code', 0, 0, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 3, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('e24de426223dc0271a55eccc1d5457d0', '73162c3b8161413e8ecdca7eb288d0c9', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2019-07-01 14:23:32', '2019-06-10 15:18:34', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('e2d73ccda7f10f5a1ccce3c48b1e699e', '402860816bff91c0016bffa220a9000b', 'residence_street', '户口所在街道', 'residence_street', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 27, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('e350986acb670f247df30fe4a44e73df', '09fd28e4b7184c1a9668496a5c496450', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 1, 'single', '', '', 1, 'admin', '2022-05-07 19:05:56', '2020-05-08 23:51:49', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('e359a0d7159043f8f11a96b64d304922', '2c978081a12e8ea901a12e8eac0d0002', 'year', '年份(可为空=全局脚注)', 'year', 0, 1, 1, 'int', 5, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 4, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('e437601ea7a091aaf500cf6b9f5c28d7', '2c978081a12e8ea901a12e8eaadc0001', 'other_web_links', '其他网页链接', 'other_web_links', 0, 1, 1, 'Text', 0, 0, NULL, NULL, NULL, NULL, 'textarea', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 25, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('e461b46a91d2f856d417fa32f4c4d887', 'f9fb8bee1a64472889d077c757b9acc7', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 6, 'admin', '2021-08-17 13:58:15', '2021-08-17 13:57:48', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('e48ebd15c6110e9eb753bdfc88c04683', 'a2ca0c7297a8491ca849fc1a06c9efbf', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2021-01-24 14:39:35', '2021-01-24 14:38:58', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('e4914fdff68ac72486ada105e6e9fa36', 'e9faf717024b4aae95cff224ae9b6d97', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2019-07-03 18:23:49', '2019-07-03 18:22:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -4020,8 +3586,10 @@ INSERT INTO `onl_cgform_field` VALUES ('e4a4c1d50b7b46678bc14fd5b90ee082', '7316
 INSERT INTO `onl_cgform_field` VALUES ('e4d7f95340e73a54e8ff3f66b0613513', '56efb74326e74064b60933f6f8af30ea', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2020-07-10 16:53:27', '2020-05-08 23:45:32', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('e50b4398731e06572c247993a0dcc38d', 'd35109c3632c4952a19ecc094943dd71', 'name', '用户名', NULL, 0, 1, 1, 'string', 200, 0, '', '', '', '', 'text', '', 120, '*', '0', '', '', 1, 1, 1, 0, 'single', '', '', 5, 'admin', '2023-09-16 21:25:25', '2019-03-15 14:24:35', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '1');
 INSERT INTO `onl_cgform_field` VALUES ('e53f53766d1f7718b3ee5eabe105b969', '402860816bff91c0016bffa220a9000b', 'social_insurance_time', '五险一金日期', 'social_insurance_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 38, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('e61e5cbdb33a93cf99f5eaba0bfdc1c9', '2c978081a12e8ea901a12e8ea9d80000', 'sys_org_code', '部门编码', 'sys_org_code', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 10, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('e672d5974a06d5c37b3b4c94a6f29f96', '4028318169e81b970169e81b97650000', 'request_url', '请求路径', 'request_url', 0, 1, 1, 'string', 255, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 9, NULL, NULL, '2019-04-04 19:28:36', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('e6bd2d4c533918a0b19e1d54a056582f', '41de7884bf9a42b7a2c5918f9f765dff', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, '', '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2022-11-23 12:01:36', '2022-10-29 17:02:47', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('e6f30b8ac6d23ce197f0ee60b30b780c', '2c978081a12e8ea901a12e918c9f000a', 'latest_population_census', '最近人口普查年份', 'latest_population_census', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 28, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('e72ee3a352143281ccc3a823b25401c7', '402881fd812267500181226787d90001', 'sex', '性别', NULL, 0, 1, 1, 'string', 32, 0, '', 'sex', '', '', 'list', '', 120, '', '0', '', '', 1, 1, 1, 0, 'single', NULL, NULL, 8, 'admin', '2022-06-02 11:13:48', '2022-06-02 11:13:39', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('e7aade12ca722b59c1ec681d14247ff8', '402860816bff91c0016bff91d8830007', 'sys_org_code', '组织机构编码', 'sys_org_code', 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 14, 'admin', '2019-07-19 18:04:41', '2019-07-17 18:54:37', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('e7c367221181aa9d1fc395e09796be8d', '402880eb71d52dc30171d52dc3a10000', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 7, NULL, NULL, '2020-05-02 19:37:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
@@ -4039,6 +3607,7 @@ INSERT INTO `onl_cgform_field` VALUES ('ea309f9cd81ede7b9b36a1377a3a40d8', '997e
 INSERT INTO `onl_cgform_field` VALUES ('ea644c4c208739640933ba6e568045c1', 'e2faf977fdaf4b25a524f58c2441a51c', 'ruz_date', '入职时间', NULL, 0, 1, 1, 'Datetime', 32, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 9, 'admin', '2019-06-10 17:27:00', '2019-04-24 17:12:11', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('ea749346b5eb9e70df2058ade2b0bbfa', '402881e6760269a201760269a2af0000', 'fuwenb', '富文本', NULL, 0, 1, 1, 'Text', 0, 0, '', '', '', '', 'umeditor', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', NULL, NULL, 17, NULL, NULL, '2020-11-26 10:37:26', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('ea96d1c33f0f0d7245045e70a5793257', '402860816bff91c0016bffa220a9000b', 'current_postcode', '现居住地邮编', 'current_postcode', 0, 1, 1, 'string', 10, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 31, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('eaafd24e1e3bc131ee6033b2c234ff5f', '2c9bf081a1585aaa01a1585acaf20002', 'topic_code', '主题编码', 'topic_code', 0, 1, 1, 'string', 100, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 7, NULL, NULL, '2026-10-20 16:08:28', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('eb1d4b15efc32b81ec5e486f73b5ef24', '41de7884bf9a42b7a2c5918f9f765dff', 'birthday', '生日', NULL, 0, 1, 1, 'Date', 0, 0, '', '', '', '', 'date', '', 200, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 9, 'admin', '2022-11-23 12:01:36', '2022-10-29 17:02:47', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('ebc41362681919cc680fcc58bf87fdcb', '1acb6f81a1d9439da6cc4e868617b565', 'price', '单价', NULL, 0, 1, 1, 'double', 10, 2, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 12, 'admin', '2019-06-10 14:47:14', '2019-04-23 22:58:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('ec20e66d5eb9b8b7f58de9edc0f7630b', '1acb6f81a1d9439da6cc4e868617b565', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, 'admin', '2019-06-10 14:47:14', '2019-04-23 22:58:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -4049,13 +3618,18 @@ INSERT INTO `onl_cgform_field` VALUES ('edda30c64e1dccee510d40b77a8ca094', 'fb71
 INSERT INTO `onl_cgform_field` VALUES ('ee09e0e21fa350b9346b70292dcfca00', '79091e8277c744158530321513119c68', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, 'admin', '2019-05-11 15:29:47', '2019-05-11 15:27:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('ee4ffe04a25fcf556e78183f1f521546', '402860816aa5921f016aa5921f480000', 'create_by', '创建人id', 'create_by', 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'group', '', '', 8, 'admin', '2019-05-11 15:31:54', '2019-05-11 14:26:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('ee5803611f63643059b6375166d71567', '402860816bff91c0016bff91c7010001', 'create_time', '创建时间', 'create_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 8, 'admin', '2019-07-19 18:07:47', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('ee7e9fc2a0f9a8c3f8ea08de3a46b682', '2c978081a12e8ea901a12e918c9f000a', 'balance_of_payments_manual', '国际收支手册版本', 'balance_of_payments_manual', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 23, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('eec5bc01720642ccc635c7fc2e9b1eb8', '86bf17839a904636b7ed96201b2fa6ea', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2020-05-14 21:18:49', '2020-05-08 23:48:31', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('ef6b25f799c3b3dc60b61454b2ab59cf', '2c9bf081a1585aaa01a1585aaad40000', 'country_cn', '国家中文名称', 'country_cn', 0, 0, 1, 'string', 120, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 4, NULL, NULL, '2026-10-20 16:08:20', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('ef7a964cb43ae2b274369e1cc406201b', '2c978081a12e8ea901a12e8eadcc0004', 'create_by', '创建人', 'create_by', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 8, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('ef81373c5fd7130d7e23859d90c9eb3e', '402860816bff91c0016bff91cda80003', 'from_time', '开始日期', 'from_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 3, 'admin', '2019-07-19 18:06:36', '2019-07-17 18:54:34', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('efd1b955a75b5046e9857e00fe94ae2c', 'fbc35f067da94a70adb622ddba259352', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, NULL, NULL, '2019-07-03 19:44:23', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f015cc2ffdcc2c4be1e9b3622eb69b52', 'fbc35f067da94a70adb622ddba259352', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 6, NULL, NULL, '2019-07-03 19:44:23', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f06b2bb01ea1fae487b7e3c3eb521d5b', 'd3ae1c692b9640e0a091f8c46e17bb01', 'create_by', '创建人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 2, NULL, NULL, '2019-07-24 14:47:30', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f0967fd139b440f79f21248bf4e4a209', 'd3ae1c692b9640e0a091f8c46e17bb01', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, NULL, NULL, '2019-07-24 14:47:30', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f0a453930aa16ca32f2e3be860bfe542', '402860816bff91c0016bffa220a9000b', 'education', '学历', 'education', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 14, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('f105fb1be61d350c97cea92e247ddede', '2c978081a12e8ea901a12e8ea9d80000', 'id', '主键', 'id', 1, 0, 1, 'string', 36, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 1, 'single', NULL, NULL, -1, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('f115da725fef4ca61617c9a8dae51cef', '2c978081a12e8ea901a12e8eac0d0002', 'country_code', '国家代码', 'country_code', 0, 1, 1, 'string', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 2, NULL, NULL, '2026-10-12 13:21:05', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f12753b4a3815697a72017a7436fe733', 'e2faf977fdaf4b25a524f58c2441a51c', 'update_time', '更新日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 5, 'admin', '2019-06-10 17:27:00', '2019-04-24 17:12:11', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f1ab7d3b55ade57eeac6c55b32ce813a', '1acb6f81a1d9439da6cc4e868617b565', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, 'admin', '2019-06-10 14:47:14', '2019-04-23 22:58:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f1c7fde21f26c7ed64a0ef1095900c52', '4028318169e81b970169e81b97650000', 'request_type', '请求类型', 'request_type', 0, 1, 1, 'string', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 11, NULL, NULL, '2019-04-04 19:28:36', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -4067,12 +3641,15 @@ INSERT INTO `onl_cgform_field` VALUES ('f3c17d679978f0d375adde046536faa8', '553a
 INSERT INTO `onl_cgform_field` VALUES ('f4647a91a4ac5d6d32bb0692b800bffe', '402860816bff91c0016bff91c0cb0000', 'probation_post', '试用期职位', 'probation_post', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 8, 'admin', '2019-07-19 18:09:01', '2019-07-17 18:54:32', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f4b0bc7f3d6562e28d7c5e2d56510ecd', 'e5464aa8fa7b47c580e91593cf9b46dc', 'first_num', '首次数量', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 8, 'admin', '2019-04-24 17:09:49', '2019-04-24 14:31:31', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f4df140776be0d014d768a3cabf13dbe', '553a4172fde446419cb602dc70f9ee67', 'zdbxl', '字典表下拉', NULL, 0, 1, 1, 'string', 255, 0, NULL, 'id', 'sys_depart', 'depart_name', 'list', '', 200, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 38, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('f4fa2a9f9357385d2982f21253800e88', '2c9bf081a1585aaa01a1585aaad40000', 'country_code', 'WEO国家编码，如CHN,USA', 'country_code', 0, 0, 1, 'string', 12, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 2, NULL, NULL, '2026-10-20 16:08:20', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f558359b06aea79a992c102ce3563a4d', '4028318169e81b970169e81b97650000', 'username', '操作用户名称', 'username', 0, 1, 1, 'string', 100, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'group', NULL, NULL, 6, NULL, NULL, '2019-04-04 19:28:36', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f56d0d76ec8e3a1e8922b41b864dab73', 'b493c5fd4fa64a3a84e74ee171763e37', 'aa', 'aa', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 7, NULL, NULL, '2021-06-07 18:13:37', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('f5d2475aec4b9016dfc0c8772e1704ea', '402880eb71d52dc30171d52dc3a10000', 'code', '编码', NULL, 0, 1, 1, 'string', 200, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '${order_num_rule_param}', 0, 1, 1, 0, 'single', NULL, NULL, 2, NULL, NULL, '2020-05-02 19:37:59', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('f5f85768837762aa01de6182a424d82a', '2c978081a12e8ea901a12e918c9f000a', 'alpha2_code', '两位字母代码', 'alpha2_code', 0, 1, 1, 'string', 10, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 7, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f6076d9c662a0adddb39a91cccb4c993', 'd35109c3632c4952a19ecc094943dd71', 'xiamuti', '下拉多选', NULL, 0, 1, 1, 'string', 100, 0, '', 'sex', '', '', 'list_multi', '', 120, '', '0', '', '', 1, 1, 1, 0, 'single', '', '', 16, 'admin', '2023-09-16 21:25:25', '2020-11-26 18:02:20', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('f6431abe33976df2491df14db01591fe', '402881e6760269a20176026d25650002', 'key_word', '关键词', 'key_word', 0, 1, 1, 'string', 255, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 3, NULL, NULL, '2020-11-26 10:41:17', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f6afcb7d8ea81879593ff737b55ddcc0', '402860816bff91c0016bff91cda80003', 'id', 'id', 'id', 1, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'group', '', '', 1, 'admin', '2019-07-19 18:06:36', '2019-07-17 18:54:34', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('f6e9bf66fd21b942ec21c72ba8798230', '2c978081a12e8ea901a12e918c9f000a', 'sys_org_code', '部门编码', 'sys_org_code', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 41, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f6f8aed87ec73994f6a12abbc079dbb1', '402860816bff91c0016bffa220a9000b', 'update_by', '更新人', 'update_by', 0, 1, 1, 'string', 100, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 41, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f7332af7586c83c87f7b9ea144a5292d', '62e29cdb81ac44d1a2d8ff89851b853d', 'update_by', '更新人', NULL, 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 4, NULL, NULL, '2019-05-11 14:01:14', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f76719783433487f4710232e2ae0e521', '402860816bff91c0016bff91cfea0004', 'id', 'id', 'id', 1, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'group', '', '', 1, 'admin', '2019-07-19 18:05:13', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -4085,13 +3662,16 @@ INSERT INTO `onl_cgform_field` VALUES ('f857d4fd2d63c1ad94ed4698f5b173f5', '05a3
 INSERT INTO `onl_cgform_field` VALUES ('f8a0fd20a1173270afdfed1129d5c669', '402860816bff91c0016bffa220a9000b', 'depart_id', '所在部门id', NULL, 0, 1, 1, 'string', 32, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 44, 'admin', '2019-07-22 16:15:32', '2019-07-19 15:33:44', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f8cc6be747fec10802eb625ac529c16f', '402860816bff91c0016bff91cfea0004', 'create_time', '创建时间', 'create_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 10, 'admin', '2019-07-19 18:05:13', '2019-07-17 18:54:35', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f90bcb38fb89988bd40d1618aa75cea0', '758334cb1e7445e2822b60e807aec4a3', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 1, NULL, NULL, '2019-10-18 18:02:09', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('f915075e93ad6cebecd6ec4b4c321738', '2c978081a12e8ea901a12e918c9f000a', 'imf_data_dissemination_standard', 'IMF数据公布标准', 'imf_data_dissemination_standard', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 27, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f93dcb2aa091b8e1038019d8f07cbd3f', '402881e6760269a201760269a2af0000', 'id', '主键', NULL, 1, 0, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 1, 'single', NULL, NULL, 1, NULL, NULL, '2020-11-26 10:37:26', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('f94db83e41c69f407d3c9a81c5892269', '402860816bff91c0016bffa220a9000b', 'first_job_time', '首次工作时间', 'first_job_time', 0, 1, 1, 'Datetime', 0, 0, '', '', '', '', 'date', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 22, 'admin', '2019-07-22 16:15:32', '2019-07-17 19:12:24', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('f95d2cbefd25444909c83aaf8c4f72fb', '402860816bff91c0016bff91ca7e0002', 'memo', '备注', 'memo', 0, 1, 1, 'string', 255, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 7, 'admin', '2019-07-19 18:07:13', '2019-07-17 18:54:33', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `onl_cgform_field` VALUES ('f9d61db8c346c0c6ee9c118e96bc02c8', '2c978081a12e8ea901a12e918c9f000a', 'other_groups', '其他分组', 'other_groups', 0, 1, 1, 'string', 200, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 1, 1, 0, 'single', NULL, NULL, 19, NULL, NULL, '2026-10-12 13:24:13', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('fa3a12d7abf72b23afe425f8dbd57f86', '1acb6f81a1d9439da6cc4e868617b565', 'size_type', '尺码类型', NULL, 0, 1, 1, 'string', 2, 0, '', 'air_china_size', '', '', 'list', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 9, 'admin', '2019-06-10 14:47:14', '2019-04-23 22:58:19', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('fa8f5a0ba673e0208934567462844eab', '402860816bff91c0016bff91ca7e0002', 'sys_org_code', '组织机构编码', 'sys_org_code', 0, 1, 1, 'string', 50, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'group', '', '', 13, 'admin', '2019-07-19 18:07:13', '2019-07-17 18:54:33', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('fafb32cf7e63bca93bbd70b0a0ea11fc', '758334cb1e7445e2822b60e807aec4a3', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 6, NULL, NULL, '2019-10-18 18:02:09', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('fb56aeb6b3a5a0a974ef62f34727eea6', '402880e5721355dd01721355dd390000', 'sys_org_code', '所属部门', NULL, 0, 1, 1, 'string', 64, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', NULL, NULL, 6, NULL, NULL, '2020-05-14 21:18:14', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
+INSERT INTO `onl_cgform_field` VALUES ('fbadd56c6cdcbf4e175f97cd7130b33c', '2c978081a12e8ea901a12e8ea9d80000', 'update_by', '更新人', 'update_by', 0, 1, 1, 'string', 50, 0, NULL, NULL, NULL, NULL, 'text', NULL, 120, NULL, '0', NULL, NULL, 0, 0, 0, 0, 'single', NULL, NULL, 8, NULL, NULL, '2026-10-12 13:21:04', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `onl_cgform_field` VALUES ('fbf817e3eafd7d8935fc1154640c040c', 'f9fb8bee1a64472889d077c757b9acc7', 'create_time', '创建日期', NULL, 0, 1, 1, 'Datetime', 20, 0, '', '', '', '', 'datetime', '', 120, NULL, '0', '', '', 0, 0, 0, 0, 'single', '', '', 3, 'admin', '2021-08-17 13:58:15', '2021-08-17 13:57:48', 'admin', '', '', '', '', '', NULL, '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('fc22e67ed788a1f0b0fe4639ecb6f4c1', '553a4172fde446419cb602dc70f9ee67', 'ldzje', '联动组件二', NULL, 0, 1, 1, 'string', 255, 0, NULL, '', '', '', 'text', '', 120, '', '0', '', '', 0, 1, 1, 0, 'single', '', '', 30, 'admin', '2022-10-14 09:31:05', '2022-10-13 20:59:58', 'admin', '', '', '', '', '', 'text', '0', NULL, NULL, '0');
 INSERT INTO `onl_cgform_field` VALUES ('fc55d467102c2c782286f546d7820c3d', '73162c3b8161413e8ecdca7eb288d0c9', 'pid', '父物料', NULL, 0, 1, 1, 'string', 36, 0, '', '', '', '', 'text', '', 120, NULL, '0', '', '', 0, 1, 1, 0, 'single', '', '', 9, 'admin', '2019-07-01 14:23:32', '2019-06-10 15:18:34', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -4115,84 +3695,87 @@ INSERT INTO `onl_cgform_field` VALUES ('ffcbf379fffabbd13aa2c22ce565ec12', '7909
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_cgform_head`;
 CREATE TABLE `onl_cgform_head`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID',
-  `table_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '表名',
-  `table_type` int(11) NOT NULL COMMENT '表类型: 0单表、1主表、2附表',
-  `table_version` int(11) NULL DEFAULT 1 COMMENT '表版本',
-  `table_txt` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '表说明',
-  `is_checkbox` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '是否带checkbox',
-  `is_db_synch` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'N' COMMENT '同步数据库状态',
-  `is_page` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '是否分页',
-  `is_tree` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '是否是树',
-  `id_sequence` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '主键生成序列',
-  `id_type` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '主键类型',
-  `query_mode` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询模式',
-  `relation_type` int(11) NULL DEFAULT NULL COMMENT '映射关系 0一对多  1一对一',
-  `sub_table_str` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '子表',
-  `tab_order_num` int(11) NULL DEFAULT NULL COMMENT '附表排序序号',
-  `tree_parent_id_field` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '树形表单父id',
-  `tree_id_field` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '树表主键字段',
-  `tree_fieldname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '树开表单列字段',
-  `form_category` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'bdfl_ptbd' COMMENT '表单分类',
-  `form_template` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'PC表单模板',
-  `form_template_mobile` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表单模板样式(移动端)',
-  `scroll` int(3) NULL DEFAULT 0 COMMENT '是否有横向滚动条',
-  `copy_version` int(11) NULL DEFAULT NULL COMMENT '复制版本号',
-  `copy_type` int(3) NULL DEFAULT 0 COMMENT '复制表类型1为复制表 0为原始表',
-  `physic_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '原始表ID',
-  `ext_config_json` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '扩展JSON',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键ID',
+  `table_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '表名',
+  `table_type` int NOT NULL COMMENT '表类型: 0单表、1主表、2附表',
+  `table_version` int NULL DEFAULT 1 COMMENT '表版本',
+  `table_txt` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '表说明',
+  `is_checkbox` varchar(5) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '是否带checkbox',
+  `is_db_synch` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT 'N' COMMENT '同步数据库状态',
+  `is_page` varchar(5) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '是否分页',
+  `is_tree` varchar(5) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '是否是树',
+  `id_sequence` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '主键生成序列',
+  `id_type` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '主键类型',
+  `query_mode` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询模式',
+  `relation_type` int NULL DEFAULT NULL COMMENT '映射关系 0一对多  1一对一',
+  `sub_table_str` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '子表',
+  `tab_order_num` int NULL DEFAULT NULL COMMENT '附表排序序号',
+  `tree_parent_id_field` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '树形表单父id',
+  `tree_id_field` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '树表主键字段',
+  `tree_fieldname` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '树开表单列字段',
+  `form_category` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT 'bdfl_ptbd' COMMENT '表单分类',
+  `form_template` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'PC表单模板',
+  `form_template_mobile` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '表单模板样式(移动端)',
+  `scroll` int NULL DEFAULT 0 COMMENT '是否有横向滚动条',
+  `copy_version` int NULL DEFAULT NULL COMMENT '复制版本号',
+  `copy_type` int NULL DEFAULT 0 COMMENT '复制表类型1为复制表 0为原始表',
+  `physic_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '原始表ID',
+  `ext_config_json` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '扩展JSON',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `theme_template` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '主题模板',
-  `is_des_form` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否用设计器表单',
-  `des_form_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设计器表单编码',
-  `tenant_id` int(11) NULL DEFAULT 0 COMMENT '租户ID',
-  `low_app_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '关联的应用ID',
-  `db_source` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '动态数据源编码（关联sys_data_source.code），为空则使用默认数据源',
+  `theme_template` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '主题模板',
+  `is_des_form` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否用设计器表单',
+  `des_form_code` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '设计器表单编码',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '租户ID',
+  `low_app_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '关联的应用ID',
+  `db_source` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '动态数据源编码（关联sys_data_source.code），为空则使用默认数据源',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_och_cgform_head_id`(`table_name`) USING BTREE,
-  INDEX `idx_och_table_name`(`form_template`) USING BTREE,
-  INDEX `idx_och_form_template_mobile`(`form_template_mobile`) USING BTREE,
-  INDEX `idx_och_table_version`(`table_version`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_och_cgform_head_id`(`table_name` ASC) USING BTREE,
+  INDEX `idx_och_table_name`(`form_template` ASC) USING BTREE,
+  INDEX `idx_och_form_template_mobile`(`form_template_mobile` ASC) USING BTREE,
+  INDEX `idx_och_table_version`(`table_version` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_cgform_head
 -- ----------------------------
-INSERT INTO `onl_cgform_head` VALUES ('05a3a30dada7411c9109306aa4117068', 'test_note', 1, 32, '请假单@JS增强示例', 'Y', 'Y', 'Y', 'N', NULL, 'UUID', 'single', NULL, NULL, NULL, NULL, NULL, NULL, 'temp', '1', NULL, 1, NULL, 0, NULL, '{\"modelFullscreen\":0,\"modalMinWidth\":0,\"commentStatus\":1,\"joinQuery\":0,\"reportPrintShow\":0,\"reportPrintUrl\":\"\",\"tableFixedAction\":1,\"tableFixedActionType\":\"right\",\"canResizeColumn\":0,\"formLabelLengthShow\":0,\"formLabelLength\":null,\"enableExternalLink\":1,\"externalLinkActions\":\"add,edit,detail\",\"imageExportMode\":\"path\"}', 'admin', '2026-08-20 23:18:39', 'admin', '2020-05-06 11:34:31', 'normal', 'N', '', 0, NULL, NULL);
-INSERT INTO `onl_cgform_head` VALUES ('3d447fa919b64f6883a834036c14aa67', 'test_enhance_select', 1, 8, '三级联动控件', 'N', 'Y', 'Y', 'N', NULL, 'UUID', 'single', NULL, NULL, NULL, NULL, NULL, NULL, 'temp', '1', NULL, 0, NULL, 0, NULL, '{\"reportPrintShow\":0,\"reportPrintUrl\":\"\",\"joinQuery\":0,\"modelFullscreen\":0,\"modalMinWidth\":\"\",\"commentStatus\":0,\"tableFixedAction\":1,\"tableFixedActionType\":\"right\",\"formLabelLengthShow\":0,\"formLabelLength\":null,\"enableExternalLink\":0,\"externalLinkActions\":\"add,edit,detail\"}', 'admin', '2026-04-28 16:47:51', 'admin', '2020-02-20 16:19:00', 'normal', 'N', '', 0, NULL, NULL);
+INSERT INTO `onl_cgform_head` VALUES ('2c978081a12e8ea901a12e8ea9d80000', 't_wdi_series_time', 1, 1, 't_wdi_series_time', 'Y', 'Y', 'Y', 'N', NULL, 'UUID', 'group', NULL, NULL, NULL, NULL, NULL, NULL, 'bdfl_include', '1', NULL, 1, NULL, 0, NULL, '{\"tableFixedActionType\":\"right\",\"tableFixedAction\":1}', NULL, NULL, 'admin', '2026-10-12 13:21:04', 'normal', 'N', NULL, 0, NULL, NULL);
+INSERT INTO `onl_cgform_head` VALUES ('2c978081a12e8ea901a12e8eaadc0001', 't_wdi_series', 1, 1, 't_wdi_series', 'Y', 'Y', 'Y', 'N', NULL, 'UUID', 'group', NULL, NULL, NULL, NULL, NULL, NULL, 'bdfl_include', '1', NULL, 1, NULL, 0, NULL, '{\"tableFixedActionType\":\"right\",\"tableFixedAction\":1}', NULL, NULL, 'admin', '2026-10-12 13:21:04', 'normal', 'N', NULL, 0, NULL, NULL);
+INSERT INTO `onl_cgform_head` VALUES ('2c978081a12e8ea901a12e8eac0d0002', 't_wdi_footnote', 1, 1, 't_wdi_footnote', 'Y', 'Y', 'Y', 'N', NULL, 'UUID', 'group', NULL, NULL, NULL, NULL, NULL, NULL, 'bdfl_include', '1', NULL, 1, NULL, 0, NULL, '{\"tableFixedActionType\":\"right\",\"tableFixedAction\":1}', NULL, NULL, 'admin', '2026-10-12 13:21:05', 'normal', 'N', NULL, 0, NULL, NULL);
+INSERT INTO `onl_cgform_head` VALUES ('2c978081a12e8ea901a12e8eace90003', 't_wdi_country_series', 1, 1, 't_wdi_country_series', 'Y', 'Y', 'Y', 'N', NULL, 'UUID', 'group', NULL, NULL, NULL, NULL, NULL, NULL, 'bdfl_include', '1', NULL, 1, NULL, 0, NULL, '{\"tableFixedActionType\":\"right\",\"tableFixedAction\":1}', NULL, NULL, 'admin', '2026-10-12 13:21:05', 'normal', 'N', NULL, 0, NULL, NULL);
+INSERT INTO `onl_cgform_head` VALUES ('2c978081a12e8ea901a12e8eadcc0004', 't_wdi_data', 1, 1, 't_wdi_data', 'Y', 'Y', 'Y', 'N', NULL, 'UUID', 'group', NULL, NULL, NULL, NULL, NULL, NULL, 'bdfl_include', '1', NULL, 1, NULL, 0, NULL, '{\"tableFixedActionType\":\"right\",\"tableFixedAction\":1}', NULL, NULL, 'admin', '2026-10-12 13:21:05', 'normal', 'N', NULL, 0, NULL, NULL);
+INSERT INTO `onl_cgform_head` VALUES ('2c978081a12e8ea901a12e918c9f000a', 't_wdi_country', 1, 1, 't_wdi_country', 'Y', 'Y', 'Y', 'N', NULL, 'UUID', 'group', NULL, NULL, NULL, NULL, NULL, NULL, 'bdfl_include', '1', NULL, 1, NULL, 0, NULL, '{\"tableFixedActionType\":\"right\",\"tableFixedAction\":1}', NULL, NULL, 'admin', '2026-10-12 13:24:13', 'normal', 'N', NULL, 0, NULL, NULL);
+INSERT INTO `onl_cgform_head` VALUES ('2c9bf081a1585aaa01a1585aaad40000', 't_weo_country', 1, 1, 't_weo_country', 'Y', 'Y', 'Y', 'N', NULL, 'NATIVE', 'group', NULL, NULL, NULL, NULL, NULL, NULL, 'bdfl_include', '1', NULL, 1, NULL, 0, NULL, '{\"tableFixedActionType\":\"right\",\"tableFixedAction\":1}', NULL, NULL, 'admin', '2026-10-20 16:08:20', 'normal', 'N', NULL, 0, NULL, NULL);
+INSERT INTO `onl_cgform_head` VALUES ('2c9bf081a1585aaa01a1585ac9d90001', 't_weo_topic', 1, 1, 't_weo_topic', 'Y', 'Y', 'Y', 'N', NULL, 'NATIVE', 'group', NULL, NULL, NULL, NULL, NULL, NULL, 'bdfl_include', '1', NULL, 1, NULL, 0, NULL, '{\"tableFixedActionType\":\"right\",\"tableFixedAction\":1}', NULL, NULL, 'admin', '2026-10-20 16:08:28', 'normal', 'N', NULL, 0, NULL, NULL);
+INSERT INTO `onl_cgform_head` VALUES ('2c9bf081a1585aaa01a1585acaf20002', 't_weo_indicator', 1, 1, 't_weo_indicator', 'Y', 'Y', 'Y', 'N', NULL, 'NATIVE', 'group', NULL, NULL, NULL, NULL, NULL, NULL, 'bdfl_include', '1', NULL, 1, NULL, 0, NULL, '{\"tableFixedActionType\":\"right\",\"tableFixedAction\":1}', NULL, NULL, 'admin', '2026-10-20 16:08:28', 'normal', 'N', NULL, 0, NULL, NULL);
+INSERT INTO `onl_cgform_head` VALUES ('2c9bf081a1585aaa01a1585adddc0003', 't_weo_data', 1, 1, 't_weo_data', 'Y', 'Y', 'Y', 'N', NULL, 'NATIVE', 'group', NULL, NULL, NULL, NULL, NULL, NULL, 'bdfl_include', '1', NULL, 1, NULL, 0, NULL, '{\"tableFixedActionType\":\"right\",\"tableFixedAction\":1}', NULL, NULL, 'admin', '2026-10-20 16:08:33', 'normal', 'N', NULL, 0, NULL, NULL);
 INSERT INTO `onl_cgform_head` VALUES ('402880e570a5d7000170a5d700f50000', 'test_order_product$1', 1, 11, '订单产品明细', 'N', 'N', 'Y', 'N', NULL, 'UUID', 'single', NULL, NULL, NULL, NULL, NULL, NULL, 'bdfl_include', '1', NULL, 0, 1, 1, 'deea5a8ec619460c9245ba85dbc59e80', NULL, NULL, NULL, 'admin', '2020-03-04 21:58:16', NULL, NULL, NULL, 0, NULL, NULL);
 INSERT INTO `onl_cgform_head` VALUES ('402880e5721355dd01721355dd390000', 'ces_order_goods$1', 1, 1, '订单商品', 'Y', 'N', 'Y', 'N', NULL, 'UUID', 'single', NULL, NULL, NULL, NULL, NULL, NULL, 'temp', '1', NULL, 1, 1, 1, '86bf17839a904636b7ed96201b2fa6ea', NULL, NULL, NULL, 'admin', '2020-05-14 21:18:14', 'normal', NULL, NULL, 0, NULL, NULL);
 INSERT INTO `onl_cgform_head` VALUES ('402881fd812267500181226750e90000', 'ces_shop_goods$1', 1, 1, '商品', 'Y', 'N', 'Y', 'N', NULL, 'UUID', 'single', NULL, NULL, NULL, NULL, NULL, NULL, 'temp', '1', NULL, 1, 7, 1, '53a3e82b54b946c2b904f605875a275c', NULL, NULL, NULL, 'admin', '2022-06-02 11:13:25', 'normal', NULL, NULL, 0, NULL, NULL);
 INSERT INTO `onl_cgform_head` VALUES ('402881fd812267500181226787d90001', 'test_note$1', 1, 2, '请假单@JS增强示例', 'Y', 'N', 'Y', 'N', NULL, 'UUID', 'single', NULL, NULL, NULL, NULL, NULL, NULL, 'temp', '1', NULL, 1, 12, 1, '05a3a30dada7411c9109306aa4117068', '{\"reportPrintShow\":0,\"reportPrintUrl\":\"\",\"joinQuery\":0,\"modelFullscreen\":0,\"modalMinWidth\":\"\"}', 'admin', '2022-06-02 11:13:48', 'admin', '2022-06-02 11:13:39', 'normal', 'N', '', 0, NULL, NULL);
-INSERT INTO `onl_cgform_head` VALUES ('41de7884bf9a42b7a2c5918f9f765dff', 'test_order_customer', 3, 9, '订单客户', 'Y', 'Y', 'Y', 'N', NULL, 'UUID', 'single', 0, NULL, 2, NULL, NULL, NULL, 'temp', '1', NULL, 1, NULL, 0, NULL, '{\"reportPrintShow\":0,\"reportPrintUrl\":\"\",\"joinQuery\":0,\"modelFullscreen\":0,\"modalMinWidth\":\"\",\"commentStatus\":0}', 'admin', '2022-11-23 12:01:41', 'admin', '2019-04-20 11:41:19', 'normal', 'N', '', 0, NULL, NULL);
-INSERT INTO `onl_cgform_head` VALUES ('56870166aba54ebfacb20ba6c770bd73', 'test_order_main', 2, 39, '测试订单主表', 'Y', 'Y', 'Y', 'N', NULL, 'UUID', 'single', NULL, 'test_order_product,test_order_customer', NULL, NULL, NULL, NULL, 'bdfl_include', '2', NULL, 0, NULL, 0, NULL, '{\"reportPrintShow\":0,\"reportPrintUrl\":\"\",\"joinQuery\":0,\"modelFullscreen\":0,\"modalMinWidth\":900,\"commentStatus\":0,\"tableFixedAction\":0,\"tableFixedActionType\":\"right\",\"formLabelLengthShow\":0,\"formLabelLength\":null,\"enableExternalLink\":0,\"externalLinkActions\":\"add,edit,detail\"}', 'admin', '2025-11-27 18:19:46', 'admin', '2019-04-20 11:38:39', 'normal', 'N', '', 0, NULL, NULL);
-INSERT INTO `onl_cgform_head` VALUES ('997ee931515a4620bc30a9c1246429a9', 'test_shoptype_tree', 1, 3, '商品分类', 'Y', 'Y', 'Y', 'Y', NULL, 'UUID', 'single', NULL, NULL, NULL, 'pid', 'has_child', 'type_name', 'temp', '1', NULL, 1, NULL, 0, NULL, '{\"reportPrintShow\":0,\"reportPrintUrl\":\"\",\"joinQuery\":0,\"modelFullscreen\":0,\"modalMinWidth\":\"\",\"commentStatus\":0,\"tableFixedAction\":1,\"tableFixedActionType\":\"right\",\"formLabelLengthShow\":0,\"formLabelLength\":null,\"enableExternalLink\":0,\"externalLinkActions\":\"add,edit,detail\"}', 'admin', '2026-04-28 16:47:09', 'admin', '2020-05-03 00:56:56', 'normal', 'N', '', 0, NULL, NULL);
-INSERT INTO `onl_cgform_head` VALUES ('d35109c3632c4952a19ecc094943dd71', 'test_demo', 1, 39, '测试用户表', 'Y', 'Y', 'Y', 'N', NULL, 'UUID', 'group', NULL, NULL, NULL, NULL, NULL, NULL, 'bdfl_include', '1', NULL, 0, NULL, 0, NULL, '{\"reportPrintShow\":0,\"reportPrintUrl\":\"\",\"joinQuery\":0,\"modelFullscreen\":0,\"modalMinWidth\":900,\"commentStatus\":0,\"tableFixedAction\":0,\"tableFixedActionType\":\"right\"}', 'admin', '2023-09-16 21:25:25', 'admin', '2019-03-15 14:24:35', 'normal', 'N', '', 0, NULL, NULL);
-INSERT INTO `onl_cgform_head` VALUES ('deea5a8ec619460c9245ba85dbc59e80', 'test_order_product', 3, 12, '订单产品明细', 'N', 'Y', 'Y', 'N', NULL, 'UUID', 'single', 0, '', 1, NULL, NULL, NULL, 'bdfl_include', '1', NULL, 0, NULL, 0, NULL, NULL, 'admin', '2022-10-29 17:13:01', 'admin', '2019-04-20 11:41:19', 'normal', NULL, NULL, 0, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for onl_cgform_index
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_cgform_index`;
 CREATE TABLE `onl_cgform_index`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
-  `cgform_head_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '主表id',
-  `index_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '索引名称',
-  `index_name_old` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '原索引名称',
-  `index_field` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '索引栏位',
-  `index_type` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '索引类型',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键',
+  `cgform_head_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '主表id',
+  `index_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '索引名称',
+  `index_name_old` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '原索引名称',
+  `index_field` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '索引栏位',
+  `index_type` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '索引类型',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `is_db_synch` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'N' COMMENT '是否同步数据库 N未同步 Y已同步',
-  `del_flag` int(1) NULL DEFAULT 0 COMMENT '是否删除 0未删除 1删除',
+  `is_db_synch` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT 'N' COMMENT '是否同步数据库 N未同步 Y已同步',
+  `del_flag` int NULL DEFAULT 0 COMMENT '是否删除 0未删除 1删除',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_oci_cgform_head_id`(`cgform_head_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_oci_cgform_head_id`(`cgform_head_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_cgform_index
@@ -4204,24 +3787,24 @@ INSERT INTO `onl_cgform_index` VALUES ('4731e321163d65e0e2cabf52c4a29937', '553a
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_cgreport_head`;
 CREATE TABLE `onl_cgreport_head`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '报表编码',
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '报表名字',
-  `cgr_sql` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '报表SQL',
-  `return_val_field` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '返回值字段',
-  `return_txt_field` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '返回文本字段',
-  `return_type` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '返回类型，单选或多选',
-  `db_source` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '动态数据源',
-  `content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `tenant_id` int(11) NULL DEFAULT 0 COMMENT '租户ID',
-  `low_app_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '关联的应用ID',
+  `id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `code` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '报表编码',
+  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '报表名字',
+  `cgr_sql` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '报表SQL',
+  `return_val_field` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '返回值字段',
+  `return_txt_field` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '返回文本字段',
+  `return_type` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '1' COMMENT '返回类型，单选或多选',
+  `db_source` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '动态数据源',
+  `content` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '租户ID',
+  `low_app_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '关联的应用ID',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人id',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人id',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人id',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人id',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `index_onlinereport_code`(`code`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `index_onlinereport_code`(`code` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_cgreport_head
@@ -4238,31 +3821,31 @@ INSERT INTO `onl_cgreport_head` VALUES ('87b55a515d3441b6b98e48e5b35474a6', 'dem
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_cgreport_item`;
 CREATE TABLE `onl_cgreport_item`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `cgrhead_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '报表ID',
-  `field_name` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字段名字',
-  `field_txt` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段文本',
-  `field_width` int(3) NULL DEFAULT NULL,
-  `field_type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段类型',
-  `search_mode` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询模式',
-  `is_order` int(2) NULL DEFAULT 0 COMMENT '是否排序  0否,1是',
-  `is_search` int(2) NULL DEFAULT 0 COMMENT '是否查询  0否,1是',
-  `dict_code` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典CODE',
-  `field_href` varchar(120) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段跳转URL',
-  `is_show` int(2) NULL DEFAULT 1 COMMENT '是否显示  0否,1显示',
-  `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `replace_val` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '取值表达式',
-  `is_total` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否合计 0否,1是（仅对数值有效）',
-  `group_title` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分组标题',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `cgrhead_id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '报表ID',
+  `field_name` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '字段名字',
+  `field_txt` varchar(300) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字段文本',
+  `field_width` int NULL DEFAULT NULL,
+  `field_type` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字段类型',
+  `search_mode` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询模式',
+  `is_order` int NULL DEFAULT 0 COMMENT '是否排序  0否,1是',
+  `is_search` int NULL DEFAULT 0 COMMENT '是否查询  0否,1是',
+  `dict_code` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字典CODE',
+  `field_href` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字段跳转URL',
+  `is_show` int NULL DEFAULT 1 COMMENT '是否显示  0否,1显示',
+  `order_num` int NULL DEFAULT NULL COMMENT '排序',
+  `replace_val` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '取值表达式',
+  `is_total` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否合计 0否,1是（仅对数值有效）',
+  `group_title` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '分组标题',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_oci_cgrhead_id`(`cgrhead_id`) USING BTREE,
-  INDEX `idx_oci_is_show`(`is_show`) USING BTREE,
-  INDEX `idx_oci_order_num`(`order_num`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_oci_cgrhead_id`(`cgrhead_id` ASC) USING BTREE,
+  INDEX `idx_oci_is_show`(`is_show` ASC) USING BTREE,
+  INDEX `idx_oci_order_num`(`order_num` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_cgreport_item
@@ -4329,19 +3912,19 @@ INSERT INTO `onl_cgreport_item` VALUES ('fce83e4258de3e2f114ab3116397670c', '87b
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_cgreport_param`;
 CREATE TABLE `onl_cgreport_param`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `cgrhead_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '动态报表ID',
-  `param_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '参数字段',
-  `param_txt` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数文本',
-  `param_value` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数默认值',
-  `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `cgrhead_id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '动态报表ID',
+  `param_name` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '参数字段',
+  `param_txt` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '参数文本',
+  `param_value` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '参数默认值',
+  `order_num` int NULL DEFAULT NULL COMMENT '排序',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_ocp_cgrhead_id`(`cgrhead_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_ocp_cgrhead_id`(`cgrhead_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_cgreport_param
@@ -4358,13 +3941,13 @@ CREATE TABLE `onl_drag_comp`  (
   `comp_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '组件名称',
   `comp_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `icon` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图标',
-  `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `type_id` int(11) NULL DEFAULT NULL COMMENT '组件类型',
+  `order_num` int NULL DEFAULT NULL COMMENT '排序',
+  `type_id` int NULL DEFAULT NULL COMMENT '组件类型',
   `comp_config` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '组件配置',
-  `status` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '状态0:无效 1:有效',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `status` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '状态0:无效 1:有效',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '组件库' ROW_FORMAT = DYNAMIC;
@@ -4471,24 +4054,24 @@ INSERT INTO `onl_drag_comp` VALUES ('932219134883299328', '100', '当前时间',
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_drag_dataset_head`;
 CREATE TABLE `onl_drag_dataset_head`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'id',
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-  `code` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '编码',
-  `parent_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父id',
-  `db_source` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '动态数据源',
-  `query_sql` varchar(5000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '查询数据SQL',
-  `content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `iz_agent` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT 'iz_agent',
-  `data_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据类型',
-  `api_method` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'api方法：get/post',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'id',
+  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '名称',
+  `code` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '编码',
+  `parent_id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '父id',
+  `db_source` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '动态数据源',
+  `query_sql` varchar(5000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '查询数据SQL',
+  `content` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `iz_agent` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT 'iz_agent',
+  `data_type` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '数据类型',
+  `api_method` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'api方法：get/post',
   `create_time` datetime NULL DEFAULT NULL,
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `low_app_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '应用ID',
-  `tenant_id` int(10) NULL DEFAULT NULL COMMENT '租户ID',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+  `low_app_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '应用ID',
+  `tenant_id` int NULL DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_drag_dataset_head
@@ -4588,27 +4171,27 @@ INSERT INTO `onl_drag_dataset_head` VALUES ('965151322172129280', 'qingjia', '',
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_drag_dataset_item`;
 CREATE TABLE `onl_drag_dataset_item`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'id',
-  `head_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主表ID',
-  `field_name` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段名',
-  `field_txt` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段文本',
-  `field_type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段类型',
-  `widget_type` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '控件类型',
-  `dict_code` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典Code',
-  `dict_table` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `dict_text` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `iz_show` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否列表显示',
-  `iz_search` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否查询',
-  `iz_total` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否计算总计（仅对数值有效）',
-  `search_mode` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询模式',
-  `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'id',
+  `head_id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主表ID',
+  `field_name` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字段名',
+  `field_txt` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字段文本',
+  `field_type` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字段类型',
+  `widget_type` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '控件类型',
+  `dict_code` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字典Code',
+  `dict_table` varchar(125) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+  `dict_text` varchar(125) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+  `iz_show` varchar(5) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否列表显示',
+  `iz_search` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否查询',
+  `iz_total` varchar(5) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否计算总计（仅对数值有效）',
+  `search_mode` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询模式',
+  `order_num` int NULL DEFAULT NULL COMMENT '排序',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_oddi_head_id`(`head_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_oddi_head_id`(`head_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_drag_dataset_item
@@ -4856,23 +4439,23 @@ INSERT INTO `onl_drag_dataset_item` VALUES ('965151322763526144', '9651513221721
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_drag_dataset_param`;
 CREATE TABLE `onl_drag_dataset_param`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `head_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '动态报表ID',
-  `param_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '参数字段',
-  `param_txt` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数文本',
-  `param_value` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数默认值',
-  `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `iz_search` int(11) NULL DEFAULT NULL COMMENT '查询标识0否1是 默认0',
-  `widget_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询控件类型',
-  `search_mode` int(11) NULL DEFAULT NULL COMMENT '查询模式1简单2范围',
-  `dict_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `head_id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '动态报表ID',
+  `param_name` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '参数字段',
+  `param_txt` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '参数文本',
+  `param_value` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '参数默认值',
+  `order_num` int NULL DEFAULT NULL COMMENT '排序',
+  `iz_search` int NULL DEFAULT NULL COMMENT '查询标识0否1是 默认0',
+  `widget_type` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询控件类型',
+  `search_mode` int NULL DEFAULT NULL COMMENT '查询模式1简单2范围',
+  `dict_code` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字典',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_oddp_head_id`(`head_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_oddp_head_id`(`head_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_drag_dataset_param
@@ -4895,7 +4478,7 @@ CREATE TABLE `onl_drag_page`  (
   `path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '访问路径',
   `background_color` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '背景色',
   `background_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '背景图',
-  `design_type` int(1) NULL DEFAULT NULL COMMENT '设计模式(1:pc,2:手机,3:平板)',
+  `design_type` int NULL DEFAULT NULL COMMENT '设计模式(1:pc,2:手机,3:平板)',
   `theme` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '主题色',
   `style` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '面板主题',
   `cover_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '封面图',
@@ -4904,15 +4487,15 @@ CREATE TABLE `onl_drag_page`  (
   `protection_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '保护码',
   `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '所属分类',
   `iz_template` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '是否模板(1:是；0不是)',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   `low_app_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '应用ID',
-  `tenant_id` int(10) NULL DEFAULT NULL COMMENT '租户ID',
-  `update_count` int(10) NULL DEFAULT 1,
-  `visits_num` int(11) NULL DEFAULT NULL COMMENT '访问次数',
-  `del_flag` int(11) NULL DEFAULT NULL COMMENT '删除状态( 0未删除 1已删除)',
+  `tenant_id` int NULL DEFAULT NULL COMMENT '租户ID',
+  `update_count` int NULL DEFAULT 1,
+  `visits_num` int NULL DEFAULT NULL COMMENT '访问次数',
+  `del_flag` int NULL DEFAULT NULL COMMENT '删除状态( 0未删除 1已删除)',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '可视化拖拽界面' ROW_FORMAT = DYNAMIC;
 
@@ -4983,9 +4566,9 @@ CREATE TABLE `onl_drag_page_comp`  (
   `comp_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '组件库ID',
   `component` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '组件名称',
   `config` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '组件配置',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '可视化拖拽页面组件' ROW_FORMAT = DYNAMIC;
@@ -6180,7 +5763,7 @@ CREATE TABLE `onl_drag_share`  (
   `preview_lock_status` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '是否为密码锁(0 否,1是)',
   `share_token` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '分享token',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uniq_ods_drag_id`(`drag_id`) USING BTREE COMMENT '仪表盘id唯一索引'
+  UNIQUE INDEX `uniq_ods_drag_id`(`drag_id` ASC) USING BTREE COMMENT '仪表盘id唯一索引'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '仪表盘预览分享表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -6214,16 +5797,16 @@ CREATE TABLE `onl_drag_table_relation`  (
   `validate_info` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '校验信息',
   `del_flag` tinyint(1) NULL DEFAULT NULL COMMENT '删除状态(0-正常,1-已删除)',
   `low_app_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '应用ID',
-  `tenant_id` int(11) NULL DEFAULT NULL COMMENT '租户ID',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `tenant_id` int NULL DEFAULT NULL COMMENT '租户ID',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_aggregation_name`(`aggregation_name`) USING BTREE,
-  INDEX `idx_del_flag`(`del_flag`) USING BTREE,
-  INDEX `idx_tenant_id`(`tenant_id`) USING BTREE,
-  INDEX `idx_create_by`(`create_by`) USING BTREE
+  INDEX `idx_aggregation_name`(`aggregation_name` ASC) USING BTREE,
+  INDEX `idx_del_flag`(`del_flag` ASC) USING BTREE,
+  INDEX `idx_tenant_id`(`tenant_id` ASC) USING BTREE,
+  INDEX `idx_create_by`(`create_by` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '仪表盘聚合表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -6235,29 +5818,29 @@ CREATE TABLE `onl_drag_table_relation`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_graphreport_head`;
 CREATE TABLE `onl_graphreport_head`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'id',
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图表名称',
-  `code` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图表编码',
-  `cgr_sql` varchar(5000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '查询数据SQL',
-  `xaxis_field` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'X轴数据字段',
-  `yaxis_field` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'Y轴数据字段',
-  `yaxis_text` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'y轴文字描述',
-  `content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `extend_js` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '扩展JS',
-  `graph_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图表类型',
-  `is_combination` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'combination' COMMENT '是否组合',
-  `display_template` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '展示模板',
-  `data_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据类型',
-  `db_source` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '动态数据源',
-  `tenant_id` int(11) NULL DEFAULT 0 COMMENT '租户ID',
-  `low_app_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '关联的应用ID',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'id',
+  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '图表名称',
+  `code` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '图表编码',
+  `cgr_sql` varchar(5000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '查询数据SQL',
+  `xaxis_field` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT 'X轴数据字段',
+  `yaxis_field` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT 'Y轴数据字段',
+  `yaxis_text` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT 'y轴文字描述',
+  `content` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `extend_js` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '扩展JS',
+  `graph_type` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '图表类型',
+  `is_combination` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT 'combination' COMMENT '是否组合',
+  `display_template` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '展示模板',
+  `data_type` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '数据类型',
+  `db_source` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '动态数据源',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '租户ID',
+  `low_app_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '关联的应用ID',
   `create_time` datetime NULL DEFAULT NULL,
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uniq_gpreport_code`(`code`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `uniq_gpreport_code`(`code` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_graphreport_head
@@ -6275,27 +5858,27 @@ INSERT INTO `onl_graphreport_head` VALUES ('d2bbe1cec4260fe2d4d9e8536fa92ab8', '
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_graphreport_item`;
 CREATE TABLE `onl_graphreport_item`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'id',
-  `graphreport_head_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主表ID',
-  `field_name` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段名',
-  `field_txt` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段文本',
-  `is_show` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否列表显示',
-  `is_total` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否计算总计（仅对数值有效）',
-  `search_flag` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否查询',
-  `search_mode` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询模式',
-  `dict_code` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典Code',
-  `field_href` varchar(120) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段href',
-  `field_type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段类型',
-  `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `replace_val` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '取值表达式',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'id',
+  `graphreport_head_id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主表ID',
+  `field_name` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字段名',
+  `field_txt` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字段文本',
+  `is_show` varchar(5) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否列表显示',
+  `is_total` varchar(5) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否计算总计（仅对数值有效）',
+  `search_flag` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否查询',
+  `search_mode` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '查询模式',
+  `dict_code` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字典Code',
+  `field_href` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字段href',
+  `field_type` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字段类型',
+  `order_num` int NULL DEFAULT NULL COMMENT '排序',
+  `replace_val` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '取值表达式',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_ogi_graphreport_head_id`(`graphreport_head_id`) USING BTREE,
-  INDEX `idx_ogi_is_show`(`is_show`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'jform_graphreport_item' ROW_FORMAT = DYNAMIC;
+  INDEX `idx_ogi_graphreport_head_id`(`graphreport_head_id` ASC) USING BTREE,
+  INDEX `idx_ogi_is_show`(`is_show` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = 'jform_graphreport_item' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_graphreport_item
@@ -6327,19 +5910,19 @@ INSERT INTO `onl_graphreport_item` VALUES ('16004146953271116933', '130686012902
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_graphreport_params`;
 CREATE TABLE `onl_graphreport_params`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `head_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Online图表ID',
-  `param_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '参数字段',
-  `param_txt` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数文本',
-  `param_value` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数默认值',
-  `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `head_id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'Online图表ID',
+  `param_name` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '参数字段',
+  `param_txt` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '参数文本',
+  `param_value` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '参数默认值',
+  `order_num` int NULL DEFAULT NULL COMMENT '排序',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `onl_graphreport_param_head_id`(`head_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'Online图表：参数表' ROW_FORMAT = DYNAMIC;
+  INDEX `onl_graphreport_param_head_id`(`head_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = 'Online图表：参数表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_graphreport_params
@@ -6350,16 +5933,16 @@ CREATE TABLE `onl_graphreport_params`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_graphreport_templet`;
 CREATE TABLE `onl_graphreport_templet`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `templet_code` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `templet_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '报表名称',
-  `templet_style` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '报表风格模板（单排、双排、Tab模式、分组模式-根据配置动态展示、可自定义...）',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `templet_code` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+  `templet_name` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '报表名称',
+  `templet_style` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '报表风格模板（单排、双排、Tab模式、分组模式-根据配置动态展示、可自定义...）',
   `create_time` datetime NULL DEFAULT NULL,
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_graphreport_templet
@@ -6374,22 +5957,22 @@ INSERT INTO `onl_graphreport_templet` VALUES ('dcf1e8aa1745937d511743f77ecfc40a'
 -- ----------------------------
 DROP TABLE IF EXISTS `onl_graphreport_templet_item`;
 CREATE TABLE `onl_graphreport_templet_item`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `graphreport_templet_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `graphreport_code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图表编码',
-  `graphreport_type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图表类型（饼状图、曲线图、柱状图、数据列表等）',
-  `group_num` int(11) NULL DEFAULT NULL COMMENT '组合数字，默认值0 非必填',
-  `group_style` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组合展示风格（1 卡片，2 tab）非必填',
-  `group_txt` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分组描述',
-  `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `is_show` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否显示 1显示 0不显示，默认1',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `graphreport_templet_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `graphreport_code` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '图表编码',
+  `graphreport_type` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '图表类型（饼状图、曲线图、柱状图、数据列表等）',
+  `group_num` int NULL DEFAULT NULL COMMENT '组合数字，默认值0 非必填',
+  `group_style` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '组合展示风格（1 卡片，2 tab）非必填',
+  `group_txt` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '分组描述',
+  `order_num` int NULL DEFAULT NULL COMMENT '排序',
+  `is_show` varchar(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否显示 1显示 0不显示，默认1',
   `create_time` datetime NULL DEFAULT NULL,
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_ogti_grreport_tempid`(`graphreport_templet_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_ogti_grreport_tempid`(`graphreport_templet_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of onl_graphreport_templet_item
@@ -6422,8 +6005,8 @@ CREATE TABLE `open_api`  (
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '接口描述',
   `request_body` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '请求体内容',
   `origin_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '原始地址',
-  `status` int(10) NULL DEFAULT NULL COMMENT '状态',
-  `del_flag` int(10) NULL DEFAULT NULL COMMENT '删除标识',
+  `status` int NULL DEFAULT NULL COMMENT '状态',
+  `del_flag` int NULL DEFAULT NULL COMMENT '删除标识',
   `create_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '修改人',
@@ -6474,10 +6057,10 @@ CREATE TABLE `open_api_log`  (
   `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '来源IP',
   `request_params` varchar(600) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '请求参数摘要（Query String）',
   `request_headers` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '请求头信息',
-  `response_code` int(6) NULL DEFAULT NULL COMMENT '响应状态码',
+  `response_code` int NULL DEFAULT NULL COMMENT '响应状态码',
   `error_msg` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '失败原因（认证/授权异常描述）',
   `call_time` datetime NULL DEFAULT NULL COMMENT '调用时间',
-  `used_time` bigint(20) NULL DEFAULT NULL COMMENT '耗时',
+  `used_time` bigint NULL DEFAULT NULL COMMENT '耗时',
   `response_time` datetime NULL DEFAULT NULL COMMENT '响应时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '调用记录表' ROW_FORMAT = DYNAMIC;
@@ -6510,15 +6093,15 @@ CREATE TABLE `open_api_permission`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `oss_file`;
 CREATE TABLE `oss_file`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
-  `file_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件名称',
-  `url` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件地址',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键id',
+  `file_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文件名称',
+  `url` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文件地址',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'Oss File' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = 'Oss File' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of oss_file
@@ -6588,9 +6171,9 @@ CREATE TABLE `qrtz_fired_triggers`  (
   `TRIGGER_NAME` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `TRIGGER_GROUP` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `INSTANCE_NAME` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `FIRED_TIME` bigint(13) NOT NULL,
-  `SCHED_TIME` bigint(13) NOT NULL,
-  `PRIORITY` int(11) NOT NULL,
+  `FIRED_TIME` bigint NOT NULL,
+  `SCHED_TIME` bigint NOT NULL,
+  `PRIORITY` int NOT NULL,
   `STATE` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `JOB_NAME` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `JOB_GROUP` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -6662,15 +6245,15 @@ DROP TABLE IF EXISTS `qrtz_scheduler_state`;
 CREATE TABLE `qrtz_scheduler_state`  (
   `SCHED_NAME` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `INSTANCE_NAME` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `LAST_CHECKIN_TIME` bigint(13) NOT NULL,
-  `CHECKIN_INTERVAL` bigint(13) NOT NULL,
+  `LAST_CHECKIN_TIME` bigint NOT NULL,
+  `CHECKIN_INTERVAL` bigint NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `INSTANCE_NAME`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_scheduler_state
 -- ----------------------------
-INSERT INTO `qrtz_scheduler_state` VALUES ('MyScheduler', 'qin1787543085993', 1787543538851, 15000);
+INSERT INTO `qrtz_scheduler_state` VALUES ('MyScheduler', 'USER-20221129FD1792487994444', 1792490337195, 15000);
 
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
@@ -6680,9 +6263,9 @@ CREATE TABLE `qrtz_simple_triggers`  (
   `SCHED_NAME` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `TRIGGER_NAME` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `TRIGGER_GROUP` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `REPEAT_COUNT` bigint(7) NOT NULL,
-  `REPEAT_INTERVAL` bigint(12) NOT NULL,
-  `TIMES_TRIGGERED` bigint(10) NOT NULL,
+  `REPEAT_COUNT` bigint NOT NULL,
+  `REPEAT_INTERVAL` bigint NOT NULL,
+  `TIMES_TRIGGERED` bigint NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   CONSTRAINT `qrtz_simple_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
@@ -6702,10 +6285,10 @@ CREATE TABLE `qrtz_simprop_triggers`  (
   `STR_PROP_1` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `STR_PROP_2` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `STR_PROP_3` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `INT_PROP_1` int(11) NULL DEFAULT NULL,
-  `INT_PROP_2` int(11) NULL DEFAULT NULL,
-  `LONG_PROP_1` bigint(20) NULL DEFAULT NULL,
-  `LONG_PROP_2` bigint(20) NULL DEFAULT NULL,
+  `INT_PROP_1` int NULL DEFAULT NULL,
+  `INT_PROP_2` int NULL DEFAULT NULL,
+  `LONG_PROP_1` bigint NULL DEFAULT NULL,
+  `LONG_PROP_2` bigint NULL DEFAULT NULL,
   `DEC_PROP_1` decimal(13, 4) NULL DEFAULT NULL,
   `DEC_PROP_2` decimal(13, 4) NULL DEFAULT NULL,
   `BOOL_PROP_1` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -6729,18 +6312,18 @@ CREATE TABLE `qrtz_triggers`  (
   `JOB_NAME` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `JOB_GROUP` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `DESCRIPTION` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `NEXT_FIRE_TIME` bigint(13) NULL DEFAULT NULL,
-  `PREV_FIRE_TIME` bigint(13) NULL DEFAULT NULL,
-  `PRIORITY` int(11) NULL DEFAULT NULL,
+  `NEXT_FIRE_TIME` bigint NULL DEFAULT NULL,
+  `PREV_FIRE_TIME` bigint NULL DEFAULT NULL,
+  `PRIORITY` int NULL DEFAULT NULL,
   `TRIGGER_STATE` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `TRIGGER_TYPE` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `START_TIME` bigint(13) NOT NULL,
-  `END_TIME` bigint(13) NULL DEFAULT NULL,
+  `START_TIME` bigint NOT NULL,
+  `END_TIME` bigint NULL DEFAULT NULL,
   `CALENDAR_NAME` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `MISFIRE_INSTR` smallint(2) NULL DEFAULT NULL,
+  `MISFIRE_INSTR` smallint NULL DEFAULT NULL,
   `JOB_DATA` blob NULL,
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
-  INDEX `SCHED_NAME`(`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) USING BTREE,
+  INDEX `SCHED_NAME`(`SCHED_NAME` ASC, `JOB_NAME` ASC, `JOB_GROUP` ASC) USING BTREE,
   CONSTRAINT `qrtz_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) REFERENCES `qrtz_job_details` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
@@ -6799,40 +6382,40 @@ INSERT INTO `rep_demo_dxtj` VALUES ('1339160157606674520', '王明阳', '2019-11
 -- ----------------------------
 DROP TABLE IF EXISTS `rep_demo_employee`;
 CREATE TABLE `rep_demo_employee`  (
-  `id` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
-  `num` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '编号',
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '姓名',
-  `sex` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别',
+  `id` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键',
+  `num` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '编号',
+  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '姓名',
+  `sex` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '性别',
   `birthday` datetime NULL DEFAULT NULL COMMENT '出生日期',
-  `nation` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '民族',
-  `political` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '政治面貌',
-  `native_place` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '籍贯',
-  `height` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '身高',
-  `weight` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '体重',
-  `health` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '健康状况',
-  `id_card` varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '身份证号',
-  `education` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '学历',
-  `school` varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '毕业学校',
-  `major` varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '专业',
-  `address` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系地址',
-  `zip_code` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮编',
-  `email` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'Email',
-  `phone` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号',
-  `foreign_language` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '外语语种',
-  `foreign_language_level` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '外语水平',
-  `computer_level` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '计算机水平',
+  `nation` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '民族',
+  `political` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '政治面貌',
+  `native_place` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '籍贯',
+  `height` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '身高',
+  `weight` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '体重',
+  `health` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '健康状况',
+  `id_card` varchar(80) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '身份证号',
+  `education` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '学历',
+  `school` varchar(80) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '毕业学校',
+  `major` varchar(80) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '专业',
+  `address` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '联系地址',
+  `zip_code` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '邮编',
+  `email` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'Email',
+  `phone` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '手机号',
+  `foreign_language` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '外语语种',
+  `foreign_language_level` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '外语水平',
+  `computer_level` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '计算机水平',
   `graduation_time` datetime NULL DEFAULT NULL COMMENT '毕业时间',
   `arrival_time` datetime NULL DEFAULT NULL COMMENT '到职时间',
-  `positional_titles` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '职称',
-  `education_experience` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '教育经历',
-  `work_experience` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '工作经历',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `positional_titles` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '职称',
+  `education_experience` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '教育经历',
+  `work_experience` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '工作经历',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) NULL DEFAULT NULL COMMENT '删除标识0-正常,1-已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of rep_demo_employee
@@ -6845,15 +6428,15 @@ INSERT INTO `rep_demo_employee` VALUES ('2', '002', '王红', '女', '2000-02-04
 -- ----------------------------
 DROP TABLE IF EXISTS `rep_demo_gongsi`;
 CREATE TABLE `rep_demo_gongsi`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `gname` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '货品名称',
-  `gdata` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '返利',
-  `tdata` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '备注',
-  `didian` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `zhaiyao` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `num` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `gname` varchar(125) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '货品名称',
+  `gdata` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '返利',
+  `tdata` varchar(125) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '备注',
+  `didian` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `zhaiyao` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `num` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of rep_demo_gongsi
@@ -6866,18 +6449,18 @@ INSERT INTO `rep_demo_gongsi` VALUES (2, 'dd天山海世界', '2020-02-30 11:12:
 -- ----------------------------
 DROP TABLE IF EXISTS `rep_demo_jianpiao`;
 CREATE TABLE `rep_demo_jianpiao`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `bnum` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `ftime` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `sfkong` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `kaishi` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `jieshu` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `hezairen` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `jpnum` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `shihelv` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `s_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `bnum` varchar(125) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `ftime` varchar(125) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `sfkong` varchar(125) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `kaishi` varchar(125) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `jieshu` varchar(125) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `hezairen` varchar(125) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `jpnum` varchar(125) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `shihelv` varchar(125) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `s_id` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 87 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 86 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of rep_demo_jianpiao
@@ -6974,17 +6557,17 @@ INSERT INTO `rep_demo_jianpiao` VALUES (86, 'G10', '13:00', '否', '北京西', 
 -- ----------------------------
 DROP TABLE IF EXISTS `rep_demo_order_main`;
 CREATE TABLE `rep_demo_order_main`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `order_code` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '订单编码',
+  `order_code` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '订单编码',
   `order_date` datetime NULL DEFAULT NULL COMMENT '下单时间',
-  `descc` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `xiala` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '下拉多选',
+  `descc` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `xiala` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '下拉多选',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of rep_demo_order_main
@@ -7001,19 +6584,19 @@ INSERT INTO `rep_demo_order_main` VALUES ('1683074969561157634', 'admin', '2023-
 -- ----------------------------
 DROP TABLE IF EXISTS `rep_demo_order_product`;
 CREATE TABLE `rep_demo_order_product`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `product_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '产品名字',
+  `product_name` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '产品名字',
   `price` double(32, 0) NULL DEFAULT NULL COMMENT '价格',
-  `num` int(11) NULL DEFAULT NULL COMMENT '数量',
-  `descc` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `order_fk_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '订单外键ID',
-  `pro_type` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '产品类型',
+  `num` int NULL DEFAULT NULL COMMENT '数量',
+  `descc` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `order_fk_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '订单外键ID',
+  `pro_type` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '产品类型',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of rep_demo_order_product
@@ -7061,48 +6644,48 @@ INSERT INTO `rep_demo_order_product` VALUES ('4028810c6b40244b016b406884080005',
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_announcement`;
 CREATE TABLE `sys_announcement`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `titile` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标题',
-  `msg_content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '内容',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `titile` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '标题',
+  `msg_content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '内容',
   `start_time` datetime NULL DEFAULT NULL COMMENT '开始时间',
   `end_time` datetime NULL DEFAULT NULL COMMENT '结束时间',
-  `sender` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '发布人',
-  `priority` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '优先级（L低，M中，H高）',
-  `msg_category` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '2' COMMENT '消息类型1:通知公告2:系统消息',
-  `msg_type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '通告对象类型（USER:指定用户，ALL:全体用户）',
-  `send_status` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '发布状态（0未发布，1已发布，2已撤销）',
+  `sender` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '发布人',
+  `priority` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '优先级（L低，M中，H高）',
+  `msg_category` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '2' COMMENT '消息类型1:通知公告2:系统消息',
+  `msg_type` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '通告对象类型（USER:指定用户，ALL:全体用户）',
+  `send_status` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '发布状态（0未发布，1已发布，2已撤销）',
   `send_time` datetime NULL DEFAULT NULL COMMENT '发布时间',
   `cancel_time` datetime NULL DEFAULT NULL COMMENT '撤销时间',
-  `del_flag` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '删除状态（0，正常，1已删除）',
-  `bus_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '业务类型(email:邮件 bpm:流程 tenant_invite:租户邀请)',
-  `bus_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '业务id',
-  `open_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '打开方式(组件：component 路由：url)',
-  `open_page` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组件/路由 地址',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `del_flag` varchar(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '删除状态（0，正常，1已删除）',
+  `bus_type` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '业务类型(email:邮件 bpm:流程 tenant_invite:租户邀请)',
+  `bus_id` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '业务id',
+  `open_type` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '打开方式(组件：component 路由：url)',
+  `open_page` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '组件/路由 地址',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `user_ids` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '指定用户',
-  `msg_abstract` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '摘要/扩展业务参数',
-  `dt_task_id` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '钉钉task_id，用于撤回消息',
-  `tenant_id` int(10) NULL DEFAULT 0 COMMENT '租户ID',
-  `files` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '附件',
-  `visits_num` int(11) NULL DEFAULT NULL COMMENT '访问次数',
-  `iz_top` int(10) NULL DEFAULT 0 COMMENT '是否置顶（0:否;  1:是）',
-  `iz_approval` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否审批（0否 1是）',
-  `bpm_status` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程状态',
-  `msg_classify` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '消息归类',
-  `notice_type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '通知类型(system:系统消息、file:知识库、flow:流程、plan:日程计划、meeting:会议)',
+  `user_ids` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '指定用户',
+  `msg_abstract` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '摘要/扩展业务参数',
+  `dt_task_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '钉钉task_id，用于撤回消息',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '租户ID',
+  `files` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '附件',
+  `visits_num` int NULL DEFAULT NULL COMMENT '访问次数',
+  `iz_top` int NULL DEFAULT 0 COMMENT '是否置顶（0:否;  1:是）',
+  `iz_approval` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否审批（0否 1是）',
+  `bpm_status` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '流程状态',
+  `msg_classify` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '消息归类',
+  `notice_type` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '通知类型(system:系统消息、file:知识库、flow:流程、plan:日程计划、meeting:会议)',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_sanno_endtime`(`end_time`) USING BTREE,
-  INDEX `idx_sanno_start_time`(`start_time`) USING BTREE,
-  INDEX `idx_sanno_msg_type`(`msg_type`) USING BTREE,
-  INDEX `idx_sanno_send_status`(`send_status`) USING BTREE,
-  INDEX `idx_sanno_del_flag`(`del_flag`) USING BTREE,
-  INDEX `idx_sanno_tenant_id`(`tenant_id`) USING BTREE,
-  INDEX `idx_sanno_sender`(`sender`) USING BTREE,
-  INDEX `idx_sanno_create_time`(`create_time`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统通告表' ROW_FORMAT = DYNAMIC;
+  INDEX `idx_sanno_endtime`(`end_time` ASC) USING BTREE,
+  INDEX `idx_sanno_start_time`(`start_time` ASC) USING BTREE,
+  INDEX `idx_sanno_msg_type`(`msg_type` ASC) USING BTREE,
+  INDEX `idx_sanno_send_status`(`send_status` ASC) USING BTREE,
+  INDEX `idx_sanno_del_flag`(`del_flag` ASC) USING BTREE,
+  INDEX `idx_sanno_tenant_id`(`tenant_id` ASC) USING BTREE,
+  INDEX `idx_sanno_sender`(`sender` ASC) USING BTREE,
+  INDEX `idx_sanno_create_time`(`create_time` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '系统通告表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_announcement
@@ -7113,22 +6696,22 @@ CREATE TABLE `sys_announcement`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_announcement_send`;
 CREATE TABLE `sys_announcement_send`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `annt_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '通告ID',
-  `user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户id',
-  `read_flag` int(10) NULL DEFAULT NULL COMMENT '阅读状态（0未读，1已读）',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `annt_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '通告ID',
+  `user_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '用户id',
+  `read_flag` int NULL DEFAULT NULL COMMENT '阅读状态（0未读，1已读）',
   `read_time` datetime NULL DEFAULT NULL COMMENT '阅读时间',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `star_flag` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标星状态( 1为标星 空/0没有标星)',
+  `star_flag` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '标星状态( 1为标星 空/0没有标星)',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_sacm_annt_id`(`annt_id`) USING BTREE,
-  INDEX `idx_sacm_user_id`(`user_id`) USING BTREE,
-  INDEX `idx_sacm_read_flag`(`read_flag`) USING BTREE,
-  INDEX `idx_sacm_star_flag`(`star_flag`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户通告阅读标记表' ROW_FORMAT = DYNAMIC;
+  INDEX `idx_sacm_annt_id`(`annt_id` ASC) USING BTREE,
+  INDEX `idx_sacm_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `idx_sacm_read_flag`(`read_flag` ASC) USING BTREE,
+  INDEX `idx_sacm_star_flag`(`star_flag` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '用户通告阅读标记表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_announcement_send
@@ -7139,20 +6722,20 @@ CREATE TABLE `sys_announcement_send`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_category`;
 CREATE TABLE `sys_category`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `pid` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父级节点',
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '类型名称',
-  `code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '类型编码',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `pid` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '父级节点',
+  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '类型名称',
+  `code` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '类型编码',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属部门',
-  `has_child` varchar(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否有子节点',
-  `tenant_id` int(10) NULL DEFAULT 0 COMMENT '租户ID',
+  `sys_org_code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '所属部门',
+  `has_child` varchar(3) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否有子节点',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '租户ID',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `index_scg_code`(`code`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `index_scg_code`(`code` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_category
@@ -7192,17 +6775,17 @@ INSERT INTO `sys_category` VALUES ('f39a06bf9f390ba4a53d11bc4e0018d7', '5c8f6884
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_check_rule`;
 CREATE TABLE `sys_check_rule`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键id',
   `rule_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规则名称',
   `rule_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规则Code',
   `rule_json` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规则JSON',
   `rule_description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规则描述',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uk_scr_rule_code`(`rule_code`) USING BTREE
+  UNIQUE INDEX `uk_scr_rule_code`(`rule_code` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -7216,20 +6799,20 @@ INSERT INTO `sys_check_rule` VALUES ('1225001845524004866', '负责的功能测�
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_comment`;
 CREATE TABLE `sys_comment`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `table_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '表名',
-  `table_data_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '数据id',
-  `from_user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '来源用户id',
-  `to_user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '发送给用户id(允许为空)',
-  `comment_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '评论id(允许为空，不为空时，则为回复)',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `table_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '表名',
+  `table_data_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '数据id',
+  `from_user_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '来源用户id',
+  `to_user_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '发送给用户id(允许为空)',
+  `comment_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '评论id(允许为空，不为空时，则为回复)',
   `comment_content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '回复内容',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_table_data_id`(`table_name`, `table_data_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统评论回复表' ROW_FORMAT = DYNAMIC;
+  INDEX `idx_table_data_id`(`table_name` ASC, `table_data_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '系统评论回复表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_comment
@@ -7260,20 +6843,20 @@ INSERT INTO `sys_comment` VALUES ('1805421721126830082', 'aa_order', '1805421421
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_data_log`;
 CREATE TABLE `sys_data_log`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'id',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
-  `create_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人真实名称',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'id',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `create_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人真实名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `data_table` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表名',
-  `data_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据ID',
-  `data_content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '数据内容',
-  `data_version` int(11) NULL DEFAULT NULL COMMENT '版本号',
-  `type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'json' COMMENT '类型',
+  `data_table` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '表名',
+  `data_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '数据ID',
+  `data_content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '数据内容',
+  `data_version` int NULL DEFAULT NULL COMMENT '版本号',
+  `type` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT 'json' COMMENT '类型',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_sdl_data_table_id`(`data_table`, `data_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_sdl_data_table_id`(`data_table` ASC, `data_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_data_log
@@ -7299,9 +6882,9 @@ CREATE TABLE `sys_data_source`  (
   `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   `sys_org_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '所属部门',
-  `tenant_id` int(10) NULL DEFAULT 0 COMMENT '租户ID',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '租户ID',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uk_sdc_rule_code`(`code`) USING BTREE
+  UNIQUE INDEX `uk_sdc_rule_code`(`code` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -7314,40 +6897,40 @@ INSERT INTO `sys_data_source` VALUES ('1209779538310004737', 'local_mysql', '本
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_depart`;
 CREATE TABLE `sys_depart`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
-  `parent_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父机构ID',
-  `depart_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '机构/部门名称',
-  `depart_name_en` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '英文名',
-  `depart_name_abbr` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '缩写',
-  `depart_order` int(11) NULL DEFAULT 0 COMMENT '排序',
-  `description` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `org_category` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1' COMMENT '机构类别 1公司，2部门，3岗位，4子公司',
-  `org_type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '树深度层级level',
-  `org_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '机构编码',
-  `mobile` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号',
-  `fax` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '传真',
-  `address` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '地址',
-  `memo` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `status` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '状态（1启用，0不启用）',
-  `del_flag` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '删除状态（0，正常，1已删除）',
-  `qywx_identifier` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '对接企业微信的ID',
-  `ding_identifier` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '对接钉钉部门的ID',
-  `feishu_identifier` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '对接飞书的部门ID',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'ID',
+  `parent_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '父机构ID',
+  `depart_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '机构/部门名称',
+  `depart_name_en` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '英文名',
+  `depart_name_abbr` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '缩写',
+  `depart_order` int NULL DEFAULT 0 COMMENT '排序',
+  `description` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `org_category` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '1' COMMENT '机构类别 1公司，2部门，3岗位，4子公司',
+  `org_type` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '树深度层级level',
+  `org_code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '机构编码',
+  `mobile` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '手机号',
+  `fax` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '传真',
+  `address` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '地址',
+  `memo` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `status` varchar(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '状态（1启用，0不启用）',
+  `del_flag` varchar(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '删除状态（0，正常，1已删除）',
+  `qywx_identifier` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '对接企业微信的ID',
+  `ding_identifier` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '对接钉钉部门的ID',
+  `feishu_identifier` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '对接飞书的部门ID',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `tenant_id` int(10) NULL DEFAULT 0 COMMENT '租户ID',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '租户ID',
   `iz_leaf` tinyint(1) NULL DEFAULT 0 COMMENT '是否有叶子节点: 1是0否',
-  `position_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '职级id',
-  `dep_post_parent_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上级岗位id',
+  `position_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '职级id',
+  `dep_post_parent_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '上级岗位id',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uniq_depart_org_code`(`org_code`) USING BTREE,
-  INDEX `idx_sd_parent_id`(`parent_id`) USING BTREE,
-  INDEX `idx_sd_depart_order`(`depart_order`) USING BTREE,
-  INDEX `idx_sd_position_id`(`position_id`) USING BTREE,
-  INDEX `idx_sd_dep_post_parent_id`(`dep_post_parent_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '组织机构表' ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `uniq_depart_org_code`(`org_code` ASC) USING BTREE,
+  INDEX `idx_sd_parent_id`(`parent_id` ASC) USING BTREE,
+  INDEX `idx_sd_depart_order`(`depart_order` ASC) USING BTREE,
+  INDEX `idx_sd_position_id`(`position_id` ASC) USING BTREE,
+  INDEX `idx_sd_dep_post_parent_id`(`dep_post_parent_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '组织机构表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_depart
@@ -7408,12 +6991,12 @@ INSERT INTO `sys_depart` VALUES ('c6d7cb4deeac411cb3384b1b31278596', '', '北京
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_depart_permission`;
 CREATE TABLE `sys_depart_permission`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `depart_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部门id',
-  `permission_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限id',
-  `data_rule_ids` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据规则id',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `depart_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '部门id',
+  `permission_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '权限id',
+  `data_rule_ids` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '数据规则id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门权限表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '部门权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_depart_permission
@@ -7430,17 +7013,17 @@ INSERT INTO `sys_depart_permission` VALUES ('1694946354784800769', '158268363141
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_depart_role`;
 CREATE TABLE `sys_depart_role`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `depart_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部门id',
-  `role_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部门角色名称',
-  `role_code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部门角色编码',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `depart_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '部门id',
+  `role_name` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '部门角色名称',
+  `role_code` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '部门角色编码',
+  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门角色表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '部门角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_depart_role
@@ -7452,18 +7035,18 @@ INSERT INTO `sys_depart_role` VALUES ('1260925293226479618', '6d35e179cd814e3299
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_depart_role_permission`;
 CREATE TABLE `sys_depart_role_permission`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `depart_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部门id',
-  `role_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色id',
-  `permission_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限id',
-  `data_rule_ids` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据权限ids',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `depart_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '部门id',
+  `role_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '角色id',
+  `permission_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '权限id',
+  `data_rule_ids` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '数据权限ids',
   `operate_date` datetime NULL DEFAULT NULL COMMENT '操作时间',
-  `operate_ip` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作ip',
+  `operate_ip` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '操作ip',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_sdrp_role_per_id`(`role_id`, `permission_id`) USING BTREE,
-  INDEX `idx_sdrp_role_id`(`role_id`) USING BTREE,
-  INDEX `idx_sdrp_per_id`(`permission_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门角色权限表' ROW_FORMAT = DYNAMIC;
+  INDEX `idx_sdrp_role_per_id`(`role_id` ASC, `permission_id` ASC) USING BTREE,
+  INDEX `idx_sdrp_role_id`(`role_id` ASC) USING BTREE,
+  INDEX `idx_sdrp_per_id`(`permission_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '部门角色权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_depart_role_permission
@@ -7476,13 +7059,13 @@ INSERT INTO `sys_depart_role_permission` VALUES ('1260925328706097153', NULL, '1
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_depart_role_user`;
 CREATE TABLE `sys_depart_role_user`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
-  `user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户id',
-  `drole_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色id',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键id',
+  `user_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '用户id',
+  `drole_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '角色id',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_sdr_user_id`(`user_id`) USING BTREE,
-  INDEX `idx_sdr_role_id`(`drole_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门角色用户表' ROW_FORMAT = DYNAMIC;
+  INDEX `idx_sdr_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `idx_sdr_role_id`(`drole_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '部门角色用户表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_depart_role_user
@@ -7493,22 +7076,22 @@ CREATE TABLE `sys_depart_role_user`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict`;
 CREATE TABLE `sys_dict`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `dict_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典名称',
-  `dict_code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典编码',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `del_flag` int(1) NULL DEFAULT NULL COMMENT '删除状态',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `dict_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '字典名称',
+  `dict_code` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '字典编码',
+  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `del_flag` int NULL DEFAULT NULL COMMENT '删除状态',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `type` int(1) UNSIGNED ZEROFILL NULL DEFAULT 0 COMMENT '字典类型0为string,1为number',
-  `tenant_id` int(10) NULL DEFAULT 0 COMMENT '租户ID',
-  `low_app_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '低代码应用ID',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '租户ID',
+  `low_app_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '低代码应用ID',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uk_sd_dict_code`(`dict_code`) USING BTREE,
-  INDEX `uk_sd_tenant_id`(`tenant_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `uk_sd_dict_code`(`dict_code` ASC) USING BTREE,
+  INDEX `uk_sd_tenant_id`(`tenant_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict
@@ -7576,24 +7159,24 @@ INSERT INTO `sys_dict` VALUES ('fc6cd58fde2e8481db10d3a1e68ce70c', '用户状态
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict_item`;
 CREATE TABLE `sys_dict_item`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `dict_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典id',
-  `item_text` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典项文本',
-  `item_value` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典项值',
-  `item_color` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典项颜色',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `sort_order` int(10) NULL DEFAULT NULL COMMENT '排序',
-  `status` int(11) NULL DEFAULT NULL COMMENT '状态（1启用 0不启用）',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `dict_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字典id',
+  `item_text` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '字典项文本',
+  `item_value` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '字典项值',
+  `item_color` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字典项颜色',
+  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `sort_order` int NULL DEFAULT NULL COMMENT '排序',
+  `status` int NULL DEFAULT NULL COMMENT '状态（1启用 0不启用）',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   `create_time` datetime NULL DEFAULT NULL,
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_sditem_role_dict_id`(`dict_id`) USING BTREE,
-  INDEX `idx_sditem_role_sort_order`(`sort_order`) USING BTREE,
-  INDEX `idx_sditem_status`(`status`) USING BTREE,
-  INDEX `idx_sditem_dict_val`(`dict_id`, `item_value`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_sditem_role_dict_id`(`dict_id` ASC) USING BTREE,
+  INDEX `idx_sditem_role_sort_order`(`sort_order` ASC) USING BTREE,
+  INDEX `idx_sditem_status`(`status` ASC) USING BTREE,
+  INDEX `idx_sditem_dict_val`(`dict_id` ASC, `item_value` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_item
@@ -7818,32 +7401,32 @@ INSERT INTO `sys_dict_item` VALUES ('fe50b23ae5e68434def76f67cef35d2d', '78bda15
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_files`;
 CREATE TABLE `sys_files`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
-  `file_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件名称',
-  `url` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件地址',
-  `file_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文档类型（folder:文件夹 excel:excel doc:word ppt:ppt image:图片  archive:其他文档 video:视频 pdf:pdf）',
-  `store_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件上传类型(temp/本地上传(临时文件) manage/知识库)',
-  `parent_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父级id',
-  `tenant_id` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '租户id',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键id',
+  `file_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文件名称',
+  `url` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文件地址',
+  `file_type` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文档类型（folder:文件夹 excel:excel doc:word ppt:ppt image:图片  archive:其他文档 video:视频 pdf:pdf）',
+  `store_type` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文件上传类型(temp/本地上传(临时文件) manage/知识库)',
+  `parent_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '父级id',
+  `tenant_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '租户id',
   `file_size` double(13, 2) NULL DEFAULT NULL COMMENT '文件大小（kb）',
-  `iz_folder` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否文件夹(1：是  0：否)',
-  `iz_root_folder` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否为1级文件夹，允许为空 (1：是 )',
-  `iz_star` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否标星(1：是  0：否)',
-  `down_count` int(11) NULL DEFAULT NULL COMMENT '下载次数',
-  `read_count` int(11) NULL DEFAULT NULL COMMENT '阅读次数',
-  `share_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分享链接',
-  `share_perms` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分享权限(1.关闭分享 2.允许所有联系人查看 3.允许任何人查看)',
-  `enable_down` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否允许下载(1：是  0：否)',
-  `enable_updat` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否允许修改(1：是  0：否)',
-  `del_flag` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '删除状态(0-正常,1-删除至回收站)',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `iz_folder` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否文件夹(1：是  0：否)',
+  `iz_root_folder` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否为1级文件夹，允许为空 (1：是 )',
+  `iz_star` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否标星(1：是  0：否)',
+  `down_count` int NULL DEFAULT NULL COMMENT '下载次数',
+  `read_count` int NULL DEFAULT NULL COMMENT '阅读次数',
+  `share_url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '分享链接',
+  `share_perms` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '分享权限(1.关闭分享 2.允许所有联系人查看 3.允许任何人查看)',
+  `enable_down` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否允许下载(1：是  0：否)',
+  `enable_updat` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否允许修改(1：是  0：否)',
+  `del_flag` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '删除状态(0-正常,1-删除至回收站)',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_tenant_id`(`tenant_id`) USING BTREE,
-  INDEX `index_del_flag`(`del_flag`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '知识库-文档管理' ROW_FORMAT = DYNAMIC;
+  INDEX `index_tenant_id`(`tenant_id` ASC) USING BTREE,
+  INDEX `index_del_flag`(`del_flag` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '知识库-文档管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_files
@@ -7857,17 +7440,17 @@ INSERT INTO `sys_files` VALUES ('1714455459928985601', '低代码平台.png', 'c
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_fill_rule`;
 CREATE TABLE `sys_fill_rule`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键ID',
   `rule_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规则名称',
   `rule_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规则Code',
   `rule_class` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规则实现类',
   `rule_params` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规则参数',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uk_sfr_rule_code`(`rule_code`) USING BTREE
+  UNIQUE INDEX `uk_sfr_rule_code`(`rule_code` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -7882,17 +7465,17 @@ INSERT INTO `sys_fill_rule` VALUES ('1260134137920090113', '订单流水号', 's
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_form_file`;
 CREATE TABLE `sys_form_file`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `table_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '表名',
-  `table_data_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '数据id',
-  `file_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '关联文件id',
-  `file_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件类型(text:文本, excel:excel doc:word ppt:ppt image:图片  archive:其他文档 video:视频 pdf:pdf）)',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `table_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '表名',
+  `table_data_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '数据id',
+  `file_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '关联文件id',
+  `file_type` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文件类型(text:文本, excel:excel doc:word ppt:ppt image:图片  archive:其他文档 video:视频 pdf:pdf）)',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_table_form`(`table_name`, `table_data_id`) USING BTREE,
-  INDEX `index_file_id`(`file_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_table_form`(`table_name` ASC, `table_data_id` ASC) USING BTREE,
+  INDEX `index_file_id`(`file_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_form_file
@@ -7909,25 +7492,25 @@ INSERT INTO `sys_form_file` VALUES ('1805421721449791490', 'sys_comment', '18054
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_gateway_route`;
 CREATE TABLE `sys_gateway_route`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `router_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '路由ID',
-  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '服务名',
-  `uri` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '服务地址',
-  `predicates` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '断言',
-  `filters` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '过滤器',
-  `retryable` int(3) NULL DEFAULT NULL COMMENT '是否重试:0-否 1-是',
-  `strip_prefix` int(3) NULL DEFAULT NULL COMMENT '是否忽略前缀0-否 1-是',
-  `persistable` int(3) NULL DEFAULT NULL COMMENT '是否为保留数据:0-否 1-是',
-  `show_api` int(3) NULL DEFAULT NULL COMMENT '是否在接口文档中展示:0-否 1-是',
-  `status` int(3) NULL DEFAULT NULL COMMENT '状态:0-无效 1-有效',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `router_id` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '路由ID',
+  `name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '服务名',
+  `uri` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '服务地址',
+  `predicates` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '断言',
+  `filters` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '过滤器',
+  `retryable` int NULL DEFAULT NULL COMMENT '是否重试:0-否 1-是',
+  `strip_prefix` int NULL DEFAULT NULL COMMENT '是否忽略前缀0-否 1-是',
+  `persistable` int NULL DEFAULT NULL COMMENT '是否为保留数据:0-否 1-是',
+  `show_api` int NULL DEFAULT NULL COMMENT '是否在接口文档中展示:0-否 1-是',
+  `status` int NULL DEFAULT NULL COMMENT '状态:0-无效 1-有效',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属部门',
-  `del_flag` int(11) NULL DEFAULT NULL COMMENT '删除状态',
+  `sys_org_code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '所属部门',
+  `del_flag` int NULL DEFAULT NULL COMMENT '删除状态',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_gateway_route
@@ -7943,30 +7526,30 @@ INSERT INTO `sys_gateway_route` VALUES ('jeecg-system', 'jeecg-system', 'jeecg-s
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_log`;
 CREATE TABLE `sys_log`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `log_type` int(3) NULL DEFAULT NULL COMMENT '日志类型（1登录日志，2操作日志, 3.租户操作日志）',
-  `log_content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '日志内容',
-  `operate_type` int(2) NULL DEFAULT NULL COMMENT '操作类型',
-  `userid` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作用户账号',
-  `username` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作用户名称',
-  `ip` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'IP',
-  `method` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求java方法',
-  `request_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求路径',
-  `request_param` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '请求参数',
-  `request_type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求类型',
-  `cost_time` bigint(20) NULL DEFAULT NULL COMMENT '耗时',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `log_type` int NULL DEFAULT NULL COMMENT '日志类型（1登录日志，2操作日志, 3.租户操作日志）',
+  `log_content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '日志内容',
+  `operate_type` int NULL DEFAULT NULL COMMENT '操作类型',
+  `userid` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '操作用户账号',
+  `username` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '操作用户名称',
+  `ip` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'IP',
+  `method` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '请求java方法',
+  `request_url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '请求路径',
+  `request_param` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '请求参数',
+  `request_type` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '请求类型',
+  `cost_time` bigint NULL DEFAULT NULL COMMENT '耗时',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `tenant_id` int(10) NULL DEFAULT NULL COMMENT '租户ID',
-  `client_type` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '客户端类型 pc:电脑端 app:手机端 h5:移动网页端',
+  `tenant_id` int NULL DEFAULT NULL COMMENT '租户ID',
+  `client_type` varchar(5) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '客户端类型 pc:电脑端 app:手机端 h5:移动网页端',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_sl_userid`(`userid`) USING BTREE,
   INDEX `idx_sl_log_type`(`log_type`) USING BTREE,
   INDEX `idx_sl_operate_type`(`operate_type`) USING BTREE,
   INDEX `idx_sl_create_time`(`create_time`) USING BTREE
-) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志表' ROW_FORMAT = DYNAMIC;
+) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '系统日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_log
@@ -8030,47 +7613,76 @@ INSERT INTO `sys_log` VALUES ('2086657874244362242', 2, '修改角色ID: 1501570
 INSERT INTO `sys_log` VALUES ('2086657895941496835', 2, '修改角色ID: f6817f48af4fb3af11b9e8bf182f618b 的权限配置，操作人： admin', 2, 'admin', '管理员', '0:0:0:0:0:0:0:1', NULL, NULL, NULL, NULL, NULL, NULL, '2026-08-10 11:36:25', NULL, NULL, NULL, 'pc');
 INSERT INTO `sys_log` VALUES ('2090448417317756930', 1, '用户名: admin,登录成功！', NULL, 'admin', '管理员', '0:0:0:0:0:0:0:1', NULL, NULL, NULL, NULL, NULL, NULL, '2026-08-20 22:38:36', NULL, NULL, NULL, 'pc');
 INSERT INTO `sys_log` VALUES ('2086656840839143425', 1, '用户名: admin,登录成功！', NULL, 'admin', '管理员', '0:0:0:0:0:0:0:1', NULL, NULL, NULL, NULL, NULL, NULL, '2026-08-10 11:32:14', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2109514433460973569', 1, '用户名: 管理员,退出成功！', NULL, 'admin', '管理员', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, '2026-10-12 13:20:08', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_log` VALUES ('2109514457632747522', 1, '用户名: admin,登录成功！', NULL, 'admin', '管理员', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, '2026-10-12 13:20:14', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2109526336881872898', 2, '修改角色ID: f6817f48af4fb3af11b9e8bf182f618b 的权限配置，操作人： admin', 2, 'admin', '管理员', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, '2026-10-12 14:07:26', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2109526472559218689', 2, 'online列表加载,Online表单不存在！', 1, 'admin', '管理员', '127.0.0.1', 'org.jeecg.modules.online.cgform.c.a.a()', NULL, '  code: test_demo  request: org.springframework.web.servlet.resource.ResourceUrlEncodingFilter$ResourceUrlEncodingRequestWrapper@4ba566b', NULL, 17, NULL, '2026-10-12 14:07:59', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_log` VALUES ('2109526474023030785', 2, 'online列表加载,Online表单不存在！', 1, 'admin', '管理员', '127.0.0.1', 'org.jeecg.modules.online.cgform.c.a.a()', NULL, '  code: test_demo  request: org.springframework.web.servlet.resource.ResourceUrlEncodingFilter$ResourceUrlEncodingRequestWrapper@554dabf8', NULL, 16, NULL, '2026-10-12 14:07:59', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_log` VALUES ('2109547236868018178', 4, 'jakarta.servlet.ServletException:Handler dispatch failed: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject', NULL, 'admin', '管理员', '127.0.0.1', NULL, '/osdata-server/wdi/wdiCountry/importExcel', 'jakarta.servlet.ServletException: Handler dispatch failed: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:978)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\nCaused by: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject\r\n	at org.apache.poi.xssf.usermodel.XSSFWorkbookFactory.createWorkbook(XSSFWorkbookFactory.java:97)\r\n	at org.apache.poi.xssf.usermodel.XSSFWorkbookFactory.createWorkbook(XSSFWorkbookFactory.java:147)\r\n	at org.apache.poi.ss.usermodel.WorkbookFactory.create(WorkbookFactory.java:256)\r\n	at org.apache.poi.ss.usermodel.WorkbookFactory.create(WorkbookFactory.java:221)\r\n	at org.jeecgframework.poi.excel.imports.ExcelImportServer.importExcelByIs(ExcelImportServer.java:460)\r\n	at org.jeecgframework.poi.excel.ExcelImportUtil.importExcel(ExcelImportUtil.java:85)\r\n	at org.jeecg.common.system.base.controller.JeecgController.importExcel(JeecgController.java:224)\r\n	at org.jeecg.modules.wdi.controller.WdiCountryController.importExcel(WdiCountryController.java:179)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at jdk.internal.reflect.GeneratedMethodAccessor84.invoke(Unknown Source)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor$1.proceed(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:89)\r\n	at org.apache.shiro.authz.aop.AuthorizingMethodInterceptor.invoke(AuthorizingMethodInterceptor.java:39)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor.invoke(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:123)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.wdi.controller.WdiCountryController$$SpringCGLIB$$0.importExcel(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	... 67 more\r\nCaused by: java.lang.ClassNotFoundException: org.apache.xmlbeans.XmlObject\r\n	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)\r\n	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)\r\n	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525)\r\n	... 110 more\r\n', NULL, NULL, NULL, '2026-10-12 15:30:29', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2109564735827267585', 2, '世行WDI数据脚注表-编辑', 3, 'admin', '管理员', '127.0.0.1', 'org.jeecg.modules.wdi.controller.WdiFootnoteController.edit()', NULL, '[{\"countryCode\":\"BRN\",\"footnoteText\":\"Data are classified as official aid.\",\"footnoteTextCn\":\"数据列为官方援助。1111\",\"id\":\"98639\",\"seriesCode\":\"DC.DAC.DEUL.CD\",\"updateBy\":\"admin\",\"updateTime\":\"2026-10-12 16:40:01\",\"year\":2000}]', NULL, 47, NULL, '2026-10-12 16:40:01', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_log` VALUES ('2109564782505676802', 2, '世行WDI数据脚注表-编辑', 3, 'admin', '管理员', '127.0.0.1', 'org.jeecg.modules.wdi.controller.WdiFootnoteController.edit()', NULL, '[{\"countryCode\":\"BRN\",\"footnoteText\":\"Data are classified as official aid.\",\"footnoteTextCn\":\"数据列为官方援助。\",\"id\":\"98639\",\"seriesCode\":\"DC.DAC.DEUL.CD\",\"updateBy\":\"admin\",\"updateTime\":\"2026-10-12 16:40:12\",\"year\":2000}]', NULL, 99, NULL, '2026-10-12 16:40:13', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_log` VALUES ('2109598036004728834', 4, 'org.springframework.web.multipart.MaxUploadSizeExceededException:Maximum upload size exceeded', NULL, 'admin', '管理员', '127.0.0.1', NULL, '/osdata-server/wdi/wdiData/importExcel', 'org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded\r\n	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.handleParseFailure(StandardMultipartHttpServletRequest.java:126)\r\n	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.parseRequest(StandardMultipartHttpServletRequest.java:112)\r\n	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.<init>(StandardMultipartHttpServletRequest.java:88)\r\n	at org.springframework.web.multipart.support.StandardServletMultipartResolver.resolveMultipart(StandardServletMultipartResolver.java:112)\r\n	at org.springframework.web.servlet.DispatcherServlet.checkMultipart(DispatcherServlet.java:1102)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:947)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\nCaused by: org.apache.tomcat.util.http.InvalidParameterException: org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException: the request was rejected because its size (116638512) exceeds the configured maximum (10485760)\r\n	at org.apache.catalina.connector.Request.parseParts(Request.java:2617)\r\n	at org.apache.catalina.connector.Request.getParts(Request.java:2439)\r\n	at org.apache.catalina.connector.RequestFacade.getParts(RequestFacade.java:540)\r\n	at jakarta.servlet.http.HttpServletRequestWrapper.getParts(HttpServletRequestWrapper.java:315)\r\n	at jakarta.servlet.http.HttpServletRequestWrapper.getParts(HttpServletRequestWrapper.java:315)\r\n	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.parseRequest(StandardMultipartHttpServletRequest.java:95)\r\n	... 71 more\r\nCaused by: org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException: the request was rejected because its size (116638512) exceeds the configured maximum (10485760)\r\n	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.init(FileItemIteratorImpl.java:161)\r\n	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.getMultiPartStream(FileItemIteratorImpl.java:206)\r\n	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.findNextItem(FileItemIteratorImpl.java:225)\r\n	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.<init>(FileItemIteratorImpl.java:142)\r\n	at org.apache.tomcat.util.http.fileupload.FileUploadBase.getItemIterator(FileUploadBase.java:303)\r\n	at org.apache.tomcat.util.http.fileupload.FileUploadBase.parseRequest(FileUploadBase.java:452)\r\n	at org.apache.catalina.connector.Request.parseParts(Request.java:2576)\r\n	... 76 more\r\n', NULL, NULL, NULL, '2026-10-12 18:52:21', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2109598655746772993', 4, 'jakarta.servlet.ServletException:Handler dispatch failed: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject', NULL, 'admin', '管理员', '127.0.0.1', NULL, '/osdata-server/wdi/wdiData/importExcel', 'jakarta.servlet.ServletException: Handler dispatch failed: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:978)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\nCaused by: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject\r\n	at org.apache.poi.xssf.usermodel.XSSFWorkbookFactory.createWorkbook(XSSFWorkbookFactory.java:97)\r\n	at org.apache.poi.xssf.usermodel.XSSFWorkbookFactory.createWorkbook(XSSFWorkbookFactory.java:147)\r\n	at org.apache.poi.ss.usermodel.WorkbookFactory.create(WorkbookFactory.java:256)\r\n	at org.apache.poi.ss.usermodel.WorkbookFactory.create(WorkbookFactory.java:221)\r\n	at org.jeecg.modules.wdi.service.impl.WdiDataServiceImpl.importExcel(WdiDataServiceImpl.java:64)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:133)\r\n	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:371)\r\n	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:130)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.wdi.service.impl.WdiDataServiceImpl$$SpringCGLIB$$0.importExcel(<generated>)\r\n	at org.jeecg.modules.wdi.controller.WdiDataController.importExcel(WdiDataController.java:178)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor$1.proceed(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:89)\r\n	at org.apache.shiro.authz.aop.AuthorizingMethodInterceptor.invoke(AuthorizingMethodInterceptor.java:39)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor.invoke(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:123)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.wdi.controller.WdiDataController$$SpringCGLIB$$0.importExcel(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	... 67 more\r\nCaused by: java.lang.ClassNotFoundException: org.apache.xmlbeans.XmlObject\r\n	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)\r\n	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)\r\n	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525)\r\n	... 122 more\r\n', NULL, NULL, NULL, '2026-10-12 18:54:49', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2109598810055217154', 4, 'jakarta.servlet.ServletException:Handler dispatch failed: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject', NULL, 'admin', '管理员', '127.0.0.1', NULL, '/osdata-server/wdi/wdiData/importExcel', 'jakarta.servlet.ServletException: Handler dispatch failed: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:978)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\nCaused by: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject\r\n	at org.apache.poi.xssf.usermodel.XSSFWorkbookFactory.createWorkbook(XSSFWorkbookFactory.java:97)\r\n	at org.apache.poi.xssf.usermodel.XSSFWorkbookFactory.createWorkbook(XSSFWorkbookFactory.java:147)\r\n	at org.apache.poi.ss.usermodel.WorkbookFactory.create(WorkbookFactory.java:256)\r\n	at org.apache.poi.ss.usermodel.WorkbookFactory.create(WorkbookFactory.java:221)\r\n	at org.jeecg.modules.wdi.service.impl.WdiDataServiceImpl.importExcel(WdiDataServiceImpl.java:64)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:133)\r\n	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:371)\r\n	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:130)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.wdi.service.impl.WdiDataServiceImpl$$SpringCGLIB$$0.importExcel(<generated>)\r\n	at org.jeecg.modules.wdi.controller.WdiDataController.importExcel(WdiDataController.java:178)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor$1.proceed(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:89)\r\n	at org.apache.shiro.authz.aop.AuthorizingMethodInterceptor.invoke(AuthorizingMethodInterceptor.java:39)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor.invoke(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:123)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.wdi.controller.WdiDataController$$SpringCGLIB$$0.importExcel(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	... 67 more\r\nCaused by: java.lang.ClassNotFoundException: org.apache.xmlbeans.XmlObject\r\n	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)\r\n	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)\r\n	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525)\r\n	... 122 more\r\n', NULL, NULL, NULL, '2026-10-12 18:55:25', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2109601986389020673', 4, 'jakarta.servlet.ServletException:Handler dispatch failed: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlException', NULL, 'admin', '管理员', '127.0.0.1', NULL, '/osdata-server/wdi/wdiData/importExcel', 'jakarta.servlet.ServletException: Handler dispatch failed: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlException\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:978)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\nCaused by: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlException\r\n	at org.apache.poi.xssf.usermodel.XSSFWorkbookFactory.createWorkbook(XSSFWorkbookFactory.java:97)\r\n	at org.apache.poi.xssf.usermodel.XSSFWorkbookFactory.createWorkbook(XSSFWorkbookFactory.java:147)\r\n	at org.apache.poi.ss.usermodel.WorkbookFactory.create(WorkbookFactory.java:256)\r\n	at org.apache.poi.ss.usermodel.WorkbookFactory.create(WorkbookFactory.java:221)\r\n	at org.jeecg.modules.wdi.service.impl.WdiDataServiceImpl.importExcel(WdiDataServiceImpl.java:64)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:133)\r\n	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:371)\r\n	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:130)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.wdi.service.impl.WdiDataServiceImpl$$SpringCGLIB$$0.importExcel(<generated>)\r\n	at org.jeecg.modules.wdi.controller.WdiDataController.importExcel(WdiDataController.java:178)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor$1.proceed(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:89)\r\n	at org.apache.shiro.authz.aop.AuthorizingMethodInterceptor.invoke(AuthorizingMethodInterceptor.java:39)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor.invoke(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:123)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.wdi.controller.WdiDataController$$SpringCGLIB$$0.importExcel(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	... 67 more\r\nCaused by: java.lang.ClassNotFoundException: org.apache.xmlbeans.XmlException\r\n	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)\r\n	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)\r\n	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525)\r\n	... 122 more\r\n', NULL, NULL, NULL, '2026-10-12 19:08:03', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2109602673445380097', 4, 'jakarta.servlet.ServletException:Handler dispatch failed: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject', NULL, 'admin', '管理员', '127.0.0.1', NULL, '/osdata-server/wdi/wdiData/importExcel', 'jakarta.servlet.ServletException: Handler dispatch failed: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:978)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\nCaused by: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject\r\n	at org.apache.poi.xssf.usermodel.XSSFWorkbookFactory.createWorkbook(XSSFWorkbookFactory.java:97)\r\n	at org.apache.poi.xssf.usermodel.XSSFWorkbookFactory.createWorkbook(XSSFWorkbookFactory.java:147)\r\n	at org.apache.poi.ss.usermodel.WorkbookFactory.create(WorkbookFactory.java:256)\r\n	at org.apache.poi.ss.usermodel.WorkbookFactory.create(WorkbookFactory.java:221)\r\n	at org.jeecg.modules.wdi.service.impl.WdiDataServiceImpl.importExcel(WdiDataServiceImpl.java:64)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:133)\r\n	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:371)\r\n	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:130)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.wdi.service.impl.WdiDataServiceImpl$$SpringCGLIB$$0.importExcel(<generated>)\r\n	at org.jeecg.modules.wdi.controller.WdiDataController.importExcel(WdiDataController.java:178)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor$1.proceed(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:89)\r\n	at org.apache.shiro.authz.aop.AuthorizingMethodInterceptor.invoke(AuthorizingMethodInterceptor.java:39)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor.invoke(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:123)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.wdi.controller.WdiDataController$$SpringCGLIB$$0.importExcel(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	... 67 more\r\nCaused by: java.lang.ClassNotFoundException: org.apache.xmlbeans.XmlObject\r\n	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)\r\n	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)\r\n	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525)\r\n	... 122 more\r\n', NULL, NULL, NULL, '2026-10-12 19:10:47', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2109605382030401538', 4, 'jakarta.servlet.ServletException:Handler dispatch failed: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject', NULL, 'admin', '管理员', '127.0.0.1', NULL, '/osdata-server/wdi/wdiData/importExcel', 'jakarta.servlet.ServletException: Handler dispatch failed: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:978)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\nCaused by: java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject\r\n	at org.apache.poi.xssf.usermodel.XSSFWorkbookFactory.createWorkbook(XSSFWorkbookFactory.java:97)\r\n	at org.apache.poi.xssf.usermodel.XSSFWorkbookFactory.createWorkbook(XSSFWorkbookFactory.java:147)\r\n	at org.apache.poi.ss.usermodel.WorkbookFactory.create(WorkbookFactory.java:256)\r\n	at org.apache.poi.ss.usermodel.WorkbookFactory.create(WorkbookFactory.java:221)\r\n	at org.jeecg.modules.wdi.service.impl.WdiDataServiceImpl.importExcel(WdiDataServiceImpl.java:64)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:133)\r\n	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:371)\r\n	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:130)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.wdi.service.impl.WdiDataServiceImpl$$SpringCGLIB$$0.importExcel(<generated>)\r\n	at org.jeecg.modules.wdi.controller.WdiDataController.importExcel(WdiDataController.java:178)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor$1.proceed(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:89)\r\n	at org.apache.shiro.authz.aop.AuthorizingMethodInterceptor.invoke(AuthorizingMethodInterceptor.java:39)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor.invoke(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:123)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.wdi.controller.WdiDataController$$SpringCGLIB$$0.importExcel(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	... 67 more\r\nCaused by: java.lang.ClassNotFoundException: org.apache.xmlbeans.XmlObject\r\n	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)\r\n	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)\r\n	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525)\r\n	... 122 more\r\n', NULL, NULL, NULL, '2026-10-12 19:21:32', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2110310136626077698', 4, 'org.jeecg.common.exception.JeecgBootException:Excel解析失败: org.jeecg.modules.wdi.mapper.WdiDataMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: Data truncation: Out of range value for column \'value\' at row 982\n; Data truncation: Out of range value for column \'value\' at row 982', NULL, 'admin', '管理员', '127.0.0.1', NULL, '/osdata-server/wdi/wdiData/importExcel', 'org.jeecg.common.exception.JeecgBootException: Excel解析失败: org.jeecg.modules.wdi.mapper.WdiDataMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: Data truncation: Out of range value for column \'value\' at row 982\n; Data truncation: Out of range value for column \'value\' at row 982\r\n	at org.jeecg.modules.wdi.service.impl.WdiDataServiceImpl.importExcel(WdiDataServiceImpl.java:142)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715)\r\n	at org.jeecg.modules.wdi.service.impl.WdiDataServiceImpl$$SpringCGLIB$$0.importExcel(<generated>)\r\n	at org.jeecg.modules.wdi.controller.WdiDataController.importExcel(WdiDataController.java:178)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor$1.proceed(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:89)\r\n	at org.apache.shiro.authz.aop.AuthorizingMethodInterceptor.invoke(AuthorizingMethodInterceptor.java:39)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor.invoke(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:123)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.wdi.controller.WdiDataController$$SpringCGLIB$$0.importExcel(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\n', NULL, NULL, NULL, '2026-10-14 18:01:59', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2110318610805088258', 4, 'org.jeecg.common.exception.JeecgBootException:Excel解析失败: org.jeecg.modules.wdi.mapper.WdiDataMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: Data truncation: Out of range value for column \'value\' at row 984\n; Data truncation: Out of range value for column \'value\' at row 984', NULL, 'admin', '管理员', '127.0.0.1', NULL, '/osdata-server/wdi/wdiData/importExcel', 'org.jeecg.common.exception.JeecgBootException: Excel解析失败: org.jeecg.modules.wdi.mapper.WdiDataMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: Data truncation: Out of range value for column \'value\' at row 984\n; Data truncation: Out of range value for column \'value\' at row 984\r\n	at org.jeecg.modules.wdi.service.impl.WdiDataServiceImpl.importExcel(WdiDataServiceImpl.java:136)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715)\r\n	at org.jeecg.modules.wdi.service.impl.WdiDataServiceImpl$$SpringCGLIB$$0.importExcel(<generated>)\r\n	at org.jeecg.modules.wdi.controller.WdiDataController.importExcel(WdiDataController.java:178)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor$1.proceed(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:89)\r\n	at org.apache.shiro.authz.aop.AuthorizingMethodInterceptor.invoke(AuthorizingMethodInterceptor.java:39)\r\n	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor.invoke(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:123)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.wdi.controller.WdiDataController$$SpringCGLIB$$0.importExcel(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\n', NULL, NULL, NULL, '2026-10-14 18:35:39', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2110338284565487617', 4, 'org.springframework.web.multipart.MultipartException:Failed to parse multipart servlet request', NULL, 'admin', '管理员', '127.0.0.1', NULL, '/osdata-server/wdi/wdiData/importExcel', 'org.springframework.web.multipart.MultipartException: Failed to parse multipart servlet request\r\n	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.handleParseFailure(StandardMultipartHttpServletRequest.java:134)\r\n	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.parseRequest(StandardMultipartHttpServletRequest.java:112)\r\n	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.<init>(StandardMultipartHttpServletRequest.java:88)\r\n	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.<init>(StandardMultipartHttpServletRequest.java:72)\r\n	at org.springframework.web.multipart.support.MultipartResolutionDelegate.resolveMultipartArgument(MultipartResolutionDelegate.java:105)\r\n	at org.springframework.web.method.annotation.RequestParamMethodArgumentResolver.resolveName(RequestParamMethodArgumentResolver.java:165)\r\n	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:117)\r\n	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:122)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:224)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:174)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\nCaused by: org.apache.tomcat.util.http.fileupload.impl.IOFileUploadException: Processing of multipart/form-data request failed. java.io.EOFException\r\n	at org.apache.tomcat.util.http.fileupload.FileUploadBase.parseRequest(FileUploadBase.java:472)\r\n	at org.apache.catalina.connector.Request.parseParts(Request.java:2576)\r\n	at org.apache.catalina.connector.Request.getParts(Request.java:2439)\r\n	at org.apache.catalina.connector.RequestFacade.getParts(RequestFacade.java:540)\r\n	at jakarta.servlet.http.HttpServletRequestWrapper.getParts(HttpServletRequestWrapper.java:315)\r\n	at jakarta.servlet.http.HttpServletRequestWrapper.getParts(HttpServletRequestWrapper.java:315)\r\n	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.parseRequest(StandardMultipartHttpServletRequest.java:95)\r\n	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.<init>(StandardMultipartHttpServletRequest.java:88)\r\n	at org.springframework.web.multipart.support.StandardServletMultipartResolver.resolveMultipart(StandardServletMultipartResolver.java:112)\r\n	at org.springframework.web.servlet.DispatcherServlet.checkMultipart(DispatcherServlet.java:1102)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:947)\r\n	... 67 more\r\nCaused by: org.apache.catalina.connector.ClientAbortException: java.io.EOFException\r\n	at org.apache.catalina.connector.InputBuffer.realReadBytes(InputBuffer.java:303)\r\n	at org.apache.catalina.connector.InputBuffer.checkByteBufferEof(InputBuffer.java:590)\r\n	at org.apache.catalina.connector.InputBuffer.read(InputBuffer.java:348)\r\n	at org.apache.catalina.connector.CoyoteInputStream.read(CoyoteInputStream.java:81)\r\n	at java.base/java.io.FilterInputStream.read(FilterInputStream.java:132)\r\n	at org.apache.tomcat.util.http.fileupload.util.LimitedInputStream.read(LimitedInputStream.java:157)\r\n	at org.apache.tomcat.util.http.fileupload.MultipartStream$ItemInputStream.makeAvailable(MultipartStream.java:263)\r\n	at org.apache.tomcat.util.http.fileupload.MultipartStream$ItemInputStream.read(MultipartStream.java:328)\r\n	at java.base/java.io.FilterInputStream.read(FilterInputStream.java:132)\r\n	at org.apache.tomcat.util.http.fileupload.util.LimitedInputStream.read(LimitedInputStream.java:157)\r\n	at java.base/java.io.FilterInputStream.read(FilterInputStream.java:106)\r\n	at org.apache.tomcat.util.http.fileupload.util.Streams.copy(Streams.java:119)\r\n	at org.apache.tomcat.util.http.fileupload.FileUploadBase.parseRequest(FileUploadBase.java:468)\r\n	... 77 more\r\n	Suppressed: org.apache.catalina.connector.ClientAbortException: java.io.EOFException\r\n		at org.apache.catalina.connector.InputBuffer.realReadBytes(InputBuffer.java:303)\r\n		at org.apache.catalina.connector.InputBuffer.checkByteBufferEof(InputBuffer.java:590)\r\n		at org.apache.catalina.connector.InputBuffer.read(InputBuffer.java:348)\r\n		at org.apache.catalina.connector.CoyoteInputStream.read(CoyoteInputStream.java:81)\r\n		at java.base/java.io.FilterInputStream.read(FilterInputStream.java:132)\r\n		at org.apache.tomcat.util.http.fileupload.util.LimitedInputStream.read(LimitedInputStream.java:157)\r\n		at org.apache.tomcat.util.http.fileupload.MultipartStream$ItemInputStream.makeAvailable(MultipartStream.java:263)\r\n		at org.apache.tomcat.util.http.fileupload.MultipartStream$ItemInputStream.close(MultipartStream.java:196)\r\n		at org.apache.tomcat.util.http.fileupload.MultipartStream$ItemInputStream.close(MultipartStream.java:176)\r\n		at java.base/java.io.FilterInputStream.close(FilterInputStream.java:179)\r\n		at org.apache.tomcat.util.http.fileupload.util.LimitedInputStream.close(LimitedInputStream.java:80)\r\n		at org.apache.tomcat.util.http.fileupload.util.Streams.copy(Streams.java:115)\r\n		... 78 more\r\n	Caused by: java.io.EOFException\r\n		at org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper.fillReadBuffer(NioEndpoint.java:1313)\r\n		at org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper.read(NioEndpoint.java:1223)\r\n		at org.apache.coyote.http11.Http11InputBuffer.fill(Http11InputBuffer.java:776)\r\n		at org.apache.coyote.http11.Http11InputBuffer$SocketInputBuffer.doRead(Http11InputBuffer.java:829)\r\n		at org.apache.coyote.http11.filters.IdentityInputFilter.doRead(IdentityInputFilter.java:94)\r\n		at org.apache.coyote.http11.Http11InputBuffer.doRead(Http11InputBuffer.java:229)\r\n		at org.apache.coyote.Request.doRead(Request.java:685)\r\n		at org.apache.catalina.connector.InputBuffer.realReadBytes(InputBuffer.java:294)\r\n		... 89 more\r\nCaused by: java.io.EOFException\r\n	at org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper.fillReadBuffer(NioEndpoint.java:1313)\r\n	at org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper.read(NioEndpoint.java:1223)\r\n	at org.apache.coyote.http11.Http11InputBuffer.fill(Http11InputBuffer.java:776)\r\n	at org.apache.coyote.http11.Http11InputBuffer$SocketInputBuffer.doRead(Http11InputBuffer.java:829)\r\n	at org.apache.coyote.http11.filters.IdentityInputFilter.doRead(IdentityInputFilter.java:94)\r\n	at org.apache.coyote.http11.Http11InputBuffer.doRead(Http11InputBuffer.java:229)\r\n	at org.apache.coyote.Request.doRead(Request.java:685)\r\n	at org.apache.catalina.connector.InputBuffer.realReadBytes(InputBuffer.java:294)\r\n	... 89 more\r\n', NULL, NULL, NULL, '2026-10-14 19:53:50', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2110995164550905858', 4, 'org.jeecg.common.exception.JeecgBootException:选中国家过多(最多10个), 请减少国家数量或使用数据导出功能', NULL, NULL, NULL, '127.0.0.1', NULL, '/osdata-server/webapi/wdi/data/query', 'org.jeecg.common.exception.JeecgBootException: 选中国家过多(最多10个), 请减少国家数量或使用数据导出功能\r\n	at org.jeecg.modules.api.service.impl.WdiServiceImpl.validateAndNormalize(WdiServiceImpl.java:821)\r\n	at org.jeecg.modules.api.service.impl.WdiServiceImpl.queryPanelData(WdiServiceImpl.java:674)\r\n	at org.jeecg.modules.api.controller.WdiApiController.query(WdiApiController.java:177)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.api.controller.WdiApiController$$SpringCGLIB$$0.query(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\n', NULL, NULL, NULL, '2026-10-16 15:24:02', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2111006150649368577', 4, 'java.lang.NullPointerException:Cannot invoke \"java.util.Map.get(Object)\" because \"row\" is null', NULL, NULL, NULL, '127.0.0.1', NULL, '/osdata-server/webapi/wdi/series/1000038', 'java.lang.NullPointerException: Cannot invoke \"java.util.Map.get(Object)\" because \"row\" is null\r\n	at org.jeecg.modules.api.service.impl.WdiServiceImpl.getSeriesDetail(WdiServiceImpl.java:274)\r\n	at org.jeecg.modules.api.controller.WdiApiController.seriesDetail(WdiApiController.java:88)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at jdk.internal.reflect.GeneratedMethodAccessor77.invoke(Unknown Source)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.api.controller.WdiApiController$$SpringCGLIB$$0.seriesDetail(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\n', NULL, NULL, NULL, '2026-10-16 16:07:42', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2111006339518877698', 4, 'java.lang.NullPointerException:Cannot invoke \"java.util.Map.get(Object)\" because \"row\" is null', NULL, NULL, NULL, '127.0.0.1', NULL, '/osdata-server/webapi/wdi/series/1000592', 'java.lang.NullPointerException: Cannot invoke \"java.util.Map.get(Object)\" because \"row\" is null\r\n	at org.jeecg.modules.api.service.impl.WdiServiceImpl.getSeriesDetail(WdiServiceImpl.java:274)\r\n	at org.jeecg.modules.api.controller.WdiApiController.seriesDetail(WdiApiController.java:88)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at jdk.internal.reflect.GeneratedMethodAccessor77.invoke(Unknown Source)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.api.controller.WdiApiController$$SpringCGLIB$$0.seriesDetail(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\n', NULL, NULL, NULL, '2026-10-16 16:08:27', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2111006402580238337', 4, 'java.lang.NullPointerException:Cannot invoke \"java.util.Map.get(Object)\" because \"row\" is null', NULL, NULL, NULL, '127.0.0.1', NULL, '/osdata-server/webapi/wdi/series/1000583', 'java.lang.NullPointerException: Cannot invoke \"java.util.Map.get(Object)\" because \"row\" is null\r\n	at org.jeecg.modules.api.service.impl.WdiServiceImpl.getSeriesDetail(WdiServiceImpl.java:274)\r\n	at org.jeecg.modules.api.controller.WdiApiController.seriesDetail(WdiApiController.java:88)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at jdk.internal.reflect.GeneratedMethodAccessor77.invoke(Unknown Source)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.api.controller.WdiApiController$$SpringCGLIB$$0.seriesDetail(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\n', NULL, NULL, NULL, '2026-10-16 16:08:42', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2111013594129682434', 4, 'java.lang.NullPointerException:Cannot invoke \"java.util.Map.get(Object)\" because \"row\" is null', NULL, NULL, NULL, '127.0.0.1', NULL, '/osdata-server/webapi/wdi/series/1000038', 'java.lang.NullPointerException: Cannot invoke \"java.util.Map.get(Object)\" because \"row\" is null\r\n	at org.jeecg.modules.api.service.impl.WdiServiceImpl.getSeriesDetail(WdiServiceImpl.java:274)\r\n	at org.jeecg.modules.api.controller.WdiApiController.seriesDetail(WdiApiController.java:88)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at jdk.internal.reflect.GeneratedMethodAccessor77.invoke(Unknown Source)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.api.controller.WdiApiController$$SpringCGLIB$$0.seriesDetail(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\n', NULL, NULL, NULL, '2026-10-16 16:37:16', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2111013637024829442', 4, 'java.lang.NullPointerException:Cannot invoke \"java.util.Map.get(Object)\" because \"row\" is null', NULL, NULL, NULL, '127.0.0.1', NULL, '/osdata-server/webapi/wdi/series/1000038', 'java.lang.NullPointerException: Cannot invoke \"java.util.Map.get(Object)\" because \"row\" is null\r\n	at org.jeecg.modules.api.service.impl.WdiServiceImpl.getSeriesDetail(WdiServiceImpl.java:274)\r\n	at org.jeecg.modules.api.controller.WdiApiController.seriesDetail(WdiApiController.java:88)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at jdk.internal.reflect.GeneratedMethodAccessor77.invoke(Unknown Source)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.api.controller.WdiApiController$$SpringCGLIB$$0.seriesDetail(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\n', NULL, NULL, NULL, '2026-10-16 16:37:26', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2111013857255149569', 4, 'java.lang.NullPointerException:Cannot invoke \"java.util.Map.get(Object)\" because \"row\" is null', NULL, NULL, NULL, '127.0.0.1', NULL, '/osdata-server/webapi/wdi/series/1001303', 'java.lang.NullPointerException: Cannot invoke \"java.util.Map.get(Object)\" because \"row\" is null\r\n	at org.jeecg.modules.api.service.impl.WdiServiceImpl.getSeriesDetail(WdiServiceImpl.java:274)\r\n	at org.jeecg.modules.api.controller.WdiApiController.seriesDetail(WdiApiController.java:88)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at jdk.internal.reflect.GeneratedMethodAccessor77.invoke(Unknown Source)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.api.controller.WdiApiController$$SpringCGLIB$$0.seriesDetail(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\n', NULL, NULL, NULL, '2026-10-16 16:38:19', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2111015910509563906', 4, 'java.lang.NullPointerException:Cannot invoke \"java.util.Map.get(Object)\" because \"row\" is null', NULL, NULL, NULL, '127.0.0.1', NULL, '/osdata-server/webapi/wdi/series/1000038', 'java.lang.NullPointerException: Cannot invoke \"java.util.Map.get(Object)\" because \"row\" is null\r\n	at org.jeecg.modules.api.service.impl.WdiServiceImpl.getSeriesDetail(WdiServiceImpl.java:274)\r\n	at org.jeecg.modules.api.controller.WdiApiController.seriesDetail(WdiApiController.java:88)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)\r\n	at org.jeecg.common.aspect.DictAspect.doAround(DictAspect.java:63)\r\n	at jdk.internal.reflect.GeneratedMethodAccessor77.invoke(Unknown Source)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)\r\n	at org.jeecg.modules.api.controller.WdiApiController$$SpringCGLIB$$0.seriesDetail(<generated>)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.base/java.lang.reflect.Method.invoke(Method.java:568)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)\r\n	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)\r\n	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at com.alibaba.druid.support.jakarta.WebStatFilter.doFilter(WebStatFilter.java:113)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.jeecg.config.filter.SvgSecurityFilter.doFilterInternal(SvgSecurityFilter.java:41)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.boot.servlet.actuate.web.exchanges.HttpExchangesFilter.doFilterInternal(HttpExchangesFilter.java:89)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:65)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:109)\r\n	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:138)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:70)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:463)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.lambda$doFilterInternal$0(AbstractShiroFilter.java:377)\r\n	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:102)\r\n	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:95)\r\n	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:388)\r\n	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:375)\r\n	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:156)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)\r\n	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)\r\n	at java.base/java.lang.Thread.run(Thread.java:842)\r\n', NULL, NULL, NULL, '2026-10-16 16:46:29', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2112455034454458370', 1, '用户名: admin,登录成功！', NULL, 'admin', '管理员', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, '2026-10-20 16:05:02', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2112464237147480065', 2, '修改角色ID: f6817f48af4fb3af11b9e8bf182f618b 的权限配置，操作人： admin', 2, 'admin', '管理员', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, '2026-10-20 16:41:36', NULL, NULL, NULL, 'pc');
+INSERT INTO `sys_log` VALUES ('2112473315080982530', 2, '世界经济组织数据表数据导入', 5, 'admin', '管理员', '127.0.0.1', 'org.jeecg.modules.weo.controller.WeoDataController.importExcel()', NULL, '[null]', NULL, 752, NULL, '2026-10-20 17:17:41', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_log` VALUES ('2112474713377996801', 2, '世界经济组织数据表数据导入', 5, 'admin', '管理员', '127.0.0.1', 'org.jeecg.modules.weo.controller.WeoDataController.importExcel()', NULL, '[null]', NULL, 41021, NULL, '2026-10-20 17:23:14', NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_permission
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_permission`;
 CREATE TABLE `sys_permission`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
-  `parent_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父id',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单标题',
-  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '路径',
-  `component` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组件',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键id',
+  `parent_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '父id',
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '菜单标题',
+  `url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '路径',
+  `component` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '组件',
   `is_route` tinyint(1) NULL DEFAULT 1 COMMENT '是否路由菜单: 0:不是  1:是（默认值1）',
-  `component_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组件名字',
-  `redirect` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '一级菜单跳转地址',
-  `menu_type` int(11) NULL DEFAULT NULL COMMENT '菜单类型(0:一级菜单; 1:子菜单:2:按钮权限)',
-  `perms` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单权限编码',
-  `perms_type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '权限策略1显示2禁用',
+  `component_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '组件名字',
+  `redirect` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '一级菜单跳转地址',
+  `menu_type` int NULL DEFAULT NULL COMMENT '菜单类型(0:一级菜单; 1:子菜单:2:按钮权限)',
+  `perms` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '菜单权限编码',
+  `perms_type` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '权限策略1显示2禁用',
   `sort_no` double(8, 2) NULL DEFAULT NULL COMMENT '菜单排序',
   `always_show` tinyint(1) NULL DEFAULT NULL COMMENT '聚合子路由: 1是0否',
-  `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单图标',
+  `icon` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '菜单图标',
   `is_leaf` tinyint(1) NULL DEFAULT NULL COMMENT '是否叶子节点:    1是0否',
   `keep_alive` tinyint(1) NULL DEFAULT NULL COMMENT '是否缓存该页面:    1:是   0:不是',
-  `hidden` tinyint(4) NULL DEFAULT 0 COMMENT '是否隐藏路由: 0否,1是',
-  `hide_tab` tinyint(4) NULL DEFAULT NULL COMMENT '是否隐藏tab: 0否,1是',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `create_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `hidden` tinyint NULL DEFAULT 0 COMMENT '是否隐藏路由: 0否,1是',
+  `hide_tab` tinyint NULL DEFAULT NULL COMMENT '是否隐藏tab: 0否,1是',
+  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `create_by` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `del_flag` int(11) NULL DEFAULT 0 COMMENT '删除状态 0正常 1已删除',
-  `rule_flag` int(3) NULL DEFAULT 0 COMMENT '是否添加数据权限1是0否',
-  `status` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '按钮权限状态(0无效1有效)',
+  `del_flag` int NULL DEFAULT 0 COMMENT '删除状态 0正常 1已删除',
+  `rule_flag` int NULL DEFAULT 0 COMMENT '是否添加数据权限1是0否',
+  `status` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '按钮权限状态(0无效1有效)',
   `internal_or_external` tinyint(1) NULL DEFAULT NULL COMMENT '外链菜单打开方式 0/内部打开 1/外部打开',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_menu_type`(`menu_type`) USING BTREE,
-  INDEX `index_menu_hidden`(`hidden`) USING BTREE,
-  INDEX `index_menu_status`(`status`) USING BTREE,
-  INDEX `index_menu_del_flag`(`del_flag`) USING BTREE,
-  INDEX `index_menu_url`(`url`) USING BTREE,
-  INDEX `index_menu_sort_no`(`sort_no`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单权限表' ROW_FORMAT = DYNAMIC;
+  INDEX `index_menu_type`(`menu_type` ASC) USING BTREE,
+  INDEX `index_menu_hidden`(`hidden` ASC) USING BTREE,
+  INDEX `index_menu_status`(`status` ASC) USING BTREE,
+  INDEX `index_menu_del_flag`(`del_flag` ASC) USING BTREE,
+  INDEX `index_menu_url`(`url` ASC) USING BTREE,
+  INDEX `index_menu_sort_no`(`sort_no` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '菜单权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_permission
@@ -8454,6 +8066,58 @@ INSERT INTO `sys_permission` VALUES ('177217757493806', '177217757493801', '导�
 INSERT INTO `sys_permission` VALUES ('177217757493807', '177217757493801', '导入excel_用户组表', NULL, NULL, 0, NULL, NULL, 2, 'system:sys_ugroup:importExcel', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-02-27 15:32:54', NULL, NULL, 0, 0, '1', 0);
 INSERT INTO `sys_permission` VALUES ('1783334031927627777', '1438108198113501186', '原生总结栏', '/comp/table/tableSummary', 'demo/table/AntdTableSummary', 1, '', NULL, 1, NULL, '0', 1.00, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2024-04-25 11:15:40', NULL, NULL, 0, 0, NULL, 0);
 INSERT INTO `sys_permission` VALUES ('1790521000000000001', '1892553163993931777', '积木 ChatBI', '/jimu/chat2bi/index', '{{window._CONFIG[\'domianURL\']}}/jimu/chat2bi/index?token=${token}', 1, NULL, NULL, 0, NULL, '0', 1.00, 0, 'ant-design:robot-outlined', 1, 0, 0, 0, '积木 ChatBI 问答 / 语义建模 / AI数据表', 'admin', '2026-08-10 11:35:54', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178353493401', '2109524603287949313', '国家/经济体信息', '/wdi/wdiCountryList', 'wdi/WdiCountryList', 1, NULL, NULL, 1, NULL, '1', 0.00, 0, NULL, 0, 0, 0, 0, NULL, 'admin', '2026-10-12 13:38:54', 'admin', '2026-10-12 17:49:42', 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178353493402', '179178353493401', '添加世行WDI国家/经济体信息表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_country:add', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:38:54', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178353493403', '179178353493401', '编辑世行WDI国家/经济体信息表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_country:edit', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:38:54', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178353493404', '179178353493401', '删除世行WDI国家/经济体信息表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_country:delete', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:38:54', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178353493405', '179178353493401', '批量删除世行WDI国家/经济体信息表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_country:deleteBatch', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:38:54', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178356936601', '2109524603287949313', '数据脚注', '/wdi/wdiFootnoteList', 'wdi/WdiFootnoteList', 1, NULL, NULL, 1, NULL, '1', 0.00, 0, NULL, 0, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:29', 'admin', '2026-10-12 17:48:30', 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178356936602', '179178356936601', '添加世行WDI数据脚注表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_footnote:add', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:29', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178356936603', '179178356936601', '编辑世行WDI数据脚注表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_footnote:edit', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:29', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178356936604', '179178356936601', '删除世行WDI数据脚注表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_footnote:delete', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:29', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178356936605', '179178356936601', '批量删除世行WDI数据脚注表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_footnote:deleteBatch', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:29', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178358132001', '2109524603287949313', '指标覆盖', '/wdi/wdiCountrySeriesList', 'wdi/WdiCountrySeriesList', 1, NULL, NULL, 1, NULL, '1', 0.00, 0, NULL, 0, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:41', 'admin', '2026-10-12 17:48:40', 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178358132002', '179178358132001', '添加世行WDI国家-指标覆盖表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_country_series:add', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:41', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178358132003', '179178358132001', '编辑世行WDI国家-指标覆盖表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_country_series:edit', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:41', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178358132004', '179178358132001', '删除世行WDI国家-指标覆盖表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_country_series:delete', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:41', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178358132005', '179178358132001', '批量删除世行WDI国家-指标覆盖表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_country_series:deleteBatch', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:41', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178359393601', '2109524603287949313', '面板数据', '/wdi/wdiDataList', 'wdi/WdiDataList', 1, NULL, NULL, 1, NULL, '1', 0.00, 0, NULL, 0, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:53', 'admin', '2026-10-12 17:49:06', 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178359393602', '179178359393601', '添加世行WDI面板数据长表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_data:add', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:53', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178359393603', '179178359393601', '编辑世行WDI面板数据长表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_data:edit', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:53', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178359393704', '179178359393601', '删除世行WDI面板数据长表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_data:delete', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:53', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178359393705', '179178359393601', '批量删除世行WDI面板数据长表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_data:deleteBatch', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:53', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178359393707', '179178359393601', '导入excel_世行WDI面板数据长表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_data:importExcel', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:39:53', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178360718301', '2109524603287949313', '指标年份覆盖', '/wdi/wdiSeriesTimeList', 'wdi/WdiSeriesTimeList', 1, NULL, NULL, 1, NULL, '1', 0.00, 0, NULL, 0, 0, 0, 0, NULL, 'admin', '2026-10-12 13:40:07', 'admin', '2026-10-12 17:48:51', 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178360718302', '179178360718301', '添加世行WDI指标年份覆盖表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_series_time:add', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:40:07', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178360718303', '179178360718301', '编辑世行WDI指标年份覆盖表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_series_time:edit', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:40:07', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178360718304', '179178360718301', '删除世行WDI指标年份覆盖表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_series_time:delete', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:40:07', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178360718305', '179178360718301', '批量删除世行WDI指标年份覆盖表', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_series_time:deleteBatch', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:40:07', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178361866101', '2109524603287949313', '指标元数据', '/wdi/wdiSeriesList', 'wdi/WdiSeriesList', 1, NULL, NULL, 1, NULL, '1', 0.00, 0, NULL, 0, 0, 0, 0, NULL, 'admin', '2026-10-12 13:40:18', 'admin', '2026-10-12 17:49:17', 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178361866102', '179178361866101', '添加世行WDI指标元数据表(含中文字段)', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_series:add', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:40:18', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178361866103', '179178361866101', '编辑世行WDI指标元数据表(含中文字段)', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_series:edit', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:40:18', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178361866104', '179178361866101', '删除世行WDI指标元数据表(含中文字段)', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_series:delete', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:40:18', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179178361866105', '179178361866101', '批量删除世行WDI指标元数据表(含中文字段)', NULL, NULL, 0, NULL, NULL, 2, 'wdi:t_wdi_series:deleteBatch', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-12 13:40:18', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248379069701', '2112455704926535682', '数据', '/weo/weoDataList', 'weo/WeoDataList', 1, NULL, NULL, 1, NULL, '1', 4.00, 0, NULL, 0, 0, 0, 0, NULL, 'admin', '2026-10-20 16:09:50', 'admin', '2026-10-20 17:22:12', 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248379069702', '179248379069701', '添加世界经济组织数据表', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_data:add', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:09:50', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248379069703', '179248379069701', '编辑世界经济组织数据表', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_data:edit', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:09:50', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248379069704', '179248379069701', '删除世界经济组织数据表', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_data:delete', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:09:50', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248379069705', '179248379069701', '批量删除世界经济组织数据表', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_data:deleteBatch', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:09:50', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248379069707', '179248379069701', '导入excel_世界经济组织数据表', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_data:importExcel', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:09:50', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248380624801', '2112455704926535682', '主题', '/weo/weoTopicList', 'weo/WeoTopicList', 1, NULL, NULL, 1, NULL, '1', 1.00, 0, NULL, 0, 0, 0, 0, NULL, 'admin', '2026-10-20 16:10:06', 'admin', '2026-10-20 17:21:31', 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248380624802', '179248380624801', '添加世界经济组织主题', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_topic:add', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:10:06', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248380624803', '179248380624801', '编辑世界经济组织主题', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_topic:edit', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:10:06', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248380624804', '179248380624801', '删除世界经济组织主题', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_topic:delete', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:10:06', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248380624805', '179248380624801', '批量删除世界经济组织主题', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_topic:deleteBatch', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:10:06', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248381929001', '2112455704926535682', '指标', '/weo/weoIndicatorList', 'weo/WeoIndicatorList', 1, NULL, NULL, 1, NULL, '1', 2.00, 0, NULL, 0, 0, 0, 0, NULL, 'admin', '2026-10-20 16:10:19', 'admin', '2026-10-20 17:21:49', 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248381929002', '179248381929001', '添加世界经济组织指标', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_indicator:add', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:10:19', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248381929003', '179248381929001', '编辑世界经济组织指标', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_indicator:edit', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:10:19', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248381929004', '179248381929001', '删除世界经济组织指标', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_indicator:delete', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:10:19', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248381929005', '179248381929001', '批量删除世界经济组织指标', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_indicator:deleteBatch', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:10:19', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248384026201', '2112455704926535682', '国家', '/weo/weoCountryList', 'weo/WeoCountryList', 1, NULL, NULL, 1, NULL, '1', 3.00, 0, NULL, 0, 0, 0, 0, NULL, 'admin', '2026-10-20 16:10:40', 'admin', '2026-10-20 17:21:56', 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248384026202', '179248384026201', '添加世界经济组织国家', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_country:add', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:10:40', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248384026203', '179248384026201', '编辑世界经济组织国家', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_country:edit', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:10:40', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248384026204', '179248384026201', '删除世界经济组织国家', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_country:delete', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:10:40', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('179248384026205', '179248384026201', '批量删除世界经济组织国家', NULL, NULL, 0, NULL, NULL, 2, 'weo:t_weo_country:deleteBatch', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-10-20 16:10:40', NULL, NULL, 0, 0, '1', 0);
 INSERT INTO `sys_permission` VALUES ('1800372628805861377', '1701575168519839746', '列表权限', NULL, NULL, 0, NULL, NULL, 2, 'system:tableWhite:list', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, '15931993294', '2024-06-11 11:40:59', NULL, NULL, 0, NULL, '1', 0);
 INSERT INTO `sys_permission` VALUES ('1800372727493640194', '1701575168519839746', '添加权限', NULL, NULL, 0, NULL, NULL, 2, 'system:tableWhite:add', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, '15931993294', '2024-06-11 11:41:22', NULL, NULL, 0, NULL, '1', 0);
 INSERT INTO `sys_permission` VALUES ('1800372811518132225', '1701575168519839746', '修改权限', NULL, NULL, 0, NULL, NULL, 2, 'system:tableWhite:edit', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, '15931993294', '2024-06-11 11:41:42', NULL, NULL, 0, NULL, '1', 0);
@@ -8471,7 +8135,7 @@ INSERT INTO `sys_permission` VALUES ('1866001513609637890', '', '数据可视化
 INSERT INTO `sys_permission` VALUES ('1876220177009315842', '1473927410093187073', '表单设计页面查询', NULL, NULL, 0, NULL, NULL, 2, 'drag:design:getTotalData', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2025-01-06 18:52:03', NULL, NULL, 0, 0, '1', 0);
 INSERT INTO `sys_permission` VALUES ('1887447660072292354', '1280350452934307841', '初始化套餐包', NULL, NULL, 0, NULL, NULL, 2, 'system:tenant:syncDefaultPack', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'jeecg', '2025-02-06 18:26:04', 'jeecg', '2025-02-06 18:26:53', 0, 0, '1', 0);
 INSERT INTO `sys_permission` VALUES ('1890213291321749505', '1892553163993931777', 'AI流程设计', '/process/list/airag', 'super/airag/aiflow/pages/ProcessList', 1, '', NULL, 1, NULL, '0', 2.00, 0, 'ant-design:box-plot-outlined', 0, 0, 0, 0, NULL, 'admin', '2025-02-14 09:35:41', 'admin', '2026-01-23 16:52:44', 0, 0, NULL, 0);
-INSERT INTO `sys_permission` VALUES ('1892553163993931777', '', 'AI应用平台', '/airag', 'layouts/default/index', 1, '', NULL, 0, NULL, '0', 2.00, 0, 'ant-design:box-plot-outlined', 0, 0, 0, 0, NULL, 'admin', '2025-02-20 20:33:31', 'admin', '2026-01-28 15:29:12', 0, 0, NULL, 0);
+INSERT INTO `sys_permission` VALUES ('1892553163993931777', '', 'AI应用平台', '/airag', 'layouts/default/index', 1, '', NULL, 0, NULL, '0', 2.10, 0, 'ant-design:box-plot-outlined', 0, 0, 0, 0, NULL, 'admin', '2025-02-20 20:33:31', 'admin', '2026-10-20 16:07:52', 0, 0, NULL, 0);
 INSERT INTO `sys_permission` VALUES ('1892553778493022209', '1892553163993931777', 'AI模型配置', '/super/airag/aimodel/AiModelList', 'super/airag/aimodel/AiModelList', 1, '', NULL, 1, NULL, '0', 4.00, 0, 'ant-design:setting-twotone', 0, 0, 0, 0, NULL, 'admin', '2025-02-20 20:35:57', 'admin', '2025-03-06 20:31:13', 0, 0, NULL, 0);
 INSERT INTO `sys_permission` VALUES ('1892557342028226561', '1892553163993931777', 'AI知识库', '/super/airag/aiknowledge/AiKnowledgeBaseList', 'super/airag/aiknowledge/AiKnowledgeBaseList', 1, '', NULL, 1, NULL, '0', 3.00, 0, 'ant-design:book-twotone', 0, 0, 0, 0, NULL, 'admin', '2025-02-20 20:50:07', 'admin', '2026-01-23 16:52:40', 0, 0, NULL, 0);
 INSERT INTO `sys_permission` VALUES ('1893865471550578689', '1892553163993931777', 'AI应用管理', '/super/airag/aiapp/AiAppList', 'super/airag/aiapp/AiAppList', 1, '', NULL, 1, NULL, '0', 1.00, 0, 'ant-design:appstore-twotone', 0, 0, 0, 0, NULL, 'admin', '2025-02-24 11:28:09', 'admin', '2025-03-06 20:30:58', 0, 0, NULL, 0);
@@ -8630,6 +8294,8 @@ INSERT INTO `sys_permission` VALUES ('2074322000000000001', '1458353686530232321
 INSERT INTO `sys_permission` VALUES ('2074322000000000002', '1458353686530232321', '编辑校验规则', NULL, NULL, 0, NULL, NULL, 2, 'system:checkRule:edit', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-05-06 11:00:00', NULL, NULL, 0, 0, '1', 0);
 INSERT INTO `sys_permission` VALUES ('2074322000000000003', '1458353686530232321', '删除校验规则', NULL, NULL, 0, NULL, NULL, 2, 'system:checkRule:delete', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-05-06 11:00:00', NULL, NULL, 0, 0, '1', 0);
 INSERT INTO `sys_permission` VALUES ('2074322000000000004', '1458353686530232321', '批量删除校验规则', NULL, NULL, 0, NULL, NULL, 2, 'system:checkRule:deleteBatch', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2026-05-06 11:00:00', NULL, NULL, 0, 0, '1', 0);
+INSERT INTO `sys_permission` VALUES ('2109524603287949313', '', 'wdi数据', '/wdi', 'layouts/default/index', 1, '', NULL, 0, NULL, '0', 1.00, 0, 'ant-design:bar-chart-outlined', 0, 0, 0, 0, NULL, 'admin', '2026-10-12 14:00:33', 'admin', '2026-10-12 14:00:55', 0, 0, NULL, 0);
+INSERT INTO `sys_permission` VALUES ('2112455704926535682', '', 'weo数据', '/weo', 'layouts/default/index', 1, '', NULL, 0, NULL, '0', 2.00, 0, 'ant-design:box-plot-outlined', 0, 0, 0, 0, NULL, 'admin', '2026-10-20 16:07:42', 'admin', '2026-10-20 16:42:00', 0, 0, NULL, 0);
 INSERT INTO `sys_permission` VALUES ('3f915b2769fc80648e92d04e84ca059d', 'd7d6e2e4e2934f2c9385a623fd98c6f3', '用户管理', '/system/user', 'system/user/index', 1, NULL, NULL, 1, NULL, NULL, 1.00, 0, 'ant-design:user', 0, 1, 0, NULL, NULL, NULL, '2018-12-25 20:34:38', 'sunjianlei', '2021-05-08 09:57:31', 0, 0, NULL, 0);
 INSERT INTO `sys_permission` VALUES ('45c966826eeff4c99b8f8ebfe74511fc', 'd7d6e2e4e2934f2c9385a623fd98c6f3', '部门管理', '/system/depart', 'system/depart/index', 1, NULL, NULL, 1, NULL, NULL, 3.00, 0, 'ant-design:team', 0, 0, 0, NULL, NULL, 'admin', '2019-01-29 18:47:40', 'admin', '2021-09-17 15:58:13', 0, 0, NULL, 0);
 INSERT INTO `sys_permission` VALUES ('5c2f42277948043026b7a14692456828', 'd7d6e2e4e2934f2c9385a623fd98c6f3', '我的部门', '/system/depart-user', 'system/departUser/index', 1, NULL, NULL, 1, NULL, NULL, 3.00, 0, 'ant-design:home-outlined', 0, 0, 0, 0, NULL, 'admin', '2019-04-17 15:12:24', 'admin', '2023-03-04 15:03:07', 0, 0, NULL, 0);
@@ -8643,20 +8309,20 @@ INSERT INTO `sys_permission` VALUES ('f15543b0263cf6c5fac85afdd3eba3f2', '3f915b
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_permission_data_rule`;
 CREATE TABLE `sys_permission_data_rule`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
-  `permission_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单ID',
-  `rule_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '规则名称',
-  `rule_column` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段',
-  `rule_conditions` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '条件',
-  `rule_value` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '规则值',
-  `status` varchar(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限有效状态1有0否',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'ID',
+  `permission_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '菜单ID',
+  `rule_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '规则名称',
+  `rule_column` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '字段',
+  `rule_conditions` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '条件',
+  `rule_value` varchar(300) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '规则值',
+  `status` varchar(3) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '权限有效状态1有0否',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_spdr_permission_id`(`permission_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_spdr_permission_id`(`permission_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_permission_data_rule
@@ -8692,20 +8358,20 @@ INSERT INTO `sys_permission_data_rule` VALUES ('f852d85d47f224990147f2284c0c0005
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_position`;
 CREATE TABLE `sys_position`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '职务编码',
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '职务级别名称',
-  `post_level` int(2) NULL DEFAULT NULL COMMENT '职务等级',
-  `company_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '公司id',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `code` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '职务编码',
+  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '职务级别名称',
+  `post_level` int NULL DEFAULT NULL COMMENT '职务等级',
+  `company_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '公司id',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `sys_org_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组织机构编码',
-  `tenant_id` int(10) NULL DEFAULT 0 COMMENT '租户ID',
+  `sys_org_code` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '组织机构编码',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '租户ID',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uniq_code`(`code`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '职务级别' ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `uniq_code`(`code` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '职务级别' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_position
@@ -8722,19 +8388,19 @@ INSERT INTO `sys_position` VALUES ('1958471111989067778', 'gu7Rbffh0L', '董事�
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_quartz_job`;
 CREATE TABLE `sys_quartz_job`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `del_flag` int(1) NULL DEFAULT NULL COMMENT '删除状态',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `del_flag` int NULL DEFAULT NULL COMMENT '删除状态',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `job_class_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '任务类名',
-  `cron_expression` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'cron表达式',
-  `parameter` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `status` int(1) NULL DEFAULT NULL COMMENT '状态 0正常 -1停止',
+  `job_class_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '任务类名',
+  `cron_expression` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'cron表达式',
+  `parameter` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '参数',
+  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `status` int NULL DEFAULT NULL COMMENT '状态 0正常 -1停止',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_quartz_job
@@ -8749,19 +8415,19 @@ INSERT INTO `sys_quartz_job` VALUES ('df26ecacf0f75d219d746750fe84bbee', NULL, '
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
-  `role_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色名称',
-  `role_code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色编码',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键id',
+  `role_name` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '角色名称',
+  `role_code` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '角色编码',
+  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `tenant_id` int(10) NULL DEFAULT 0 COMMENT '租户ID',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '租户ID',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uniq_sys_role_role_code`(`role_code`) USING BTREE,
-  INDEX `idx_sysrole_tenant_id`(`tenant_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `uniq_sys_role_role_code`(`role_code` ASC) USING BTREE,
+  INDEX `idx_sysrole_tenant_id`(`tenant_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role
@@ -8783,20 +8449,20 @@ CREATE TABLE `sys_role_index`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `role_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色编码',
   `url` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路由地址',
-  `component` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组件',
+  `component` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '组件',
   `is_route` tinyint(1) NULL DEFAULT 1 COMMENT '是否路由菜单: 0:不是  1:是（默认值1）',
-  `priority` int(11) NULL DEFAULT 0 COMMENT '优先级',
-  `status` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '状态0:无效 1:有效',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `priority` int NULL DEFAULT 0 COMMENT '优先级',
+  `status` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '状态0:无效 1:有效',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属部门',
+  `sys_org_code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '所属部门',
   `relation_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '关联关系(ROLE:角色 USER:用户)',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_sri_role_code`(`role_code`) USING BTREE,
-  INDEX `idx_sri_status`(`status`) USING BTREE,
-  INDEX `idx_sri_priority`(`priority`) USING BTREE
+  INDEX `idx_sri_role_code`(`role_code` ASC) USING BTREE,
+  INDEX `idx_sri_status`(`status` ASC) USING BTREE,
+  INDEX `idx_sri_priority`(`priority` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色首页表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -8809,17 +8475,17 @@ INSERT INTO `sys_role_index` VALUES ('1803082647166652418', 'DEF_INDEX_ALL', '/d
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_permission`;
 CREATE TABLE `sys_role_permission`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `role_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色id',
-  `permission_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限id',
-  `data_rule_ids` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据权限ids',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `role_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '角色id',
+  `permission_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '权限id',
+  `data_rule_ids` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '数据权限ids',
   `operate_date` datetime NULL DEFAULT NULL COMMENT '操作时间',
-  `operate_ip` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作ip',
+  `operate_ip` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '操作ip',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_srp_role_per_id`(`role_id`, `permission_id`) USING BTREE,
-  INDEX `idx_srp_role_id`(`role_id`) USING BTREE,
-  INDEX `idx_srp_permission_id`(`permission_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色权限表' ROW_FORMAT = DYNAMIC;
+  INDEX `idx_srp_role_per_id`(`role_id` ASC, `permission_id` ASC) USING BTREE,
+  INDEX `idx_srp_role_id`(`role_id` ASC) USING BTREE,
+  INDEX `idx_srp_permission_id`(`permission_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '角色权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_permission
@@ -9343,6 +9009,27 @@ INSERT INTO `sys_role_permission` VALUES ('1765276463387095042', '15015706198418
 INSERT INTO `sys_role_permission` VALUES ('1765276463395483650', '1501570619841810433', '1592114721138765826', NULL, '2024-03-06 15:21:21', '127.0.0.1');
 INSERT INTO `sys_role_permission` VALUES ('1765276566625693698', 'f6817f48af4fb3af11b9e8bf182f618b', '1750128461040648193', NULL, '2024-03-06 15:21:45', '127.0.0.1');
 INSERT INTO `sys_role_permission` VALUES ('1765276566634082305', 'f6817f48af4fb3af11b9e8bf182f618b', '1592114721138765826', NULL, '2024-03-06 15:21:45', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248379069708', 'f6817f48af4fb3af11b9e8bf182f618b', '179248379069701', NULL, '2026-10-20 16:09:50', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248379069709', 'f6817f48af4fb3af11b9e8bf182f618b', '179248379069702', NULL, '2026-10-20 16:09:50', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248379069710', 'f6817f48af4fb3af11b9e8bf182f618b', '179248379069703', NULL, '2026-10-20 16:09:50', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248379069711', 'f6817f48af4fb3af11b9e8bf182f618b', '179248379069704', NULL, '2026-10-20 16:09:50', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248379069712', 'f6817f48af4fb3af11b9e8bf182f618b', '179248379069705', NULL, '2026-10-20 16:09:50', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248379069714', 'f6817f48af4fb3af11b9e8bf182f618b', '179248379069707', NULL, '2026-10-20 16:09:50', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248380624808', 'f6817f48af4fb3af11b9e8bf182f618b', '179248380624801', NULL, '2026-10-20 16:10:06', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248380624809', 'f6817f48af4fb3af11b9e8bf182f618b', '179248380624802', NULL, '2026-10-20 16:10:06', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248380624810', 'f6817f48af4fb3af11b9e8bf182f618b', '179248380624803', NULL, '2026-10-20 16:10:06', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248380624811', 'f6817f48af4fb3af11b9e8bf182f618b', '179248380624804', NULL, '2026-10-20 16:10:06', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248380624812', 'f6817f48af4fb3af11b9e8bf182f618b', '179248380624805', NULL, '2026-10-20 16:10:06', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248381929108', 'f6817f48af4fb3af11b9e8bf182f618b', '179248381929001', NULL, '2026-10-20 16:10:19', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248381929109', 'f6817f48af4fb3af11b9e8bf182f618b', '179248381929002', NULL, '2026-10-20 16:10:19', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248381929110', 'f6817f48af4fb3af11b9e8bf182f618b', '179248381929003', NULL, '2026-10-20 16:10:19', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248381929111', 'f6817f48af4fb3af11b9e8bf182f618b', '179248381929004', NULL, '2026-10-20 16:10:19', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248381929112', 'f6817f48af4fb3af11b9e8bf182f618b', '179248381929005', NULL, '2026-10-20 16:10:19', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248384026208', 'f6817f48af4fb3af11b9e8bf182f618b', '179248384026201', NULL, '2026-10-20 16:10:40', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248384026209', 'f6817f48af4fb3af11b9e8bf182f618b', '179248384026202', NULL, '2026-10-20 16:10:40', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248384026210', 'f6817f48af4fb3af11b9e8bf182f618b', '179248384026203', NULL, '2026-10-20 16:10:40', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248384026211', 'f6817f48af4fb3af11b9e8bf182f618b', '179248384026204', NULL, '2026-10-20 16:10:40', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('179248384026212', 'f6817f48af4fb3af11b9e8bf182f618b', '179248384026205', NULL, '2026-10-20 16:10:40', '127.0.0.1');
 INSERT INTO `sys_role_permission` VALUES ('17ead5b7d97ed365398ab20009a69ea3', '52b0cf022ac4187b2a70dfa4f8b2d940', 'e08cb190ef230d5d4f03824198773950', NULL, NULL, NULL);
 INSERT INTO `sys_role_permission` VALUES ('1800736354410942465', 'f6817f48af4fb3af11b9e8bf182f618b', '1546736974756032513', NULL, '2024-06-12 11:46:18', '127.0.0.1');
 INSERT INTO `sys_role_permission` VALUES ('1800736354410942466', 'f6817f48af4fb3af11b9e8bf182f618b', '1746709108126285826', NULL, '2024-06-12 11:46:18', '127.0.0.1');
@@ -10047,6 +9734,46 @@ INSERT INTO `sys_role_permission` VALUES ('2090696117913165829', '15015706198418
 INSERT INTO `sys_role_permission` VALUES ('2090697094875619330', '1501570619841810433', '1999406402585542657', NULL, '2026-08-21 15:06:45', '0:0:0:0:0:0:0:1');
 INSERT INTO `sys_role_permission` VALUES ('2090697094875619331', '1501570619841810433', '1999406500300242946', NULL, '2026-08-21 15:06:45', '0:0:0:0:0:0:0:1');
 INSERT INTO `sys_role_permission` VALUES ('2091734096098222082', '1501570619841810433', '2056723764139307010', NULL, '2026-08-24 11:47:26', '0:0:0:0:0:0:0:1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334340124673', 'f6817f48af4fb3af11b9e8bf182f618b', '2109524603287949313', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334348513281', 'f6817f48af4fb3af11b9e8bf182f618b', '179178353493401', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334348513282', 'f6817f48af4fb3af11b9e8bf182f618b', '179178353493402', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334348513283', 'f6817f48af4fb3af11b9e8bf182f618b', '179178353493403', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334348513284', 'f6817f48af4fb3af11b9e8bf182f618b', '179178353493404', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334348513285', 'f6817f48af4fb3af11b9e8bf182f618b', '179178353493405', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334348513288', 'f6817f48af4fb3af11b9e8bf182f618b', '179178356936601', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334348513289', 'f6817f48af4fb3af11b9e8bf182f618b', '179178356936602', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334348513290', 'f6817f48af4fb3af11b9e8bf182f618b', '179178356936603', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334348513291', 'f6817f48af4fb3af11b9e8bf182f618b', '179178356936604', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334348513292', 'f6817f48af4fb3af11b9e8bf182f618b', '179178356936605', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901891', 'f6817f48af4fb3af11b9e8bf182f618b', '179178358132001', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901892', 'f6817f48af4fb3af11b9e8bf182f618b', '179178358132002', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901893', 'f6817f48af4fb3af11b9e8bf182f618b', '179178358132003', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901894', 'f6817f48af4fb3af11b9e8bf182f618b', '179178358132004', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901895', 'f6817f48af4fb3af11b9e8bf182f618b', '179178358132005', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901896', 'f6817f48af4fb3af11b9e8bf182f618b', '179178358132006', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901897', 'f6817f48af4fb3af11b9e8bf182f618b', '179178358132007', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901898', 'f6817f48af4fb3af11b9e8bf182f618b', '179178359393601', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901899', 'f6817f48af4fb3af11b9e8bf182f618b', '179178359393602', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901900', 'f6817f48af4fb3af11b9e8bf182f618b', '179178359393603', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901901', 'f6817f48af4fb3af11b9e8bf182f618b', '179178359393704', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901902', 'f6817f48af4fb3af11b9e8bf182f618b', '179178359393705', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901903', 'f6817f48af4fb3af11b9e8bf182f618b', '179178359393706', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901904', 'f6817f48af4fb3af11b9e8bf182f618b', '179178359393707', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901905', 'f6817f48af4fb3af11b9e8bf182f618b', '179178360718301', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901906', 'f6817f48af4fb3af11b9e8bf182f618b', '179178360718302', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901907', 'f6817f48af4fb3af11b9e8bf182f618b', '179178360718303', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901908', 'f6817f48af4fb3af11b9e8bf182f618b', '179178360718304', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901909', 'f6817f48af4fb3af11b9e8bf182f618b', '179178360718305', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334356901910', 'f6817f48af4fb3af11b9e8bf182f618b', '179178360718306', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334365290498', 'f6817f48af4fb3af11b9e8bf182f618b', '179178360718307', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334365290499', 'f6817f48af4fb3af11b9e8bf182f618b', '179178361866101', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334365290500', 'f6817f48af4fb3af11b9e8bf182f618b', '179178361866102', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334369484801', 'f6817f48af4fb3af11b9e8bf182f618b', '179178361866103', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334369484802', 'f6817f48af4fb3af11b9e8bf182f618b', '179178361866104', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334369484803', 'f6817f48af4fb3af11b9e8bf182f618b', '179178361866105', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334373679106', 'f6817f48af4fb3af11b9e8bf182f618b', '179178361866106', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2109526334373679107', 'f6817f48af4fb3af11b9e8bf182f618b', '179178361866107', NULL, '2026-10-12 14:07:26', '127.0.0.1');
+INSERT INTO `sys_role_permission` VALUES ('2112464237046816769', 'f6817f48af4fb3af11b9e8bf182f618b', '2112455704926535682', NULL, '2026-10-20 16:41:36', '127.0.0.1');
 INSERT INTO `sys_role_permission` VALUES ('248d288586c6ff3bd14381565df84163', '52b0cf022ac4187b2a70dfa4f8b2d940', '3f915b2769fc80648e92d04e84ca059d', NULL, NULL, NULL);
 INSERT INTO `sys_role_permission` VALUES ('25f5443f19c34d99718a016d5f54112e', 'ee8626f80f7c2619917b6236f3a7f02b', '6e73eb3c26099c191bf03852ee1310a1', NULL, NULL, NULL);
 INSERT INTO `sys_role_permission` VALUES ('27489816708b18859768dfed5945c405', 'a799c3b1b12dd3ed4bd046bfaef5fe6e', '9502685863ab87f0ad1134142788a385', NULL, NULL, NULL);
@@ -10257,27 +9984,27 @@ INSERT INTO `sys_role_permission` VALUES ('fed41a4671285efb266cd404f24dd378', '5
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_sms`;
 CREATE TABLE `sys_sms`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
-  `es_title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '消息标题',
-  `es_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '发送方式：参考枚举MessageTypeEnum',
-  `es_receiver` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '接收人',
-  `es_param` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '发送所需参数Json格式',
-  `es_content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '推送内容',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'ID',
+  `es_title` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '消息标题',
+  `es_type` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '发送方式：参考枚举MessageTypeEnum',
+  `es_receiver` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '接收人',
+  `es_param` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '发送所需参数Json格式',
+  `es_content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '推送内容',
   `es_send_time` datetime NULL DEFAULT NULL COMMENT '推送时间',
-  `es_send_status` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '推送状态 0未推送 1推送成功 2推送失败 -1失败不再发送',
-  `es_send_num` int(11) NULL DEFAULT NULL COMMENT '发送次数 超过5次不再发送',
-  `es_result` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '推送失败原因',
-  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `es_send_status` varchar(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '推送状态 0未推送 1推送成功 2推送失败 -1失败不再发送',
+  `es_send_num` int NULL DEFAULT NULL COMMENT '发送次数 超过5次不再发送',
+  `es_result` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '推送失败原因',
+  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_ss_es_type`(`es_type`) USING BTREE,
-  INDEX `idx_ss_es_receiver`(`es_receiver`) USING BTREE,
-  INDEX `idx_ss_es_send_time`(`es_send_time`) USING BTREE,
-  INDEX `idx_ss_es_send_status`(`es_send_status`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  INDEX `idx_ss_es_type`(`es_type` ASC) USING BTREE,
+  INDEX `idx_ss_es_receiver`(`es_receiver` ASC) USING BTREE,
+  INDEX `idx_ss_es_send_time`(`es_send_time` ASC) USING BTREE,
+  INDEX `idx_ss_es_send_status`(`es_send_status` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_sms
@@ -10295,21 +10022,21 @@ INSERT INTO `sys_sms` VALUES ('402881f3647da06c01647da43a940014', '催办：HR�
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_sms_template`;
 CREATE TABLE `sys_sms_template`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
-  `template_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模板标题',
-  `template_code` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '模板CODE',
-  `template_type` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '模板类型：1短信 2邮件 3微信',
-  `template_category` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模版分类：notice通知公告 other其他',
-  `template_content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '模板内容',
-  `template_test_json` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模板测试json',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键',
+  `template_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '模板标题',
+  `template_code` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '模板CODE',
+  `template_type` varchar(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '模板类型：1短信 2邮件 3微信',
+  `template_category` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '模版分类：notice通知公告 other其他',
+  `template_content` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '模板内容',
+  `template_test_json` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '模板测试json',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
-  `use_status` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否使用中 1是0否',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `use_status` varchar(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否使用中 1是0否',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uk_sst_template_code`(`template_code`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `uk_sst_template_code`(`template_code` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_sms_template
@@ -10334,7 +10061,7 @@ CREATE TABLE `sys_table_white_list`  (
   `update_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uniq_sys_table_white_list_table_name`(`table_name`) USING BTREE
+  UNIQUE INDEX `uniq_sys_table_white_list_table_name`(`table_name` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统表白名单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -10368,19 +10095,20 @@ INSERT INTO `sys_table_white_list` VALUES ('1993972426358153217', 'airag_knowled
 INSERT INTO `sys_table_white_list` VALUES ('2048760245752266754', 'airag_prompts', 'prompt_key', '1', 'admin', '2026-04-27 21:44:41', NULL, NULL);
 INSERT INTO `sys_table_white_list` VALUES ('2049053419095842818', 'onl_graphreport_head', 'code', '1', 'admin', '2026-04-28 17:09:39', NULL, NULL);
 INSERT INTO `sys_table_white_list` VALUES ('2072301485521285122', 'ext_act_process', 'process_name,process_key', '1', 'admin', '2026-07-01 20:49:10', NULL, NULL);
+INSERT INTO `sys_table_white_list` VALUES ('2109526442486059009', 'sys_log', 'create_time', '1', 'admin', '2026-10-12 14:07:52', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_tenant
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_tenant`;
 CREATE TABLE `sys_tenant`  (
-  `id` int(10) NOT NULL COMMENT '租户编码',
+  `id` int NOT NULL COMMENT '租户编码',
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '租户名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `create_by` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `begin_date` datetime NULL DEFAULT NULL COMMENT '开始时间',
   `end_date` datetime NULL DEFAULT NULL COMMENT '结束时间',
-  `status` int(1) NULL DEFAULT NULL COMMENT '状态 1正常 0冻结',
+  `status` int NULL DEFAULT NULL COMMENT '状态 1正常 0冻结',
   `trade` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '所属行业',
   `company_size` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '公司规模',
   `company_address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '公司地址',
@@ -10392,9 +10120,9 @@ CREATE TABLE `sys_tenant`  (
   `position` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '职级',
   `department` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '部门',
   `del_flag` tinyint(1) NULL DEFAULT 0 COMMENT '删除状态(0-正常,1-已删除)',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `apply_status` int(3) NULL DEFAULT NULL COMMENT '允许申请管理员 1允许 0不允许',
+  `apply_status` int NULL DEFAULT NULL COMMENT '允许申请管理员 1允许 0不允许',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '多租户信息表' ROW_FORMAT = DYNAMIC;
 
@@ -10410,19 +10138,19 @@ INSERT INTO `sys_tenant` VALUES (1001, '北京敲敲云科技有限公司', '202
 DROP TABLE IF EXISTS `sys_tenant_pack`;
 CREATE TABLE `sys_tenant_pack`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键id',
-  `tenant_id` int(10) NULL DEFAULT NULL COMMENT '租户id',
+  `tenant_id` int NULL DEFAULT NULL COMMENT '租户id',
   `pack_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '产品包名',
   `status` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '开启状态(0 未开启 1开启)',
   `remarks` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` date NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` date NULL DEFAULT NULL COMMENT '更新时间',
   `pack_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '编码,默认添加的三个管理员需要设置编码',
   `pack_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'custom' COMMENT '产品包类型(default 默认产品包 custom 自定义产品包)',
   `iz_sysn` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '自动分配给用户(0否 1是)',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx__stp_tenant_id_pack_code`(`tenant_id`, `pack_code`) USING BTREE
+  INDEX `idx__stp_tenant_id_pack_code`(`tenant_id` ASC, `pack_code` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '租户产品包' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -10441,12 +10169,12 @@ CREATE TABLE `sys_tenant_pack_perms`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键编号',
   `pack_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '租户产品包名称',
   `permission_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单id',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` date NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` date NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_stpp_pack_id`(`pack_id`) USING BTREE
+  INDEX `idx_stpp_pack_id`(`pack_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '租户产品包和菜单关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -10488,17 +10216,17 @@ CREATE TABLE `sys_tenant_pack_user`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `pack_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '租户产品包ID',
   `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户ID',
-  `tenant_id` int(10) NULL DEFAULT NULL COMMENT '租户ID',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `tenant_id` int NULL DEFAULT NULL COMMENT '租户ID',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `status` int(3) NULL DEFAULT NULL COMMENT '状态 正常状态1 申请状态0',
+  `status` int NULL DEFAULT NULL COMMENT '状态 正常状态1 申请状态0',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_tpu_pack_id`(`pack_id`) USING BTREE,
-  INDEX `idx_tpu_user_id`(`user_id`) USING BTREE,
-  INDEX `idx_tpu_tenant_id`(`tenant_id`) USING BTREE,
-  INDEX `idx_tpu_status`(`status`) USING BTREE
+  INDEX `idx_tpu_pack_id`(`pack_id` ASC) USING BTREE,
+  INDEX `idx_tpu_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `idx_tpu_tenant_id`(`tenant_id` ASC) USING BTREE,
+  INDEX `idx_tpu_status`(`status` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '租户套餐人员表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -10520,19 +10248,19 @@ CREATE TABLE `sys_third_account`  (
   `status` tinyint(1) NULL DEFAULT NULL COMMENT '状态(1-正常,2-冻结)',
   `del_flag` tinyint(1) NULL DEFAULT NULL COMMENT '删除状态(0-正常,1-已删除)',
   `realname` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '真实姓名',
-  `tenant_id` int(10) NULL DEFAULT 0 COMMENT '租户id',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '租户id',
   `third_user_uuid` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '第三方账号',
   `third_user_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '第三方app用户账号',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   `third_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '登录来源',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uniq_stat_third_type_user_id`(`third_type`, `third_user_id`) USING BTREE,
-  UNIQUE INDEX `uniq_sta_third_user_id_third_type`(`third_user_id`, `third_type`, `tenant_id`) USING BTREE,
-  UNIQUE INDEX `uniq_sta_third_user_uuid_third_type`(`third_user_uuid`, `third_type`, `tenant_id`) USING BTREE,
-  INDEX `idx_sta_sys_user_id_third_type`(`sys_user_id`, `third_type`) USING BTREE
+  UNIQUE INDEX `uniq_stat_third_type_user_id`(`third_type` ASC, `third_user_id` ASC) USING BTREE,
+  UNIQUE INDEX `uniq_sta_third_user_id_third_type`(`third_user_id` ASC, `third_type` ASC, `tenant_id` ASC) USING BTREE,
+  UNIQUE INDEX `uniq_sta_third_user_uuid_third_type`(`third_user_uuid` ASC, `third_type` ASC, `tenant_id` ASC) USING BTREE,
+  INDEX `idx_sta_sys_user_id_third_type`(`sys_user_id` ASC, `third_type` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -10545,18 +10273,18 @@ CREATE TABLE `sys_third_account`  (
 DROP TABLE IF EXISTS `sys_third_app_config`;
 CREATE TABLE `sys_third_app_config`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `tenant_id` int(10) NOT NULL DEFAULT 0 COMMENT '租户id',
+  `tenant_id` int NOT NULL DEFAULT 0 COMMENT '租户id',
   `agent_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '钉钉/企业微信应用id',
   `client_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '钉钉/企业微信 应用id',
   `client_secret` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '钉钉/企业微信应用id对应的秘钥',
   `corp_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '钉钉企业id',
   `third_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '第三方类别(dingtalk 钉钉 wechat_enterprise 企业微信)',
-  `status` int(1) NULL DEFAULT 1 COMMENT '是否启用(0-否,1-是)',
+  `status` int NULL DEFAULT 1 COMMENT '是否启用(0-否,1-是)',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_stac_tenant_id`(`tenant_id`) USING BTREE,
-  INDEX `idx_stac_third_type`(`third_type`) USING BTREE
+  INDEX `idx_stac_tenant_id`(`tenant_id` ASC) USING BTREE,
+  INDEX `idx_stac_third_type`(`third_type` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '租户第三方配置表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -10569,17 +10297,17 @@ INSERT INTO `sys_third_app_config` VALUES ('1714477134884085762', 0, '1', '1', '
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_ugroup`;
 CREATE TABLE `sys_ugroup`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
-  `group_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户组名称',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键id',
+  `group_name` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '用户组名称',
+  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `tenant_id` int(10) NULL DEFAULT NULL COMMENT '租户ID',
+  `tenant_id` int NULL DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_su_tenant_id`(`tenant_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户组表' ROW_FORMAT = DYNAMIC;
+  INDEX `idx_su_tenant_id`(`tenant_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '用户组表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_ugroup
@@ -10590,15 +10318,15 @@ CREATE TABLE `sys_ugroup`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_ugroup_user`;
 CREATE TABLE `sys_ugroup_user`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
-  `user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户id',
-  `group_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户组id',
-  `tenant_id` int(10) NULL DEFAULT NULL COMMENT '租户ID',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键id',
+  `user_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '用户id',
+  `group_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '用户组id',
+  `tenant_id` int NULL DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_suu_user_id`(`user_id`) USING BTREE,
-  INDEX `idx_suu_group_id`(`group_id`) USING BTREE,
-  INDEX `idx_suu_user_role_id`(`user_id`, `group_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户组关系表' ROW_FORMAT = DYNAMIC;
+  INDEX `idx_suu_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `idx_suu_group_id`(`group_id` ASC) USING BTREE,
+  INDEX `idx_suu_user_role_id`(`user_id` ASC, `group_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '用户组关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_ugroup_user
@@ -10609,50 +10337,50 @@ CREATE TABLE `sys_ugroup_user`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
-  `username` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录账号',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键id',
+  `username` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '登录账号',
   `realname` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '真实姓名',
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '密码',
-  `salt` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'md5密码盐',
-  `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
+  `password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '密码',
+  `salt` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'md5密码盐',
+  `avatar` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '头像',
   `birthday` date NULL DEFAULT NULL COMMENT '生日',
   `sex` tinyint(1) NULL DEFAULT NULL COMMENT '性别(0-默认未知,1-男,2-女)',
-  `email` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电子邮件',
-  `phone` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电话',
-  `org_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录会话的机构编码',
+  `email` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '电子邮件',
+  `phone` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '电话',
+  `org_code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '登录会话的机构编码',
   `status` tinyint(1) NULL DEFAULT NULL COMMENT '性别(1-正常,2-冻结)',
   `del_flag` tinyint(1) NULL DEFAULT NULL COMMENT '删除状态(0-正常,1-已删除)',
-  `third_id` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '第三方登录的唯一标识',
-  `third_type` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '第三方类型',
+  `third_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '第三方登录的唯一标识',
+  `third_type` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '第三方类型',
   `activiti_sync` tinyint(1) NULL DEFAULT NULL COMMENT '同步工作流引擎(1-同步,0-不同步)',
-  `work_no` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '工号，唯一键',
-  `telephone` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '座机号',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `work_no` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '工号，唯一键',
+  `telephone` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '座机号',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `user_identity` tinyint(1) NULL DEFAULT NULL COMMENT '身份（1普通成员 2上级）',
-  `depart_ids` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '负责部门',
-  `client_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备ID',
-  `login_tenant_id` int(11) NULL DEFAULT NULL COMMENT '上次登录选择租户ID',
-  `bpm_status` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程入职离职状态',
+  `depart_ids` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '负责部门',
+  `client_id` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '设备ID',
+  `login_tenant_id` int NULL DEFAULT NULL COMMENT '上次登录选择租户ID',
+  `bpm_status` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '流程入职离职状态',
   `sign_enable` tinyint(1) NULL DEFAULT NULL COMMENT '是否启用个性签名（0 否 1是）',
-  `sign` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '个性签名',
-  `main_dep_post_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '主岗位（部门岗位id）',
-  `position_type` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '职务(字典)',
+  `sign` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '个性签名',
+  `main_dep_post_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '主岗位（部门岗位id）',
+  `position_type` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '职务(字典)',
   `last_pwd_update_time` datetime NULL DEFAULT NULL COMMENT '上一次修改密码的时间',
-  `sort` int(6) NULL DEFAULT NULL COMMENT '排序',
-  `iz_hide_contact` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否隐藏联系方式（0 否 1是）',
+  `sort` int NULL DEFAULT NULL COMMENT '排序',
+  `iz_hide_contact` varchar(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否隐藏联系方式（0 否 1是）',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uniq_sys_user_work_no`(`work_no`) USING BTREE,
-  UNIQUE INDEX `uniq_sys_user_username`(`username`) USING BTREE,
-  UNIQUE INDEX `uniq_sys_user_phone`(`phone`) USING BTREE,
-  UNIQUE INDEX `uniq_sys_user_email`(`email`) USING BTREE,
-  INDEX `idx_su_status`(`status`) USING BTREE,
-  INDEX `idx_su_del_flag`(`del_flag`) USING BTREE,
-  INDEX `idx_su_del_username`(`username`, `del_flag`) USING BTREE,
-  INDEX `idx_su_main_dep_post_id`(`main_dep_post_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `uniq_sys_user_work_no`(`work_no` ASC) USING BTREE,
+  UNIQUE INDEX `uniq_sys_user_username`(`username` ASC) USING BTREE,
+  UNIQUE INDEX `uniq_sys_user_phone`(`phone` ASC) USING BTREE,
+  UNIQUE INDEX `uniq_sys_user_email`(`email` ASC) USING BTREE,
+  INDEX `idx_su_status`(`status` ASC) USING BTREE,
+  INDEX `idx_su_del_flag`(`del_flag` ASC) USING BTREE,
+  INDEX `idx_su_del_username`(`username` ASC, `del_flag` ASC) USING BTREE,
+  INDEX `idx_su_main_dep_post_id`(`main_dep_post_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
@@ -10670,14 +10398,14 @@ CREATE TABLE `sys_user_dep_post`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
   `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户id',
   `dep_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '部门岗位id',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_sudp_user_id`(`user_id`) USING BTREE,
-  INDEX `idx_sudp_dep_id`(`dep_id`) USING BTREE,
-  INDEX `idx_sudp_user_dep_id`(`user_id`, `dep_id`) USING BTREE
+  INDEX `idx_sudp_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `idx_sudp_dep_id`(`dep_id` ASC) USING BTREE,
+  INDEX `idx_sudp_user_dep_id`(`user_id` ASC, `dep_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -10689,14 +10417,14 @@ CREATE TABLE `sys_user_dep_post`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_depart`;
 CREATE TABLE `sys_user_depart`  (
-  `ID` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'id',
-  `user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户id',
-  `dep_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部门id',
+  `ID` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'id',
+  `user_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '用户id',
+  `dep_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '部门id',
   PRIMARY KEY (`ID`) USING BTREE,
-  UNIQUE INDEX `idx_sud_user_dep_id`(`user_id`, `dep_id`) USING BTREE,
-  INDEX `idx_sud_user_id`(`user_id`) USING BTREE,
-  INDEX `idx_sud_dep_id`(`dep_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `idx_sud_user_dep_id`(`user_id` ASC, `dep_id` ASC) USING BTREE,
+  INDEX `idx_sud_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `idx_sud_dep_id`(`dep_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_depart
@@ -10714,14 +10442,14 @@ CREATE TABLE `sys_user_position`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
   `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户id',
   `position_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '职位id',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `update_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_sup_user_id`(`user_id`) USING BTREE,
-  INDEX `idx_sup_position_id`(`position_id`) USING BTREE,
-  INDEX `idx_sup_user_position_id`(`user_id`, `position_id`) USING BTREE
+  INDEX `idx_sup_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `idx_sup_position_id`(`position_id` ASC) USING BTREE,
+  INDEX `idx_sup_user_position_id`(`user_id` ASC, `position_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -10733,15 +10461,15 @@ CREATE TABLE `sys_user_position`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
-  `user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户id',
-  `role_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色id',
-  `tenant_id` int(10) NULL DEFAULT 0 COMMENT '租户ID',
+  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主键id',
+  `user_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '用户id',
+  `role_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '角色id',
+  `tenant_id` int NULL DEFAULT 0 COMMENT '租户ID',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_sur_user_id`(`user_id`) USING BTREE,
-  INDEX `idx_sur_role_id`(`role_id`) USING BTREE,
-  INDEX `idx_sur_user_role_id`(`user_id`, `role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色表' ROW_FORMAT = DYNAMIC;
+  INDEX `idx_sur_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `idx_sur_role_id`(`role_id` ASC) USING BTREE,
+  INDEX `idx_sur_user_role_id`(`user_id` ASC, `role_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '用户角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_role
@@ -10770,18 +10498,18 @@ DROP TABLE IF EXISTS `sys_user_tenant`;
 CREATE TABLE `sys_user_tenant`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键id',
   `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户id',
-  `tenant_id` int(10) NULL DEFAULT NULL COMMENT '租户id',
+  `tenant_id` int NULL DEFAULT NULL COMMENT '租户id',
   `status` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '状态(1 正常 2 离职 3 待审核 4 拒绝 5 邀请加入)',
-  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `create_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `update_by` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_sut_user_id`(`user_id`) USING BTREE,
-  INDEX `idx_sut_tenant_id`(`tenant_id`) USING BTREE,
-  INDEX `idx_sut_user_rel_tenant`(`user_id`, `tenant_id`) USING BTREE,
-  INDEX `idx_sut_status`(`status`) USING BTREE,
-  INDEX `idx_sut_userid_status`(`user_id`, `status`) USING BTREE
+  INDEX `idx_sut_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `idx_sut_tenant_id`(`tenant_id` ASC) USING BTREE,
+  INDEX `idx_sut_user_rel_tenant`(`user_id` ASC, `tenant_id` ASC) USING BTREE,
+  INDEX `idx_sut_status`(`status` ASC) USING BTREE,
+  INDEX `idx_sut_userid_status`(`user_id` ASC, `status` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户租户关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -10791,308 +10519,4 @@ INSERT INTO `sys_user_tenant` VALUES ('1955179797651038210', 'a75d45a015c44384a0
 INSERT INTO `sys_user_tenant` VALUES ('1955182032762126337', 'e9ca23d68d884d4ebb19d07889727dae', 1000, '1', 'admin', '2025-08-12 16:18:17', NULL, NULL);
 INSERT INTO `sys_user_tenant` VALUES ('1955211766602534913', '1714471285016895490', 1001, '1', 'admin', '2025-08-12 18:16:26', NULL, NULL);
 
--- ----------------------------
--- Table structure for test_demo
--- ----------------------------
-DROP TABLE IF EXISTS `test_demo`;
-CREATE TABLE `test_demo`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户名',
-  `sex` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别',
-  `age` int(32) NULL DEFAULT NULL COMMENT '年龄',
-  `descc` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `birthday` datetime NULL DEFAULT NULL COMMENT '生日',
-  `user_code` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户编码',
-  `file_kk` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '附件',
-  `top_pic` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
-  `chegnshi` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '城市',
-  `ceck` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'checkbox',
-  `xiamuti` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '下拉多选',
-  `search_sel` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '搜索下拉',
-  `pop` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '弹窗',
-  `sel_table` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '下拉字典表',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of test_demo
--- ----------------------------
-INSERT INTO `test_demo` VALUES ('11', 'admin', '2024-06-23 16:51:45', NULL, NULL, '111', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `test_demo` VALUES ('1331884149004910593', 'admin', '2020-11-26 16:55:01', NULL, NULL, '张三', '1', NULL, NULL, NULL, NULL, '', '', '130304', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `test_demo` VALUES ('1331901553776869377', 'admin', '2020-11-26 18:04:10', 'admin', '2020-11-26 18:04:24', '张三', '2', NULL, '', NULL, '', '', '', '', '1', '1,2', 'hr', '', NULL);
-INSERT INTO `test_demo` VALUES ('1533107308342210561', 'admin', '2022-06-04 23:24:00', NULL, NULL, '11', '1', 111, '<p>111</p>', '2022-06-24 00:00:00', NULL, 'temp/11_1654356225072.jpg', 'temp/11_1654356229294.jpg', '210603', '2', '2,1', 'hr', NULL, 'admin');
-INSERT INTO `test_demo` VALUES ('1899062356047814658', 'admin', '2025-03-10 19:38:43', NULL, NULL, '哈喽', '1', NULL, NULL, '2015-01-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `test_demo` VALUES ('4028810c6aed99e1016aed9b31b40002', NULL, NULL, 'admin', '2019-10-19 15:37:27', 'jeecg', '2', 55, '5', '2019-05-15 00:00:00', NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `test_demo` VALUES ('4028810c6b02cba2016b02cba21f0000', 'admin', '2019-05-29 16:53:48', 'admin', '2026-03-17 10:42:41', '张小红', '1', 8222, '8', '2019-04-01 00:00:00', '', '', '', '120101', '2', '', '', '', '');
-
--- ----------------------------
--- Table structure for test_enhance_select
--- ----------------------------
-DROP TABLE IF EXISTS `test_enhance_select`;
-CREATE TABLE `test_enhance_select`  (
-  `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `province` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '省份',
-  `city` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '市',
-  `area` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '区',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of test_enhance_select
--- ----------------------------
-INSERT INTO `test_enhance_select` VALUES ('1256614575282958338', '1230769290609725441', '1230769470889299970', '1230769620021972993', '2020-05-03 00:00:36', 'admin');
-INSERT INTO `test_enhance_select` VALUES ('1427183594647195649', '1230769253267836929', '1230769769930592257', '1230769855347593217', '2021-08-16 16:20:59', 'admin');
-INSERT INTO `test_enhance_select` VALUES ('1427184250225299457', '1230769290609725441', '1230769470889299970', '1230769620021972993', '2021-08-16 16:23:35', 'admin');
-INSERT INTO `test_enhance_select` VALUES ('1427900912506630146', '1230769253267836929', '1230769769930592257', '1230769855347593217', '2021-08-18 15:51:21', 'admin');
-INSERT INTO `test_enhance_select` VALUES ('402880e570801ffe01708053743c002e', '1230769253267836929', '1230769769930592257', '1230769855347593217', '2020-02-26 15:08:37', 'admin');
-INSERT INTO `test_enhance_select` VALUES ('402880e570801ffe017080538b24002f', '1230769253267836929', '1230769769930592257', '1230769855347593217', '2020-02-26 15:08:43', 'admin');
-INSERT INTO `test_enhance_select` VALUES ('402880e570801ffe01708053b2b10030', '1230769290609725441', '1230769470889299970', '1230769620021972993', '2020-02-26 15:08:53', 'admin');
-
--- ----------------------------
--- Table structure for test_note
--- ----------------------------
-DROP TABLE IF EXISTS `test_note`;
-CREATE TABLE `test_note`  (
-  `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
-  `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '所属部门',
-  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名',
-  `age` int(11) NULL DEFAULT NULL COMMENT '年龄',
-  `sex` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '性别',
-  `birthday` datetime NULL DEFAULT NULL COMMENT '生日',
-  `contents` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '请假原因',
-  `year` date NULL DEFAULT NULL COMMENT '年',
-  `sheng` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '地区',
-  `month` date NULL DEFAULT NULL COMMENT '月',
-  `begin_time` date NULL DEFAULT NULL COMMENT '开始时间',
-  `long_ids` bigint(20) NULL DEFAULT NULL COMMENT '长类型',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of test_note
--- ----------------------------
-INSERT INTO `test_note` VALUES ('1257876639515222017', 'admin', '2020-05-06 11:35:35', NULL, NULL, 'A01', '不同意', 20, '1', '2020-05-06 00:00:00', '999', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `test_note` VALUES ('1304309860578455553', 'admin', '2020-09-11 14:44:38', 'admin', '2025-06-25 17:51:19', 'A01', 'zhangsan', 18, '1', '2020-09-11 00:00:00', '<p>2223333</p>', NULL, '', NULL, NULL, NULL);
-INSERT INTO `test_note` VALUES ('1923203898831777793', 'admin', '2025-05-16 10:28:35', 'admin', '2025-07-31 14:12:28', 'A01', 'jeecg', 10, '2', NULL, '', NULL, '', NULL, NULL, NULL);
-INSERT INTO `test_note` VALUES ('1943500714139598850', 'admin', '2025-07-11 10:40:53', 'admin', '2026-01-21 23:16:27', 'A01', 'admin', 1212, '1', '2025-07-29 00:00:00', '<p>经过上述讨论, 我们不得不面对一个非常尴尬的事实, 那就是, 这样看来, 一般来讲, 我们都必须务必慎重的考虑考虑. 就我个人来说, 随机一段废话对我的意义, 不能不说非常重大.&nbsp;<br>每个人都不得不面对这些问题. 在面对这种问题时, 随机一段废话, 发生了会如何, 不发生又会如何. 总结的来说,&nbsp;<br>这种事实对本人来说意义重大, 相信对这个世界也是有一定意义的.所谓随机一段废话, 关键是x需要</p>', NULL, '140311', NULL, NULL, NULL);
-INSERT INTO `test_note` VALUES ('1966815579977478145', 'admin', '2025-09-13 18:45:50', 'admin', '2026-01-21 23:15:46', 'A01', 'ceshi', 0, '2', '2025-09-19 00:00:00', '', NULL, '', NULL, NULL, NULL);
-INSERT INTO `test_note` VALUES ('2049047805615423489', 'admin', '2026-04-28 16:47:21', 'admin', '2026-04-28 16:47:46', 'A01A03', 'ceshi,zhangsan', 666, '', NULL, '', NULL, '', NULL, NULL, NULL);
-
--- ----------------------------
--- Table structure for test_online_link
--- ----------------------------
-DROP TABLE IF EXISTS `test_online_link`;
-CREATE TABLE `test_online_link`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `pid` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'pid',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'name',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of test_online_link
--- ----------------------------
-INSERT INTO `test_online_link` VALUES ('1', NULL, '中国');
-INSERT INTO `test_online_link` VALUES ('10', '8', '庐阳区');
-INSERT INTO `test_online_link` VALUES ('11', '7', '黄山市');
-INSERT INTO `test_online_link` VALUES ('2', '1', '山东省');
-INSERT INTO `test_online_link` VALUES ('3', '2', '济南市');
-INSERT INTO `test_online_link` VALUES ('4', '3', '历城区');
-INSERT INTO `test_online_link` VALUES ('5', '3', '长青区');
-INSERT INTO `test_online_link` VALUES ('6', '2', '青岛市');
-INSERT INTO `test_online_link` VALUES ('7', '1', '安徽省');
-INSERT INTO `test_online_link` VALUES ('8', '7', '合肥市');
-INSERT INTO `test_online_link` VALUES ('9', '8', '包河区');
-
--- ----------------------------
--- Table structure for test_order_customer
--- ----------------------------
-DROP TABLE IF EXISTS `test_order_customer`;
-CREATE TABLE `test_order_customer`  (
-  `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '所属部门',
-  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '客户名字',
-  `sex` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '性别',
-  `age` int(11) NULL DEFAULT NULL COMMENT '年龄',
-  `birthday` date NULL DEFAULT NULL COMMENT '生日',
-  `order_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '订单id',
-  `address` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '地址',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of test_order_customer
--- ----------------------------
-INSERT INTO `test_order_customer` VALUES ('1586285823409205250', 'admin', '2022-10-29 17:16:26', NULL, NULL, 'A01', '90', '1', 90, '2022-09-28', '1551943088862896130', NULL);
-INSERT INTO `test_order_customer` VALUES ('1586557969578553345', 'admin', '2022-10-30 11:20:31', NULL, NULL, 'A01', '小王', '1', 33, '2022-09-29', '1586557968995545089', NULL);
-INSERT INTO `test_order_customer` VALUES ('1586557969578553346', 'admin', '2022-10-30 11:17:51', NULL, NULL, 'A01', '效力', '2', 333, '2022-10-16', '1586557968995545089', NULL);
-INSERT INTO `test_order_customer` VALUES ('1589514956528386050', 'admin', '2022-11-07 15:07:52', NULL, NULL, 'A01', '1111', '1', 22, '2022-11-02', '1589514956490637313', NULL);
-INSERT INTO `test_order_customer` VALUES ('1589516804559699970', 'admin', '2022-11-07 15:15:13', NULL, NULL, 'A01', '33', NULL, NULL, NULL, '1589516804530339842', '120101');
-INSERT INTO `test_order_customer` VALUES ('1589516832699285506', 'admin', '2022-11-07 15:15:19', NULL, NULL, 'A01', '4434', NULL, NULL, NULL, '1589516804530339842', NULL);
-INSERT INTO `test_order_customer` VALUES ('1597149156416937985', 'admin', '2022-11-28 16:43:27', NULL, NULL, 'A01', '33', '1', 33, '2022-11-03', '1597149156089782273', NULL);
-INSERT INTO `test_order_customer` VALUES ('1683074969947033601', 'admin', '2024-09-10 19:47:29', NULL, NULL, 'A01', '于美欣', '1', 22, '2023-07-06', '1683074969561157634', NULL);
-
--- ----------------------------
--- Table structure for test_order_main
--- ----------------------------
-DROP TABLE IF EXISTS `test_order_main`;
-CREATE TABLE `test_order_main`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `order_code` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '订单编码',
-  `order_date` datetime NULL DEFAULT NULL COMMENT '下单时间',
-  `descc` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `xiala` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '下拉多选',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of test_order_main
--- ----------------------------
-INSERT INTO `test_order_main` VALUES ('1256629667445714946', 'admin', '2020-05-03 01:00:34', 'admin', '2020-11-26 15:22:35', '鼠标', '2020-05-03 00:00:00', '15', NULL);
-INSERT INTO `test_order_main` VALUES ('1551943088862896130', 'admin', '2022-07-26 22:50:40', 'admin', '2022-10-29 17:16:26', 'CN2022', NULL, '', '');
-INSERT INTO `test_order_main` VALUES ('1586557968995545089', 'admin', '2022-10-30 11:17:51', 'admin', '2022-11-07 15:07:24', 'CN2022103011170844', NULL, '111', '');
-INSERT INTO `test_order_main` VALUES ('1589514956490637313', 'admin', '2022-11-07 15:07:52', 'admin', '2022-11-07 15:14:50', '顾平', '2022-11-07 00:00:00', NULL, '1,2');
-INSERT INTO `test_order_main` VALUES ('1589516804530339842', 'admin', '2022-11-07 15:15:13', 'admin', '2022-11-23 17:20:56', '顾平2', '2022-11-07 00:00:00', '222', '1,2');
-INSERT INTO `test_order_main` VALUES ('1597149156089782273', 'admin', '2022-11-28 16:43:27', NULL, NULL, 'CN2022112816431596', NULL, NULL, NULL);
-INSERT INTO `test_order_main` VALUES ('1683074969561157634', 'admin', '2023-07-23 19:21:57', 'admin', '2024-09-10 19:47:29', 'CN2023072319214115', NULL, '111', '1,2');
-INSERT INTO `test_order_main` VALUES ('1833472350097121281', 'admin', '2024-09-10 19:47:27', 'admin', '2025-11-27 18:19:52', 'CN2024091019472568', NULL, '', '');
-INSERT INTO `test_order_main` VALUES ('1907441973318082561', 'admin', '2025-04-02 22:36:19', NULL, NULL, 'CN2025040222361836', NULL, NULL, NULL);
-
--- ----------------------------
--- Table structure for test_order_product
--- ----------------------------
-DROP TABLE IF EXISTS `test_order_product`;
-CREATE TABLE `test_order_product`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `product_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '产品名字',
-  `price` double(32, 0) NULL DEFAULT NULL COMMENT '价格',
-  `num` int(32) NULL DEFAULT NULL COMMENT '数量',
-  `descc` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `order_fk_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '订单外键ID',
-  `pro_type` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '产品类型',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of test_order_product
--- ----------------------------
-INSERT INTO `test_order_product` VALUES ('1331860890813284353', 'admin', '2020-11-26 15:22:35', NULL, NULL, '44', 44, 44, '', '1256629667445714946', '1');
-INSERT INTO `test_order_product` VALUES ('1551943088930004994', 'admin', '2022-10-29 17:16:26', NULL, NULL, '11', 11, 11, '11', '1551943088862896130', '1');
-INSERT INTO `test_order_product` VALUES ('1551943088930004995', 'admin', '2022-07-26 22:50:40', NULL, NULL, '2', 2, 2, '2', '1551943088862896130', '2');
-INSERT INTO `test_order_product` VALUES ('15665749948861', 'admin', '2020-02-24 02:05:38', NULL, NULL, '333', 33, NULL, '', '402831816a38e7fd016a38e825c90003', '');
-INSERT INTO `test_order_product` VALUES ('1586557969318506498', 'admin', '2022-10-30 11:20:31', NULL, NULL, '小米手机3', 20003, 33, '3', '1586557968995545089', '2');
-INSERT INTO `test_order_product` VALUES ('1586557969381421058', 'admin', '2022-10-30 11:17:51', NULL, NULL, '华为手机1', 80001, 31, '11', '1586557968995545089', '2');
-INSERT INTO `test_order_product` VALUES ('15884388229280883233', 'admin', '2020-11-26 15:22:35', NULL, NULL, '华为手机', 25, 35, '345', '1256629667445714946', '1');
-INSERT INTO `test_order_product` VALUES ('15884388231401967996', 'admin', '2020-07-11 11:36:36', NULL, NULL, '低代码平台', 25, 35, '445', '1256629667445714946', '1');
-INSERT INTO `test_order_product` VALUES ('15884388463052345317', 'admin', '2020-07-11 11:36:36', NULL, NULL, '表单设计器', 55, 55, '55', '1256629667445714946', '2');
-INSERT INTO `test_order_product` VALUES ('1589514837779251202', 'admin', '2022-11-07 15:07:24', NULL, NULL, '2323', 2323, 2323, '', '1586557968995545089', '1');
-INSERT INTO `test_order_product` VALUES ('1589514956499025921', 'admin', '2022-11-07 15:07:52', NULL, NULL, '111', 222, 222, '222', '1589514956490637313', '1');
-INSERT INTO `test_order_product` VALUES ('1589514956515803137', 'admin', '2022-11-07 15:07:52', NULL, NULL, '333', NULL, NULL, '', '1589514956490637313', '');
-INSERT INTO `test_order_product` VALUES ('1589516804542922753', 'admin', '2022-11-23 17:20:56', NULL, NULL, '1133', NULL, NULL, NULL, '1589516804530339842', NULL);
-INSERT INTO `test_order_product` VALUES ('1589516804551311361', 'admin', '2022-11-07 15:15:13', NULL, NULL, '222', NULL, NULL, NULL, '1589516804530339842', NULL);
-INSERT INTO `test_order_product` VALUES ('1597149156278525953', 'admin', '2022-11-28 16:43:27', NULL, NULL, '22', 2, 2, '22', '1597149156089782273', '1');
-INSERT INTO `test_order_product` VALUES ('1683074969716346881', 'admin', '2024-09-10 19:47:29', NULL, NULL, '电脑', 5000, 21, '121', '1683074969561157634', '1');
-INSERT INTO `test_order_product` VALUES ('1714472725034704898', 'admin', '2024-09-10 19:47:29', NULL, NULL, '办公椅子', 50, 100, NULL, '1683074969561157634', '1');
-INSERT INTO `test_order_product` VALUES ('1732300515406647298', 'admin', '2024-09-10 19:47:29', 'admin', '2025-07-30 10:00:02', '苹果手机', 3000, 10, '', '1683074969561157634', '1');
-INSERT INTO `test_order_product` VALUES ('1907442008848031746', 'admin', '2025-11-27 18:19:52', NULL, NULL, '1', 1, 22, NULL, '1833472350097121281', '1');
-INSERT INTO `test_order_product` VALUES ('402831816a38e7fd016a38e7fdeb0001', 'admin', '2019-04-20 12:01:29', NULL, NULL, '笔记本', 100, 10, NULL, '402831816a38e7fd016a38e7fddf0000', NULL);
-INSERT INTO `test_order_product` VALUES ('402831816a38e7fd016a38e7fdf10002', 'admin', '2019-04-20 12:01:29', NULL, NULL, '显示器', 300, 1, NULL, '402831816a38e7fd016a38e7fddf0000', NULL);
-INSERT INTO `test_order_product` VALUES ('4028810c6b40244b016b406884080005', 'admin', '2020-02-24 02:05:38', NULL, NULL, '333', NULL, 33, '', '402831816a38e7fd016a38e825c90003', '');
-
--- ----------------------------
--- Table structure for test_person
--- ----------------------------
-DROP TABLE IF EXISTS `test_person`;
-CREATE TABLE `test_person`  (
-  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `sex` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别',
-  `name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户名',
-  `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '请假原因',
-  `be_date` datetime NULL DEFAULT NULL COMMENT '请假时间',
-  `qj_days` int(11) NULL DEFAULT NULL COMMENT '请假天数',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of test_person
--- ----------------------------
-INSERT INTO `test_person` VALUES ('8ca668defdae47df8649a5477ae08b05', 'admin', '2019-04-12 09:51:37', NULL, NULL, '1', 'zhangdaiscott', 'dsdsd', '2019-04-12 00:00:00', 2);
-
--- ----------------------------
--- Table structure for test_shoptype_tree
--- ----------------------------
-DROP TABLE IF EXISTS `test_shoptype_tree`;
-CREATE TABLE `test_shoptype_tree`  (
-  `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
-  `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
-  `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '所属部门',
-  `type_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商品分类',
-  `pic` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '分类图片',
-  `pid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '父级节点',
-  `has_child` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '是否有子节点',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of test_shoptype_tree
--- ----------------------------
-INSERT INTO `test_shoptype_tree` VALUES ('1256629035921944577', 'admin', '2020-05-03 00:58:03', NULL, NULL, 'A01', '三星显示器', 'gh_f28e66390fc9_344 (shop)_1588438682583.jpg', '1256628864848867329', '0');
-INSERT INTO `test_shoptype_tree` VALUES ('1833472226709086209', 'admin', '2024-09-10 19:46:57', NULL, NULL, 'A01', '笔记本', NULL, '0', '1');
-INSERT INTO `test_shoptype_tree` VALUES ('1923190583678107649', 'admin', '2025-05-16 09:35:40', 'admin', '2026-01-13 16:33:07', 'A01', '水果', '', '0', '1');
-INSERT INTO `test_shoptype_tree` VALUES ('1923190611448594433', 'admin', '2025-05-16 09:35:47', NULL, NULL, 'A01', '苹果', NULL, '1923190583678107649', '0');
-INSERT INTO `test_shoptype_tree` VALUES ('2049391879883100161', 'admin', '2026-04-29 15:34:34', NULL, NULL, 'A01A03', '苹果MAC', NULL, '1833472226709086209', '0');
-INSERT INTO `test_shoptype_tree` VALUES ('2049391939916173313', 'admin', '2026-04-29 15:34:49', NULL, NULL, 'A01A03', '游戏本', NULL, '1833472226709086209', '0');
-
--- ----------------------------
--- Procedure structure for insert_200_records
--- ----------------------------
-DROP PROCEDURE IF EXISTS `insert_200_records`;
-delimiter ;;
-CREATE PROCEDURE `insert_200_records`()
-BEGIN
-    DECLARE i INT DEFAULT 1;
-    
-    WHILE i <= 200 DO
-        INSERT INTO jimu_report (id, code, name, del_flag) 
-        VALUES (i, CONCAT('RPT', LPAD(i, 3, '0')), CONCAT('Report ', i), 0);
-        
-        SET i = i + 1;
-    END WHILE;
-END
-;;
-delimiter ;
-
--- 统一提交并恢复会话设置
-COMMIT;
-SET unique_checks = 1;
-SET autocommit = 1;
 SET FOREIGN_KEY_CHECKS = 1;

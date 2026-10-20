@@ -1,43 +1,22 @@
 package org.jeecg.modules.wdi.controller;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.jeecg.common.api.vo.Result;
-import org.jeecg.common.system.query.QueryGenerator;
-import org.jeecg.common.system.query.QueryRuleEnum;
-import org.jeecg.common.util.oConvertUtils;
-import org.jeecg.modules.wdi.entity.WdiSeries;
-import org.jeecg.modules.wdi.service.IWdiSeriesService;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-
-import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.def.NormalExcelConstants;
-import org.jeecgframework.poi.excel.entity.ExportParams;
-import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.view.JeecgEntityExcelView;
-import org.jeecg.common.system.base.controller.JeecgController;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.jeecg.common.api.vo.Result;
+import org.jeecg.common.aspect.annotation.AutoLog;
+import org.jeecg.common.system.query.QueryGenerator;
+import org.jeecg.modules.wdi.entity.WdiSeries;
+import org.jeecg.modules.wdi.service.IWdiSeriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
-import com.alibaba.fastjson.JSON;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.Operation;
-import org.jeecg.common.aspect.annotation.AutoLog;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+
+import java.util.Arrays;
  /**
  * @Description: 世行WDI指标元数据表(含中文字段)
  * @Author: jeecg-boot
@@ -48,7 +27,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 @RestController
 @RequestMapping("/wdi/wdiSeries")
 @Slf4j
-public class WdiSeriesController extends JeecgController<WdiSeries, IWdiSeriesService> {
+public class WdiSeriesController {
 	@Autowired
 	private IWdiSeriesService wdiSeriesService;
 	
@@ -154,29 +133,6 @@ public class WdiSeriesController extends JeecgController<WdiSeries, IWdiSeriesSe
 		return Result.OK(wdiSeries);
 	}
 
-    /**
-    * 导出excel
-    *
-    * @param request
-    * @param wdiSeries
-    */
-    @RequiresPermissions("wdi:t_wdi_series:exportXls")
-    @RequestMapping(value = "/exportXls")
-    public ModelAndView exportXls(HttpServletRequest request, WdiSeries wdiSeries) {
-        return super.exportXls(request, wdiSeries, WdiSeries.class, "世行WDI指标元数据表(含中文字段)");
-    }
 
-    /**
-      * 通过excel导入数据
-    *
-    * @param request
-    * @param response
-    * @return
-    */
-    @RequiresPermissions("wdi:t_wdi_series:importExcel")
-    @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
-    public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
-        return super.importExcel(request, response, WdiSeries.class);
-    }
 
 }

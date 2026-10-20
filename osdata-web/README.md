@@ -1,21 +1,21 @@
-# osdata-web（WDI 世界发展指标数据平台）
+# osdata-web（开源数据平台）
 
-WDI 世界发展指标数据查询网站（面向普通访客），提供指标浏览、数据查询（长表 / 宽表透视 / 图表）、统计概览与 CSV 导出等能力，对接后端 jeecg-boot（osdata-server）的 `/webapi/wdi/` 系列接口。
+开源数据查询网站（面向普通访客），提供指标浏览、数据查询（长表 / 宽表透视 / 图表）、统计概览与 CSV 导出等能力，对接后端 jeecg-boot（osdata-server）的 `/webapi/wdi/` 系列接口。
 
 ## 技术栈
 
-| 分类 | 技术 | 说明 |
-| --- | --- | --- |
-| 框架 | Vue `^3.5` | Composition API + `<script setup>` 单文件组件 |
-| 构建工具 | Vite `^5.4` | 开发服务器端口 5173，构建产物在 `dist/` |
-| 路由 | Vue Router `^4.5` | `createWebHistory` 模式，路由懒加载 |
-| 状态管理 | Pinia `^2.3` | 查询条件 / 查询结果跨页面共享（`src/pinia/wdiStore.js`） |
-| UI 组件库 | Ant Design Vue `^4.2` | 通过 `unplugin-vue-components` 按需自动注册，样式在 `main.js` 全量引入 |
-| 图表 | ECharts `^5.6` | 封装为 `src/components/EChart.vue` |
-| HTTP 请求 | Axios `^1.7` | 统一封装 `src/utils/request.js` |
-| CSS 预处理 | Sass | 全局自动注入 `@/assets/styles/variables.scss` 变量 |
-| 自动导入 | unplugin-auto-import / unplugin-vue-components | `ref`、`computed` 等 Vue API 与 `a-*` 组件免手动 import |
-| 其他 | dayjs `^1.11` | 日期处理 |
+| 分类       | 技术                                           | 说明                                                                   |
+| ---------- | ---------------------------------------------- | ---------------------------------------------------------------------- |
+| 框架       | Vue `^3.5`                                     | Composition API + `<script setup>` 单文件组件                          |
+| 构建工具   | Vite `^5.4`                                    | 开发服务器端口 5173，构建产物在 `dist/`                                |
+| 路由       | Vue Router `^4.5`                              | `createWebHistory` 模式，路由懒加载                                    |
+| 状态管理   | Pinia `^2.3`                                   | 查询条件 / 查询结果跨页面共享（`src/pinia/wdiStore.js`）               |
+| UI 组件库  | Ant Design Vue `^4.2`                          | 通过 `unplugin-vue-components` 按需自动注册，样式在 `main.js` 全量引入 |
+| 图表       | ECharts `^5.6`                                 | 封装为 `src/components/EChart.vue`                                     |
+| HTTP 请求  | Axios `^1.7`                                   | 统一封装 `src/utils/request.js`                                        |
+| CSS 预处理 | Sass                                           | 全局自动注入 `@/assets/styles/variables.scss` 变量                     |
+| 自动导入   | unplugin-auto-import / unplugin-vue-components | `ref`、`computed` 等 Vue API 与 `a-*` 组件免手动 import                |
+| 其他       | dayjs `^1.11`                                  | 日期处理                                                               |
 
 ## 环境要求
 
@@ -89,10 +89,10 @@ osdata-web
 
 ## 页面说明
 
-| 路由 | 页面 | 功能 |
-| --- | --- | --- |
-| `/home` | 首页 | WDI 统计概览（指标数 / 国家数 / 年份跨度 / 记录总数）、热门主题入口 |
-| `/wdi/topic` | 指标浏览 | Topic 主题树导航、指标分页检索、指标详情弹窗 |
+| 路由         | 页面     | 功能                                                                                                                                                                   |
+| ------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/home`      | 首页     | WDI 统计概览（指标数 / 国家数 / 年份跨度 / 记录总数）、热门主题入口                                                                                                    |
+| `/wdi/topic` | 指标浏览 | Topic 主题树导航、指标分页检索、指标详情弹窗                                                                                                                           |
 | `/wdi/query` | 数据查询 | 三步构建条件（指标 → 国家 → 年份），结果支持长表（TABLE_LONG）/ 宽表透视（TABLE_WIDE）/ 图表三种视图，指标时间覆盖展示、数据脚注、CSV 导出（含全量脚注）、查询方案保存 |
 
 ## 请求约定

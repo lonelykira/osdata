@@ -16,14 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.jeecg.common.exception.JeecgBootException;
 import org.jeecg.common.util.RedisUtil;
-import org.jeecg.modules.api.vo.SeriesYearRangeVO;
-import org.jeecg.modules.api.vo.WdiStatisticsVO;
+import org.jeecg.modules.api.wdi.vo.SeriesYearRangeVO;
+import org.jeecg.modules.api.wdi.vo.WdiStatisticsVO;
 import org.jeecg.modules.wdi.entity.WdiData;
-import org.jeecg.modules.wdi.entity.WdiSeriesTime;
 import org.jeecg.modules.wdi.mapper.WdiDataMapper;
 import org.jeecg.modules.wdi.service.IWdiCountryService;
 import org.jeecg.modules.wdi.service.IWdiSeriesService;
-import org.jeecg.modules.wdi.service.IWdiSeriesTimeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -47,7 +45,7 @@ public class WdiStatisticsComponent implements ApplicationRunner {
     /**统计概览Redis缓存key(应用启动时预加载, 接口优先读缓存; WdiServiceImpl读缓存引用)*/
     public static final String STATISTICS_CACHE_KEY = "wdi:statistics:summary";
     /**统计概览缓存过期时间: 7天(启动时刷新, 两次启动间近似持久, 避免过期回源触发t_wdi_data大表COUNT)*/
-    private static final long STATISTICS_CACHE_SECONDS = 7 * 24 * 3600L;
+    private static final long STATISTICS_CACHE_SECONDS = 365 * 24 * 3600L;
     /**统计查询专用线程池: 四项统计并行查询(最多占用4个DB连接), 守护线程不阻塞JVM退出*/
     private static final ExecutorService STATISTICS_EXECUTOR = Executors.newFixedThreadPool(4, new ThreadFactory() {
 

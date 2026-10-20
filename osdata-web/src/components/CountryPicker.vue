@@ -39,12 +39,12 @@ watch(
       loading.value = true;
       try {
         const tree = (await getCountryTree()) || [];
-        // 分组树拍平为全量国家列表：name=中文名优先
+        // 分组树拍平为全量国家列表：name=中文名(主要显示), nameEn=英文简称(列表中英双语展示)
         allCountries.value = tree.flatMap((region) =>
           (region.children || []).map((c) => ({
             code: c.countryCode,
             name: c.countryNameCn || c.shortName,
-            nameZh: c.countryNameCn || c.shortName,
+            nameEn: c.shortName || c.countryNameCn,
           })),
         );
       } finally {
@@ -61,8 +61,8 @@ const filteredCountries = computed(() => {
   return allCountries.value.filter(
     (c) =>
       (c.name || "").toLowerCase().includes(kw) ||
-      (c.code || "").toLowerCase().includes(kw) ||
-      (c.nameZh || "").includes(keyword.value.trim()),
+      (c.nameEn || "").toLowerCase().includes(kw) ||
+      (c.code || "").toLowerCase().includes(kw),
   );
 });
 
@@ -75,7 +75,7 @@ function toggleCheck(country, checked) {
   if (checked) {
     checkedMap.value[code] = {
       code,
-      name: country.name || country.countryName,
+      name: country.name || country.countryNameCn || country.shortName,
     };
   } else {
     delete checkedMap.value[code];
@@ -146,7 +146,10 @@ function handleClose() {
               :checked="isChecked(c)"
               @change="(e) => toggleCheck(c, e.target.checked)"
             >
-              {{ c.name || c.countryName }}
+              {{ c.name }}
+              <span class="country-en" v-if="c.nameEn && c.nameEn !== c.name">{{
+                c.nameEn
+              }}</span>
             </a-checkbox>
           </div>
           <a-empty
@@ -205,6 +208,13 @@ function handleClose() {
 
     .country-item {
       padding: 4px 2px;
+
+      // 英文名: 小号浅色, 跟在中文名后同行展示
+      .country-en {
+        margin-left: 6px;
+        font-size: 12px;
+        color: $text-color-tertiary;
+      }
     }
   }
 }

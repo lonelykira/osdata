@@ -500,9 +500,9 @@ function handleReset() {
   <div class="page-container query-page">
     <!-- 页头 -->
     <div class="page-header">
-      <h1 class="page-title">数据查询</h1>
+      <h1 class="page-title">WDI数据查询</h1>
       <p class="page-desc">
-        选择指标、国家与年份，构建属于你的世界发展数据视图
+        选择指标、国家与年份，构建属于你的世界银行数据视图
       </p>
     </div>
 

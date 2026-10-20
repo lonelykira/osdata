@@ -41,8 +41,12 @@ watch(
 
     if (!topics.value.length) {
       const res = (await getTopicTree()) || []
-      // 主题树映射为选项结构：code=主题编码(topic)，name=中文名优先
-      topics.value = res.map((t) => ({ code: t.topic, name: t.topicCn || t.topic }))
+      // 主题树映射为选项结构：code=主题编码(topic)，name=中文名 + en=英文名
+      topics.value = res.map((t) => ({
+        code: t.topic,
+        name: t.topicCn || t.topic,
+        en: t.topic
+      }))
       if (topics.value.length) activeTopic.value = topics.value[0]
     }
     fetchIndicators()
@@ -59,7 +63,8 @@ async function fetchIndicators() {
     const res = await getSeriesPage(params)
     indicatorList.value = (res?.records || []).map((s) => ({
       code: s.seriesCode,
-      name: s.indicatorNameCn || s.indicatorName
+      name: s.indicatorNameCn || s.indicatorName,
+      unit: s.unitCn || s.unit
     }))
   } finally {
     loading.value = false
@@ -134,7 +139,8 @@ function handleClose() {
           :title="topic.name"
           @click="switchTopic(topic)"
         >
-          {{ topic.name }}
+          <span class="topic-name">{{ topic.name }}</span>
+          <span class="topic-en">{{ topic.en }}</span>
         </div>
       </div>
 
@@ -159,6 +165,7 @@ function handleClose() {
               >
                 <span class="indicator-name">{{ item.name || item.indicatorName }}</span>
                 <span class="indicator-code">{{ item.code || item.indicatorCode }}</span>
+                <span class="indicator-extra" v-if="item.unit">单位：{{ item.unit }}</span>
               </a-checkbox>
             </div>
             <a-empty v-if="!loading && !indicatorList.length" description="暂无指标" />
@@ -216,16 +223,30 @@ function handleClose() {
   }
 
   .topic-item {
-    padding: 8px 10px;
+    padding: 6px 10px;
     border-radius: 4px;
     font-size: 13px;
     cursor: pointer;
     color: $text-color-secondary;
     transition: all 0.2s;
-    // 宽度不足时省略号截断，悬停 title 查看全名
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+
+    // 中文名 + 英文名两行展示, 各行超长省略号截断, 悬停 title 查看全名
+    .topic-name {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topic-en {
+      display: block;
+      margin-top: 1px;
+      font-size: 11px;
+      color: $text-color-tertiary;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     &:hover {
       color: $primary-color;
@@ -259,6 +280,13 @@ function handleClose() {
       }
 
       .indicator-code {
+        margin-left: 8px;
+        font-size: 12px;
+        color: $text-color-tertiary;
+      }
+
+      // 单位附加信息
+      .indicator-extra {
         margin-left: 8px;
         font-size: 12px;
         color: $text-color-tertiary;

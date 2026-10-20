@@ -37,10 +37,11 @@ const detailLoading = ref(false);
 onMounted(async () => {
   try {
     const tree = (await getTopicTree()) || [];
-    // 主题树映射：一级节点为主题，指标数 = 子指标数量
+    // 主题树映射：一级节点为主题，指标数 = 子指标数量（name 中文 + en 英文）
     topics.value = tree.map((t) => ({
       code: t.topic,
       name: t.topicCn || t.topic,
+      en: t.topic,
       indicatorCount: (t.children || []).length,
     }));
     if (topics.value.length) {
@@ -137,7 +138,10 @@ function goQuery() {
             :class="{ active: activeTopicCode === t.code }"
             @click="switchTopic(t)"
           >
-            <span class="topic-name">{{ t.name }}</span>
+            <div class="topic-info">
+              <span class="topic-name">{{ t.name }}</span>
+              <span class="topic-en">{{ t.en }}</span>
+            </div>
             <span class="topic-badge">{{ t.indicatorCount || "" }}</span>
           </div>
         </aside>
@@ -161,7 +165,16 @@ function goQuery() {
                 <div class="ind-name">
                   {{ item.indicatorNameCn || item.indicatorName }}
                 </div>
-                <div class="ind-code">{{ item.seriesCode }}</div>
+                <div
+                  class="ind-name-en"
+                  v-if="
+                    item.indicatorNameCn &&
+                    item.indicatorName !== item.indicatorNameCn
+                  "
+                >
+                  {{ item.indicatorName }}
+                </div>
+                <div class="ind-code">指标编码：{{ item.seriesCode }}</div>
                 <div class="ind-unit" v-if="item.unitCn || item.unit">
                   单位：{{ item.unitCn || item.unit }}
                 </div>
@@ -197,45 +210,15 @@ function goQuery() {
     >
       <a-spin :spinning="detailLoading">
         <div v-if="detailData" class="detail-body">
-          <h3 class="detail-name">
-            {{ detailData.indicatorNameCn || detailData.indicatorName }}
-          </h3>
-          <div class="detail-code">{{ detailData.seriesCode }}</div>
           <a-descriptions :column="2" bordered size="small" class="detail-desc">
             <a-descriptions-item label="所属主题" :span="2">
-              {{ detailData.topicCn || detailData.topic || "-" }}
+              {{ detailData.topic || "-" }}
+            </a-descriptions-item>
+            <a-descriptions-item label="指标编码">
+              <span class="detail-code-text">{{ detailData.seriesCode }}</span>
             </a-descriptions-item>
             <a-descriptions-item label="单位">
               {{ detailData.unitCn || detailData.unit || "-" }}
-            </a-descriptions-item>
-            <a-descriptions-item label="数据频率">
-              {{ detailData.periodicity || "-" }}
-            </a-descriptions-item>
-            <a-descriptions-item label="数据来源" :span="2">
-              {{ detailData.sourceCn || detailData.source || "-" }}
-            </a-descriptions-item>
-            <a-descriptions-item label="年份覆盖" :span="2">
-              {{
-                detailData.minYear && detailData.maxYear
-                  ? `${detailData.minYear} - ${detailData.maxYear}`
-                  : "-"
-              }}
-            </a-descriptions-item>
-            <a-descriptions-item label="指标定义" :span="2">
-              {{
-                detailData.shortDefinitionCn ||
-                detailData.shortDefinition ||
-                detailData.longDefinitionCn ||
-                detailData.longDefinition ||
-                "暂无说明"
-              }}
-            </a-descriptions-item>
-            <a-descriptions-item
-              v-if="detailData.relatedSourceLinks"
-              label="相关链接"
-              :span="2"
-            >
-              {{ detailData.relatedSourceLinks }}
             </a-descriptions-item>
           </a-descriptions>
         </div>
@@ -253,7 +236,7 @@ function goQuery() {
 
 // 左侧主题列表（固定高度自适应视口，超出滚动）
 .topic-list {
-  width: 240px;
+  width: 260px;
   flex-shrink: 0;
   background: $bg-color-card;
   border-radius: 8px;
@@ -265,12 +248,39 @@ function goQuery() {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 9px 12px;
+    padding: 7px 12px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 13px;
     color: $text-color-secondary;
     transition: all 0.2s;
+
+    // 中文名 + 英文名展示, 各自最多两行, 超出省略, 避免长主题名被截断看不全
+    .topic-info {
+      flex: 1;
+      min-width: 0;
+
+      .topic-name {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        word-break: break-word;
+        line-height: 1.4;
+      }
+
+      .topic-en {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        word-break: break-word;
+        margin-top: 2px;
+        font-size: 11px;
+        line-height: 1.4;
+        color: $text-color-tertiary;
+      }
+    }
 
     &:hover {
       color: $primary-color;
@@ -284,6 +294,7 @@ function goQuery() {
     }
 
     .topic-badge {
+      margin-left: 8px;
       font-size: 12px;
       color: $text-color-tertiary;
     }
@@ -321,7 +332,7 @@ function goQuery() {
     cursor: pointer;
     transition: all 0.2s;
     // 固定卡片高度，名称/编码/单位超长时截断省略，保证网格整齐
-    height: 100px;
+    height: 120px;
     overflow: hidden;
 
     &:hover {
@@ -351,6 +362,17 @@ function goQuery() {
       text-overflow: ellipsis;
     }
 
+    // 指标英文名(中文名存在且与英文不同时才显示), 单行省略
+    .ind-name-en {
+      margin-top: 2px;
+      font-size: 12px;
+      color: $text-color-secondary;
+      line-height: 1.4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .ind-unit {
       margin-top: 4px;
       font-size: 12px;
@@ -370,17 +392,15 @@ function goQuery() {
 
 // 详情弹窗
 .detail-body {
-  .detail-name {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 600;
-  }
-
-  .detail-code {
-    margin: 6px 0 12px;
-    font-size: 12px;
-    color: $text-color-tertiary;
+  // 表格内指标编码: 等宽字体 + 浅色底 chip 样式
+  .detail-code-text {
     font-family: monospace;
+    font-size: 12px;
+    color: $primary-color;
+    background: rgba(24, 144, 255, 0.08);
+    border-radius: 4px;
+    padding: 1px 8px;
+    word-break: break-all;
   }
 }
 </style>
