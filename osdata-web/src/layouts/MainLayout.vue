@@ -72,12 +72,9 @@ const activeKey = computed(() => {
     <!-- ===== 底部 footer ===== -->
     <footer class="site-footer">
       <div class="footer-inner">
-        <p class="footer-text">
-          WDI 世界发展指标数据平台 · 数据来源：世界银行公开数据（World Bank Open
-          Data）
-        </p>
+        <p class="footer-text">开源数据平台</p>
         <p class="footer-text sub">
-          本平台面向公众免费开放，仅供学习研究使用 · © 2026 WDI Data Portal
+          本平台面向公众免费开放，仅供学习研究使用 · © 2026 开源数据平台
         </p>
       </div>
     </footer>
