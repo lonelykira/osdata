@@ -1,6 +1,6 @@
 # osdata 项目说明
 
-本仓库包含三个子项目，共同构成一套基于 **世界银行 WDI（World Development Indicators，世界发展指标）** 数据的查询与管理平台：
+本仓库包含三个子项目，共同构成一套基于 **世界银行 WDI（World Development Indicators，世界发展指标202607）、全球经济数据集 WEO (World Economic Outlook Database202610)** 数据的查询与管理平台：
 
 ```
 osdata
