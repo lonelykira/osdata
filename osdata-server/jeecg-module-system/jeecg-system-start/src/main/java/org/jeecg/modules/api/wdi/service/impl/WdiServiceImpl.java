@@ -46,6 +46,7 @@ import org.jeecg.modules.api.wdi.vo.WdiDataChartVO;
 import org.jeecg.modules.api.wdi.vo.WdiDataFootnoteVO;
 import org.jeecg.modules.api.wdi.vo.WdiDataLongRowVO;
 import org.jeecg.modules.api.wdi.vo.WdiDataQueryVO;
+import org.jeecg.modules.api.wdi.vo.WdiDataTimeSeriesVO;
 import org.jeecg.modules.api.wdi.vo.WdiDataWideVO;
 import org.jeecg.modules.api.wdi.vo.WdiStatisticsVO;
 import org.jeecg.modules.api.wdi.vo.WdiSeriesTimeVO;
@@ -99,6 +100,8 @@ public class WdiServiceImpl implements IWdiService {
     public static final String VIEW_TYPE_TABLE_LONG = "TABLE_LONG";
     /**面板视图类型: 宽表透视(行=国家×指标, 列=年份)*/
     public static final String VIEW_TYPE_TABLE_WIDE = "TABLE_WIDE";
+    /**面板视图类型: 指标时序(每国家一行, 一级表头=指标, 二级表头=年份)*/
+    public static final String VIEW_TYPE_TIME_SERIES = "TIME_SERIES";
     /**面板视图类型: 图表数据(ECharts折线/柱状图)*/
     public static final String VIEW_TYPE_CHART = "CHART";
     /**面板查询指标数量上限, 超过引导使用导出功能*/
@@ -524,7 +527,7 @@ public class WdiServiceImpl implements IWdiService {
         // 2. 查询全部国家(仅取树所需字段), 按区域+国家简称排序保证树结构稳定
         QueryWrapper<WdiCountry> queryWrapper = new QueryWrapper<>();
         queryWrapper.select("id", "country_code", "short_name", "country_name_cn", "region", "region_cn", "income_group", "income_group_cn")
-                .orderByAsc("region").orderByAsc("short_name");
+                .orderByAsc("country_code");
         List<WdiCountry> countryList = wdiCountryService.list(queryWrapper);
         // 3. 按region分组构建树(LinkedHashMap保持区域顺序; region为空归入Other/其他)
         Map<String, CountryTreeVO> regionMap = new LinkedHashMap<>();
@@ -728,6 +731,10 @@ public class WdiServiceImpl implements IWdiService {
                 // 宽表透视: Java内存行转列(禁止动态SQL行转列)
                 vo.setWide(buildWideTable(dataRows, countryNameMap, seriesNameMap));
                 break;
+            case VIEW_TYPE_TIME_SERIES:
+                // 指标时序: 每国家一行, 一级表头=指标, 二级表头=年份(Java内存透视)
+                vo.setTimeSeries(buildTimeSeriesTable(dataRows, countryNameMap, seriesNameMap, validSeriesCodes));
+                break;
             case VIEW_TYPE_CHART:
                 // 图表数据: ECharts结构化数据(折线/柱状图)
                 vo.setChart(buildChartData(dataRows, countryNameMap, seriesNameMap));
@@ -829,8 +836,9 @@ public class WdiServiceImpl implements IWdiService {
             throw new JeecgBootException("起始年份不能大于结束年份");
         }
         String viewType = StringUtils.defaultIfBlank(dto.getViewType(), VIEW_TYPE_TABLE_LONG).trim().toUpperCase();
-        if (!VIEW_TYPE_TABLE_LONG.equals(viewType) && !VIEW_TYPE_TABLE_WIDE.equals(viewType) && !VIEW_TYPE_CHART.equals(viewType)) {
-            throw new JeecgBootException("viewType不合法, 仅支持: TABLE_LONG/TABLE_WIDE/CHART");
+        if (!VIEW_TYPE_TABLE_LONG.equals(viewType) && !VIEW_TYPE_TABLE_WIDE.equals(viewType)
+                && !VIEW_TYPE_TIME_SERIES.equals(viewType) && !VIEW_TYPE_CHART.equals(viewType)) {
+            throw new JeecgBootException("viewType不合法, 仅支持: TABLE_LONG/TABLE_WIDE/TIME_SERIES/CHART");
         }
         return viewType;
     }
@@ -982,6 +990,70 @@ public class WdiServiceImpl implements IWdiService {
         wide.setYearColumns(yearColumns);
         wide.setRows(rows);
         return wide;
+    }
+
+    /**
+     * 组装指标时序视图(TIME_SERIES): 每个国家仅一行, 一级表头=指标, 二级表头=年份(Java内存透视, 禁止动态SQL行转列)
+     *
+     * @param dataRows       底层数据行(长表)
+     * @param countryNameMap 国家名称映射
+     * @param seriesNameMap  指标名称映射
+     * @param seriesCodes    有效指标编码(作为一级表头顺序)
+     * @return 指标时序结构
+     */
+    private WdiDataTimeSeriesVO buildTimeSeriesTable(List<WdiData> dataRows, Map<String, String> countryNameMap,
+            Map<String, String> seriesNameMap, Set<String> seriesCodes) {
+        // 1. 年份子表头 = 数据中出现过的年份并集(升序, 各指标组二级表头一致)
+        TreeSet<Integer> yearSet = new TreeSet<>();
+        for (WdiData data : dataRows) {
+            yearSet.add(data.getYear());
+        }
+        List<Integer> yearColumns = new ArrayList<>(yearSet);
+        // 2. 指标一级表头(按有效指标编码顺序)
+        List<WdiDataTimeSeriesVO.IndicatorColumn> indicators = new ArrayList<>(seriesCodes.size());
+        for (String code : seriesCodes) {
+            WdiDataTimeSeriesVO.IndicatorColumn column = new WdiDataTimeSeriesVO.IndicatorColumn();
+            column.setSeriesCode(code);
+            column.setIndicatorName(seriesNameMap.get(code));
+            indicators.add(column);
+        }
+        // 3. 每个国家一行: 收集(国家 -> (指标 -> (年份 -> 值))), 行顺序按数据出现顺序(SQL已按国家编码排序)
+        Map<String, WdiDataTimeSeriesVO.TimeSeriesRow> rowMap = new LinkedHashMap<>();
+        Map<String, Map<String, Map<Integer, BigDecimal>>> cellMap = new HashMap<>();
+        for (WdiData data : dataRows) {
+            String countryCode = data.getCountryCode();
+            rowMap.computeIfAbsent(countryCode, key -> {
+                WdiDataTimeSeriesVO.TimeSeriesRow row = new WdiDataTimeSeriesVO.TimeSeriesRow();
+                row.setCountryCode(countryCode);
+                row.setCountryName(countryNameMap.get(countryCode));
+                return row;
+            });
+            cellMap.computeIfAbsent(countryCode, key -> new HashMap<>())
+                    .computeIfAbsent(data.getIndicatorCode(), key -> new HashMap<>())
+                    .put(data.getYear(), data.getValue());
+        }
+        // 4. 按指标×年份列对齐输出单元格值(缺失指标/年份为null)
+        List<WdiDataTimeSeriesVO.TimeSeriesRow> rows = new ArrayList<>(rowMap.size());
+        for (Map.Entry<String, WdiDataTimeSeriesVO.TimeSeriesRow> entry : rowMap.entrySet()) {
+            Map<String, Map<Integer, BigDecimal>> seriesYearMap = cellMap.get(entry.getKey());
+            Map<String, List<BigDecimal>> values = new LinkedHashMap<>();
+            for (String code : seriesCodes) {
+                Map<Integer, BigDecimal> yearValueMap = seriesYearMap.get(code);
+                List<BigDecimal> cellValues = new ArrayList<>(yearColumns.size());
+                for (Integer year : yearColumns) {
+                    cellValues.add(yearValueMap == null ? null : yearValueMap.get(year));
+                }
+                values.put(code, cellValues);
+            }
+            entry.getValue().setValues(values);
+            rows.add(entry.getValue());
+        }
+        // 5. 组装指标时序
+        WdiDataTimeSeriesVO timeSeries = new WdiDataTimeSeriesVO();
+        timeSeries.setYearColumns(yearColumns);
+        timeSeries.setIndicators(indicators);
+        timeSeries.setRows(rows);
+        return timeSeries;
     }
 
     /**

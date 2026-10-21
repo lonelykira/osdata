@@ -32,7 +32,7 @@ public class WeoDataQueryDTO {
     @Schema(description = "结束年份(可选, 含边界, 数据范围1980~2031)")
     private Integer endYear;
 
-    /**返回视图: TABLE_LONG长表(默认)/TABLE_WIDE宽表透视/CHART图表数据*/
-    @Schema(description = "返回视图: TABLE_LONG长表(默认)/TABLE_WIDE宽表透视/CHART图表数据")
+    /**返回视图: TABLE_LONG长表(默认)/TABLE_WIDE宽表透视/TIME_SERIES指标时序(每国家一行,指标×年份二级表头)/CHART图表数据*/
+    @Schema(description = "返回视图: TABLE_LONG长表(默认)/TABLE_WIDE宽表透视/TIME_SERIES指标时序(每国家一行,指标×年份二级表头)/CHART图表数据")
     private String viewType;
 }

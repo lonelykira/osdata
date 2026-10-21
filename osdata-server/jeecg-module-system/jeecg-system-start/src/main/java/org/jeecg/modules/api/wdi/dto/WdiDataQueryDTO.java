@@ -36,7 +36,7 @@ public class WdiDataQueryDTO {
     @Schema(description = "是否返回脚注(默认false, true时关联t_wdi_footnote带出脚注内容)")
     private Boolean includeFootnote = Boolean.TRUE;
 
-    /**返回视图: TABLE_LONG长表(默认)/TABLE_WIDE宽表透视/CHART图表数据*/
-    @Schema(description = "返回视图: TABLE_LONG长表(默认)/TABLE_WIDE宽表透视/CHART图表数据")
+    /**返回视图: TABLE_LONG长表(默认)/TABLE_WIDE宽表透视/TIME_SERIES指标时序(每国家一行,指标×年份二级表头)/CHART图表数据*/
+    @Schema(description = "返回视图: TABLE_LONG长表(默认)/TABLE_WIDE宽表透视/TIME_SERIES指标时序(每国家一行,指标×年份二级表头)/CHART图表数据")
     private String viewType;
 }

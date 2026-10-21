@@ -2,7 +2,7 @@
 /**
  * 数据查询构建页
  * 三个步骤：选择指标 -> 选择国家/年份 -> 执行查询
- * 查询结果支持 TABLE_LONG长表(默认) / TABLE_WIDE宽表透视 / 图表（折线/柱状）三种视图，
+ * 查询结果支持 TABLE_LONG长表(默认) / TABLE_WIDE宽表透视 / TIME_SERIES指标时序 / 图表（折线/柱状）四种视图，
  * 不同视图对应不同数据格式与表头，并可保存为查询方案（本地）或导出 CSV
  */
 import { ref, computed, watch, onMounted } from "vue";
@@ -30,14 +30,16 @@ const countryPickerOpen = ref(false);
 const yearOptions = ref([]); // 可选年份列表
 const globalYearSpan = ref(null); // 全局年份跨度 {min, max}（统计概览接口，重置时恢复用）
 const queryLoading = ref(false); // 查询加载中
-const viewMode = ref("TABLE_LONG"); // 结果视图：TABLE_LONG长表(默认) / TABLE_WIDE宽表透视 / CHART图表
+const viewMode = ref("TABLE_LONG"); // 结果视图：TABLE_LONG长表(默认) / TABLE_WIDE宽表透视 / TIME_SERIES指标时序 / CHART图表
 const chartType = ref("line"); // 图表类型：line / bar
 
 // ===== 宽表数据与视图加载标记 =====
 // 宽表数据（viewType=TABLE_WIDE 时后端直接返回透视结果: 行=国家×指标, 列=年份）
 const wideData = ref(null); // { yearColumns: [升序年份], rows: [{countryCode, countryName, seriesCode, indicatorName, values}] }
+// 指标时序数据（viewType=TIME_SERIES 时后端直接返回: 行=国家(每国家一行), 一级表头=指标, 二级表头=年份）
+const timeSeriesData = ref(null); // { yearColumns: [升序年份], indicators: [{seriesCode, indicatorName}], rows: [{countryCode, countryName, values: {指标编码: [对齐年份的值]}}] }
 // 同一查询条件下已加载过数据的视图标记，避免切换视图重复请求（key=查询时的条件指纹）
-const fetchedViews = ref({ key: "", long: false, wide: false });
+const fetchedViews = ref({ key: "", long: false, wide: false, time: false });
 
 // ===== 指标时间覆盖与脚注（随查询结果返回）=====
 const seriesTimeList = ref([]); // 各指标年份跨度与覆盖说明
@@ -113,10 +115,13 @@ async function fetchByViewType(viewType) {
     wdiStore.setResult({ rows, total: result?.returnedRows ?? rows.length });
     // 宽表透视结果直接使用后端返回，前端不再自行透视
     wideData.value = result?.wide || null;
+    // 指标时序结果直接使用后端返回（每国家一行, 指标×年份二级表头）
+    timeSeriesData.value = result?.timeSeries || null;
     fetchedViews.value = {
       key: conditionKey.value,
       long: viewType === "TABLE_LONG",
       wide: viewType === "TABLE_WIDE",
+      time: viewType === "TIME_SERIES",
     };
     // 指标时间覆盖与脚注（脚注全量留存供导出，页面仅渲染前 100 条防卡顿）
     seriesTimeList.value = result?.seriesTimeList || [];
@@ -150,7 +155,8 @@ async function handleQuery() {
 // （图表不请求基于已载数据构建；条件变化后未重新查询时不发请求，等待用户点击「开始查询」）
 watch(viewMode, async (mode) => {
   if (mode === "CHART") return;
-  const target = mode === "TABLE_LONG" ? "long" : "wide";
+  const target =
+    mode === "TABLE_LONG" ? "long" : mode === "TABLE_WIDE" ? "wide" : "time";
   if (fetchedViews.value.key !== conditionKey.value) return;
   if (fetchedViews.value[target]) return;
   await fetchByViewType(mode);
@@ -238,16 +244,45 @@ const wideColumns = computed(() => [
   })),
 ]);
 
-// 按当前视图切换表头
-const tableColumns = computed(() =>
-  viewMode.value === "TABLE_LONG" ? longColumns : wideColumns.value,
-);
+// 指标时序表头（TIME_SERIES）：国家列 + 二级表头（一级=指标, 二级=年份, 各指标组年份一致）
+// 指标列以序号生成列key（WDI指标编码含"."，避免ant-design-vue把dataIndex按嵌套路径解析）
+const timeSeriesColumns = computed(() => {
+  const ts = timeSeriesData.value;
+  return [
+    {
+      title: "国家 / 地区",
+      dataIndex: "countryName",
+      key: "countryName",
+      width: 160,
+      fixed: "left",
+    },
+    ...(ts?.indicators || []).map((ind, idx) => ({
+      title: ind.indicatorName,
+      key: `ind_${idx}`,
+      children: (ts?.yearColumns || []).map((y) => ({
+        title: `${y}年`,
+        dataIndex: `c_${idx}_${y}`,
+        key: `c_${idx}_${y}`,
+        align: "right",
+        width: 100,
+      })),
+    })),
+  ];
+});
 
-// 是否有结果（长表行或宽表行任一存在）
+// 按当前视图切换表头（长表/指标时序/宽表）
+const tableColumns = computed(() => {
+  if (viewMode.value === "TABLE_LONG") return longColumns;
+  if (viewMode.value === "TIME_SERIES") return timeSeriesColumns.value;
+  return wideColumns.value;
+});
+
+// 是否有结果（长表行/宽表行/指标时序行任一存在）
 const hasResult = computed(
   () =>
     wdiStore.queryResult.rows.length > 0 ||
-    (wideData.value?.rows?.length || 0) > 0,
+    (wideData.value?.rows?.length || 0) > 0 ||
+    (timeSeriesData.value?.rows?.length || 0) > 0,
 );
 
 // 长表数据行：直接使用后端长表结构（一行 = 国家×指标×年份）
@@ -272,16 +307,41 @@ const wideRows = computed(() => {
   });
 });
 
-// 按当前视图切换数据行
-const tableRows = computed(() =>
-  viewMode.value === "TABLE_LONG" ? longRows.value : wideRows.value,
-);
+// 指标时序数据行：每国家一行, values按指标分组与yearColumns对齐, 摊平为 c_{指标序号}_{年份} 字段
+const timeSeriesRows = computed(() => {
+  const ts = timeSeriesData.value;
+  if (!ts?.rows?.length) return [];
+  const codes = (ts.indicators || []).map((ind) => ind.seriesCode);
+  return ts.rows.map((r, idx) => {
+    const row = {
+      key: `${r.countryCode}_${idx}`,
+      countryCode: r.countryCode,
+      countryName: r.countryName,
+    };
+    codes.forEach((code, ci) => {
+      const vals = r.values?.[code] || [];
+      (ts.yearColumns || []).forEach((y, i) => {
+        row[`c_${ci}_${y}`] = vals[i] ?? null;
+      });
+    });
+    return row;
+  });
+});
 
-// 结果年份（升序）：有长表行时取行内年份，仅有宽表数据时取 wide.yearColumns
+// 按当前视图切换数据行（长表/指标时序/宽表）
+const tableRows = computed(() => {
+  if (viewMode.value === "TABLE_LONG") return longRows.value;
+  if (viewMode.value === "TIME_SERIES") return timeSeriesRows.value;
+  return wideRows.value;
+});
+
+// 结果年份（升序）：优先长表行内年份，其次指标时序yearColumns，再次宽表wide.yearColumns
 const resultYears = computed(() => {
   const set = new Set();
   if (longRows.value.length) {
     longRows.value.forEach((r) => set.add(r.year));
+  } else if ((timeSeriesData.value?.rows?.length || 0) > 0) {
+    (timeSeriesData.value?.yearColumns || []).forEach((y) => set.add(y));
   } else {
     (wideData.value?.yearColumns || []).forEach((y) => set.add(y));
   }
@@ -304,13 +364,23 @@ const chartOption = computed(() => {
   const years = resultYears.value;
   if (!years.length) return {};
 
-  // 按组合分组：优先长表行，仅有宽表数据时从宽表构建（同源数据）
+  // 按组合分组：优先长表行，其次指标时序行，仅有宽表数据时从宽表构建（同源数据）
   const seriesMap = {};
   if (longRows.value.length) {
     longRows.value.forEach((r) => {
       const key = `${r.countryName} - ${r.indicatorName}`;
       if (!seriesMap[key]) seriesMap[key] = {};
       seriesMap[key][r.year] = r.value;
+    });
+  } else if ((timeSeriesData.value?.rows?.length || 0) > 0) {
+    (timeSeriesData.value?.rows || []).forEach((r) => {
+      (timeSeriesData.value?.indicators || []).forEach((ind) => {
+        const key = `${r.countryName} - ${ind.indicatorName}`;
+        seriesMap[key] = {};
+        (timeSeriesData.value.yearColumns || []).forEach((y, i) => {
+          seriesMap[key][y] = r.values?.[ind.seriesCode]?.[i] ?? null;
+        });
+      });
     });
   } else {
     (wideData.value?.rows || []).forEach((r) => {
@@ -398,7 +468,8 @@ function handleSaveScheme() {
 
 // ===== 导出结果 =====
 
-// 将当前查询结果导出为 CSV 文件（前端生成，无需后端），导出格式跟随当前视图
+// 将当前查询结果导出为文件（前端生成，无需后端），导出格式跟随当前视图
+// 指标时序视图导出 Excel(.xls)以支持一级表头相同指标合并单元格，其余视图导出 CSV
 function handleExport() {
   const lines = [];
   if (viewMode.value === "TABLE_LONG") {
@@ -416,6 +487,97 @@ function handleExport() {
         r.value ?? "",
       ]);
     });
+  } else if (viewMode.value === "TIME_SERIES") {
+    // 指标时序格式：导出 Excel，两行表头（第一行=指标[相同指标跨年份列合并单元格], 第二行=年份）+ 每国家一行
+    const ts = timeSeriesData.value;
+    if (!ts?.rows?.length) {
+      message.warning("暂无查询结果，请先执行查询");
+      return;
+    }
+    const years = ts.yearColumns || [];
+    const indicators = ts.indicators || [];
+    // XML 特殊字符转义
+    const esc = (v) =>
+      String(v)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    // 单元格生成：数值用 Number 类型便于 Excel 计算，文本用 String
+    const cell = (v) => {
+      if (v === null || v === undefined || v === "") return "<Cell/>";
+      const num = Number(v);
+      return Number.isFinite(num)
+        ? `<Cell><Data ss:Type="Number">${num}</Data></Cell>`
+        : `<Cell><Data ss:Type="String">${esc(v)}</Data></Cell>`;
+    };
+    // 表头第一行：国家(rowspan=2) + 指标(跨全部年份列合并)
+    const head1 = [
+      `<Cell ss:MergeDown="1"><Data ss:Type="String">国家 / 地区</Data></Cell>`,
+      ...indicators.map(
+        (ind) =>
+          `<Cell ss:MergeAcross="${Math.max(years.length - 1, 0)}"><Data ss:Type="String">${esc(`${ind.indicatorName}(${ind.seriesCode})`)}</Data></Cell>`,
+      ),
+    ].join("");
+    // 表头第二行：年份子表头需在每个指标组下重复生成，
+    // 首格用 ss:Index 定位到第2列（第1列被国家表头 ss:MergeDown 纵向合并覆盖）
+    const yearLabels = [];
+    indicators.forEach(() => {
+      years.forEach((y) => yearLabels.push(`${y}年`));
+    });
+    const head2Row = yearLabels.length
+      ? `<Row>${yearLabels
+          .map((label, i) =>
+            i === 0
+              ? `<Cell ss:Index="2"><Data ss:Type="String">${esc(label)}</Data></Cell>`
+              : `<Cell><Data ss:Type="String">${esc(label)}</Data></Cell>`,
+          )
+          .join("")}</Row>`
+      : "";
+    // 数据行：每国家一行，依次填充各指标×年份单元格
+    const body = ts.rows
+      .map((r) => {
+        const cells = [cell(r.countryName)];
+        indicators.forEach((ind) => {
+          const vals = r.values?.[ind.seriesCode] || [];
+          years.forEach((y, i) => cells.push(cell(vals[i])));
+        });
+        return `<Row>${cells.join("")}</Row>`;
+      })
+      .join("");
+    // 脚注区块（全量脚注随导出一并带出，与 CSV 导出格式对齐）
+    let footnoteXml = "";
+    if (allFootnotes.value.length) {
+      footnoteXml =
+        "<Row/>" +
+        `<Row><Cell><Data ss:Type="String">数据脚注（共 ${allFootnotes.value.length} 条）</Data></Cell></Row>` +
+        `<Row><Cell><Data ss:Type="String">国家 / 地区</Data></Cell><Cell><Data ss:Type="String">指标</Data></Cell><Cell><Data ss:Type="String">年份</Data></Cell><Cell><Data ss:Type="String">脚注内容</Data></Cell></Row>` +
+        allFootnotes.value
+          .map(
+            (f) =>
+              `<Row>${cell(f.countryName || "")}${cell(f.indicatorName || "")}${cell(f.year ?? "")}${cell(f.footnoteTextCn || f.footnoteText || "")}</Row>`,
+          )
+          .join("");
+    }
+    const xml =
+      `<?xml version="1.0" encoding="UTF-8"?>\n` +
+      `<?mso-application progid="Excel.Sheet"?>\n` +
+      `<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">` +
+      `<Worksheet ss:Name="指标时序"><Table>` +
+      `<Row>${head1}</Row>${head2Row}${body}${footnoteXml}` +
+      `</Table></Worksheet></Workbook>`;
+    const url = URL.createObjectURL(
+      new Blob(["\uFEFF" + xml], {
+        type: "application/vnd.ms-excel;charset=utf-8",
+      }),
+    );
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `WDI查询结果_指标时序_${new Date().toISOString().slice(0, 10)}.xls`;
+    a.click();
+    URL.revokeObjectURL(url);
+    message.success("查询结果已导出为 Excel 文件");
+    return;
   } else {
     // 宽表透视格式：国家、指标 + 动态年份列
     // （图表视图仅有长表数据时前端透视；仅有宽表数据时直接使用 wide 行）
@@ -484,7 +646,8 @@ function handleExport() {
 function handleReset() {
   wdiStore.resetAll();
   wideData.value = null;
-  fetchedViews.value = { key: "", long: false, wide: false };
+  timeSeriesData.value = null;
+  fetchedViews.value = { key: "", long: false, wide: false, time: false };
   if (globalYearSpan.value) {
     rebuildYearOptions(globalYearSpan.value.min, globalYearSpan.value.max);
     wdiStore.setYearRange([
@@ -526,6 +689,8 @@ function handleReset() {
                 v-for="item in wdiStore.selectedIndicatorObjects"
                 :key="item.code"
                 color="blue"
+                class="cond-tag"
+                :title="item.name"
               >
                 {{ item.name }}
               </a-tag>
@@ -610,11 +775,12 @@ function handleReset() {
       />
 
       <template v-else>
-        <!-- 结果工具栏：长表/宽表透视/图表三种视图，对应后端 TABLE_LONG/TABLE_WIDE/CHART -->
+        <!-- 结果工具栏：长表/宽表透视/指标时序/图表四种视图，对应后端 TABLE_LONG/TABLE_WIDE/TIME_SERIES/CHART -->
         <div class="result-toolbar">
           <a-radio-group v-model:value="viewMode" button-style="solid">
             <a-radio-button value="TABLE_LONG">长表</a-radio-button>
             <a-radio-button value="TABLE_WIDE">宽表透视</a-radio-button>
+            <a-radio-button value="TIME_SERIES">指标时序</a-radio-button>
             <a-radio-button value="CHART">图表</a-radio-button>
           </a-radio-group>
 
@@ -646,7 +812,7 @@ function handleReset() {
           </a-tag>
         </div>
 
-        <!-- 表格视图：长表(国家/指标/年份/数值)与宽表透视(国家/指标+动态年份列)两套表头 -->
+        <!-- 表格视图：长表(国家/指标/年份/数值)、指标时序(国家行+指标×年份二级表头)、宽表透视(国家/指标+动态年份列)三套表头 -->
         <a-table
           v-if="viewMode !== 'CHART'"
           :columns="tableColumns"
@@ -741,7 +907,8 @@ function handleReset() {
 
     .cond-tags {
       min-height: 28px;
-      max-height: 48px;
+      // 3行可见(3×18+2×4间隔), 超出后纵向滚动, 避免选中项过多时被截断看不到
+      max-height: 62px;
       overflow-y: auto;
       display: flex;
       flex-wrap: wrap;
@@ -754,6 +921,15 @@ function handleReset() {
         font-size: 12px;
         line-height: 18px;
         border-radius: 2px;
+      }
+
+      // 指标名过长时单标签限宽省略号截断, 悬停title查看完整名称
+      :deep(.cond-tag) {
+        max-width: 100%;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .cond-empty {

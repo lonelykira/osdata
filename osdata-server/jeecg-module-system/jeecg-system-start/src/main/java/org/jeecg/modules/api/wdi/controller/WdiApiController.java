@@ -154,14 +154,14 @@ public class WdiApiController {
     }
 
     /**
-     * 面板数据查询: 按指标×国家×年份查询t_wdi_data面板数据, 支持三种视图
-     * TABLE_LONG长表(国家,指标,年份,数值) / TABLE_WIDE宽表透视(Java内存行转列) / CHART图表数据(ECharts结构)
+     * 面板数据查询: 按指标×国家×年份查询t_wdi_data面板数据, 支持四种视图
+     * TABLE_LONG长表(国家,指标,年份,数值) / TABLE_WIDE宽表透视(Java内存行转列) / TIME_SERIES指标时序(每国家一行,指标×年份二级表头) / CHART图表数据(ECharts结构)
      * 内置大表性能防护: 指标最多10个、国家最多50个(超限返回提示引导导出), 无效组合预判过滤, 返回上限50000行
      *
      * @param dto 查询入参(seriesCodeList/countryCodeList必选, startYear/endYear/includeFootnote/viewType可选)
      * @return 查询结果(按viewType填充对应视图数据)
      */
-    @Operation(summary = "WDI面板数据查询", description = "按指标×国家×年份查询面板数据, 支持TABLE_LONG长表/TABLE_WIDE宽表透视/CHART图表三种视图; "
+    @Operation(summary = "WDI面板数据查询", description = "按指标×国家×年份查询面板数据, 支持TABLE_LONG长表/TABLE_WIDE宽表透视/TIME_SERIES指标时序/CHART图表四种视图; "
             + "指标最多10个、国家最多10个, 超限返回提示引导导出; 无效指标-国家组合预判过滤; 结果上限50000行防OOM, 截断时truncated=true建议异步导出")
     @PostMapping(value = "/data/query")
     public Result<WdiDataQueryVO> query(@RequestBody WdiDataQueryDTO dto) {
